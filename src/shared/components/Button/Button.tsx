@@ -14,9 +14,14 @@ export const Button: React.FC<ButtonProps> = (props) => {
   const { children, disabled, ButtonClass, ...rest } = props;
 
   return (
-    <ButtonClass disabled={disabled} {...rest}>
+    <button
+      style={{ background: disabled ? "gray" : "" }}
+      className={ButtonClass}
+      disabled={disabled}
+      {...rest}
+    >
       {children}
-    </ButtonClass>
+    </button>
   );
 };
 

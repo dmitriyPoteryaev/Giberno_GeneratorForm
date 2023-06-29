@@ -15,7 +15,9 @@ const Input = (props: any) => {
   const { value, placeholder, InputClass, onChange, ...rest } = props;
 
   return (
-    <InputClass
+    <input
+      className={InputClass}
+      style={{ border: !value.trim() ? "2px solid red" : "" }}
       type="text"
       placeholder={placeholder}
       value={value}

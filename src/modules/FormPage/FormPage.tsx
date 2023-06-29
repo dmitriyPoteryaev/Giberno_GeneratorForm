@@ -1,100 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
+import "./FormPage.css";
+import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
 import Header from "@shared/components/Header";
 import Input from "@shared/components/Input/Input";
-import styled from "styled-components";
+import { formStore } from "@store/index";
+import { observer } from "mobx-react-lite";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const FormPageLayout = styled.footer`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  align-items: center;
-`;
+const FormPage = observer(() => {
+  const {
+    ChangeDataAboutForm,
+    getclientTitleStore,
+    getIsLoading,
+    getArrayWithAllInputs,
+    ChangeArrayWithAllInputs,
+  } = formStore;
 
-const FormPageLayout__header = styled.div`
-  color: #2c555b;
-  font-size: 20px;
-  margin: 20px 0 20px 0;
-`;
+  const location = useLocation();
+  const navigate = useNavigate();
 
-const FormPageLayout__form = styled.form`
-  width: 80%;
-`;
+  useEffect(() => {
+    const curData: any = {
+      key_gen: "8fe86f19-9477-4e73-b198-d08d4e33be6c",
+    };
 
-const FormPageLayout__input = styled.input`
-  border-radius: 5px;
-  border: 1px solid gray;
-  width: 400px;
-  height: 50px;
-  color: #b2bdc7;
-  font-size: 20px;
-  padding-left: 15px;
-`;
+    location.search.split("&").forEach((line, i) => {
+      curData.client_id =
+        line.split("=")[1] || "8fe86f19-9477-4e73-b198-d08d4e33be6c";
+    });
 
-{
-  /* <form action="handler.php">
-<p><b>Как по вашему мнению расшифровывается аббревиатура &quot;ОС&quot;?</b></p>
-<p><input type="radio" name="answer" value="a1">Офицерский состав<Br>
-<input type="radio" name="answer" value="a2">Операционная система<Br>
-<input type="radio" name="answer" value="a3">Большой полосатый мух</p>
-<p><input type="submit"></p>
-</form> */
-}
+    navigate("/formgen?key_gen=" + curData.key_gen);
 
-const FormPage = () => {
-  const [ObjectWthAllInputs, setObjectWthAllInputs] = useState({
-    typePolis: "",
-    id: "",
-    amount: "",
-  });
+    ChangeDataAboutForm(curData.key_gen);
+  }, [navigate, location.search, ChangeDataAboutForm]);
 
-  console.log(ObjectWthAllInputs);
+  if (getIsLoading) {
+    return <PageLoader />;
+  }
+
   return (
-    <FormPageLayout>
+    <div className="FormPageLayout">
       <Header />
-      <FormPageLayout__header>Формирование оплаты </FormPageLayout__header>
-      <FormPageLayout__form>
-        <Input
-          InputClass={FormPageLayout__input}
-          type="email"
-          placeholder={"Тип полиса"}
-          value={ObjectWthAllInputs.typePolis}
-          onChange={(event: any) => {
-            setObjectWthAllInputs((prevState) => ({
-              ...prevState,
-              typePolis: event,
-            }));
-          }}
-        />
-        <Input
-          InputClass={FormPageLayout__input}
-          type="text"
-          placeholder={"ID договора"}
-          value={ObjectWthAllInputs.id}
-          onChange={(event: any) => {
-            setObjectWthAllInputs((prevState) => ({
-              ...prevState,
-              id: event,
-            }));
-          }}
-        />
-        <Input
-          InputClass={FormPageLayout__input}
-          type="text"
-          placeholder={"Сумма"}
-          value={ObjectWthAllInputs.amount}
-          onChange={(event: any) => {
-            setObjectWthAllInputs((prevState) => ({
-              ...prevState,
-              amount: event,
-            }));
-          }}
-        />
-      </FormPageLayout__form>
+      <header className="FormPageLayout__header">Формирование оплаты </header>
+      <form className="FormPageLayout__form">
+        <div className="FormPageLayout__title">{getclientTitleStore}</div>
+        {getArrayWithAllInputs?.map((CurrentInput: any, i: any) => (
+          <label
+            key={CurrentInput.placeholder}
+            className="FormPageLayout__label"
+          >
+            <Input
+              InputClass={"FormPageLayout__input"}
+              key={i}
+              type={CurrentInput?.type}
+              placeholder={CurrentInput?.placeholder}
+              value={CurrentInput?.value}
+              onChange={(event: any) => ChangeArrayWithAllInputs(event, i)}
+            />
+            {CurrentInput.help && (
+              <div className="FormPageLayout__helpblock">
+                {CurrentInput.help}
+              </div>
+            )}
+          </label>
+        ))}
+      </form>
       <Footer />
-    </FormPageLayout>
+    </div>
   );
-};
+});
 
 export default FormPage;

@@ -8,7 +8,9 @@
         "@utils/*": ["src/utils/*"],
         "@modules/*": ["src/modules/*"],
         "@shared/*": ["src/shared/*"],
-        "@assets/*": ["src/assets/*"]
+        "@assets/*": ["src/assets/*"],
+        "@api/*": ["src/api/*"],
+        "@store/*": ["src/store/*"]
       }
     }
   }

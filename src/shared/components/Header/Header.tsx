@@ -1,28 +1,19 @@
 import React from "react";
 
-import styled from "styled-components";
-
-const HeaderLayout = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  height: 60px;
-  padding: 0 16px;
-  width: 100%;
-  border-bottom: 0.5px solid gray;
-  color: #2c555b;
-`;
+import "./Header.css";
+import { formStore } from "@store/index";
+import { observer } from "mobx-react-lite";
 
 const LOGO_GIBERNO: string = require("@assets/logo.png");
 
-const Header = () => {
+const Header = observer(() => {
+  const { getemployeeNameStore } = formStore;
   return (
-    <HeaderLayout>
+    <header className="HeaderLayout">
       <img alt="icon_arrow" src={LOGO_GIBERNO} />
-      <div>Воронцов А.С.</div>
-    </HeaderLayout>
+      <div>{getemployeeNameStore}</div>
+    </header>
   );
-};
+});
 
 export default Header;

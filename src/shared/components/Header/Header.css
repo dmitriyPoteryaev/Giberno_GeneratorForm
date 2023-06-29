@@ -1,0 +1,12 @@
+.HeaderLayout {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    height: 60px;
+    padding: 0 16px;
+    width: 100%;
+    border-bottom: 0.5px solid gray;
+    color: #2c555b;
+}

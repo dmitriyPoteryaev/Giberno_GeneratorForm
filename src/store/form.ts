@@ -10,8 +10,6 @@ class FormStore {
 
   // данные о предоставляющем услуги
 
-  employeeNameStore: any;
-
   clientTitleStore: any;
 
   // объект со всеми инпутами
@@ -21,6 +19,13 @@ class FormStore {
   //всё для имейл инпута
 
   ObjectWithInfoEmailInput: any;
+
+  // всё для пост запроса
+
+  clientIdStore: any;
+
+  employeeNameStore: any;
+  keyGenStore: any;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,6 +41,8 @@ class FormStore {
 
         this.employeeNameStore = infoForm?.employeeName;
         this.clientTitleStore = infoForm?.clientTitle;
+        this.clientIdStore = infoForm?.clientId;
+        this.keyGenStore = infoForm?.keyGen;
 
         this.ArrayWithAllInputs = [
           {
@@ -111,10 +118,20 @@ class FormStore {
   get IsGeneralButtonActive() {
     return (
       this.getArrayWithAllInputs
-        .map((elem: any) => elem?.value)
-        .some((elem: any) => !elem?.trim()) ||
+        ?.map((elem: any) => elem?.value)
+        ?.some((elem: any) => !elem?.trim()) ||
       !this.getObjectWithInfoEmailInput.value?.trim()
     );
+  }
+
+  // всё для пост запроса
+
+  get getclientId() {
+    return this.clientIdStore;
+  }
+
+  get getkeyGenStore() {
+    return this.keyGenStore;
   }
 }
 

@@ -4,6 +4,7 @@ import "./Footer.css";
 
 import { formStore } from "@store/index";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../Button";
 import Input from "../Input";
@@ -13,7 +14,14 @@ const Footer = observer(() => {
     getObjectWithInfoEmailInput,
     ChangeObjectWithInfoEmailInput,
     IsGeneralButtonActive,
+    getkeyGenStore,
   } = formStore;
+
+  const navigate = useNavigate();
+
+  const handlerPostQuery = () => {
+    navigate("/result?key_gen=" + getkeyGenStore);
+  };
   return (
     <footer className="FooterLayout">
       <div className="FooterLayout__block">
@@ -34,6 +42,7 @@ const Footer = observer(() => {
         <Button
           ButtonClass={"FooterLayout__button"}
           disabled={IsGeneralButtonActive}
+          onClick={handlerPostQuery}
         >
           Сформировать карту
         </Button>

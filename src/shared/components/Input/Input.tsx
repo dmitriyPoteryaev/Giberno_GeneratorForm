@@ -17,7 +17,7 @@ const Input = (props: any) => {
   return (
     <input
       className={InputClass}
-      style={{ border: !value.trim() ? "2px solid red" : "" }}
+      style={{ border: !value.trim() ? "1px solid red" : "" }}
       type="text"
       placeholder={placeholder}
       value={value}

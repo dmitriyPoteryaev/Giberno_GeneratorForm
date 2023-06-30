@@ -8,7 +8,6 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<FormPage />} />
           <Route path="/formgen" element={<FormPage />} />
           <Route path="/result" element={<ResultPage />} />
         </Routes>

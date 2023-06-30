@@ -16,12 +16,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  max-width: 80%;
 }
 .FooterLayout__input {
   border-radius: 5px;
   border: 1px solid gray;
-  width: 400px;
+  max-width: 400px;
   height: 50px;
   color: black;
   font-size: 20px;
@@ -33,7 +33,7 @@
   color: white;
   border: none;
   height: 60px;
-  width: 320px;
+  max-width: 320px;
   margin-left: 30px;
   border-radius: 10px;
 }
@@ -47,4 +47,28 @@
 }
 .FooterLayout__label {
   position: relative;
+}
+/* mobile */
+@media (max-width: 520px) {
+  .FooterLayout {
+    width: 100%;
+    height: 120px;
+    padding: 0 16px 0 16px;
+  }
+  .FooterLayout__block {
+    flex-wrap: wrap;
+    justify-content: stretch;
+    align-items: stretch;
+    min-width: 100%;
+  }
+  .FooterLayout__label {
+    width: 100%;
+  }
+  .FooterLayout__input {
+    min-width: 100%;
+  }
+  .FooterLayout__button {
+    min-width: 100%;
+    margin-left: 0;
+  }
 }

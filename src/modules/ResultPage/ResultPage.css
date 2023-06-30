@@ -4,42 +4,131 @@
   min-height: 100vh;
   align-items: center;
 }
+
 .ResultPageLayout__header {
   color: #2c555b;
   font-size: 20px;
   margin: 20px 0 20px 0;
+  text-align: center;
 }
 
 .ResultPageLayout__block {
   max-width: 800px;
   display: flex;
-  border-bottom: 1px solid gray;
+  justify-content: center;
+  border-bottom: 1px dashed gray;
   margin: 10px 0 10px 0;
 }
+
 .ResultPageLayout__block_imgQr {
   height: 100%;
   width: 48%;
 }
+
 .ResultPageLayout__block_desc {
   height: 100%;
   width: 48%;
   font-size: 20px;
   color: #2c555b;
+  line-height: 1.5em;
 }
-.ResultPageLayout__block_desctoLinr {
+
+.low_block_desctoLinr_desctoLinr {
   font-size: 20px;
   color: #2c555b;
   width: 100%;
   margin: 10px 0 10px 0;
 }
-.ResultPageLayout__block_inputUrl {
+
+.low_block {
+  max-width: 800px;
+  margin: 0 10px 0 10px;
+}
+
+.low_block__URL {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.low_block__URL_inputUrl {
   font-size: 20px;
   color: #2c555b;
-  width: 100%;
+  width: 70%;
   border: 1px solid gray;
   border-radius: 3px;
   margin: 10px 0 10px 0;
+  text-overflow: ellipsis;
 }
-.low_block {
-  max-width: 800px;
+
+.low_block__URL_coppyButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  /* Убираем фоновый цвет */
+  background-color: transparent;
+
+  color: #b2bdc7;
+  font-size: 20px;
+}
+
+.ResultPageLayout__button {
+  font-size: 24px;
+  background: #0a7272;
+  color: white;
+  border: none;
+  height: 60px;
+  max-width: 320px;
+  margin-left: 30px;
+  border-radius: 10px;
+}
+
+.ResultPageLayout__headerMobile {
+  text-align: center;
+  color: #2c555b;
+  font-size: 20px;
+  margin: 20px 0 20px 0;
+  min-width: 100%;
+  text-align: center;
+}
+
+.ResultPageLayout__UrlMobile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 100%;
+  padding: 20px 0 20px 0;
+  border-bottom: 1px solid gray;
+}
+
+.ResultPageLayout__buttonMobile {
+  min-width: 100%;
+
+  font-size: 24px;
+  background: #0a7272;
+  color: white;
+  border: none;
+  height: 60px;
+  margin-left: 0px;
+  border-radius: 10px;
+}
+
+.ResultPageLayout__UrlMobile_low {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 100%;
+  padding: 20px 0 20px 0;
+  border-bottom: 1px dashed gray;
+}
+.ResultPageLayout__block_imgQrMobile {
+  height: 100%;
+  width: 100%;
+  padding-left: 50px;
+}
+@media (max-width: 750px) {
+  .low_block__URL {
+    flex-wrap: wrap;
+  }
 }

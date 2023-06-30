@@ -25,6 +25,8 @@ class FormStore {
   clientIdStore: any;
 
   employeeNameStore: any;
+
+  employeeNameStoreForPOST: any;
   keyGenStore: any;
 
   constructor() {
@@ -37,9 +39,13 @@ class FormStore {
         if (typeof response !== "object") {
           throw Error(response);
         }
+        //to-do - потом исправить
         const { config, infoForm } = response;
 
+        // const { infoForm } = response;
+
         this.employeeNameStore = infoForm?.employeeName;
+        this.employeeNameStoreForPOST = infoForm?.employee;
         this.clientTitleStore = infoForm?.clientTitle;
         this.clientIdStore = infoForm?.clientId;
         this.keyGenStore = infoForm?.keyGen;
@@ -132,6 +138,9 @@ class FormStore {
 
   get getkeyGenStore() {
     return this.keyGenStore;
+  }
+  get getemployeeNameStoreForPOST() {
+    return this.employeeNameStoreForPOST;
   }
 }
 

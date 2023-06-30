@@ -8,6 +8,7 @@ const LOGO_GIBERNO: string = require("@assets/logo.png");
 
 const Header = observer(() => {
   const { getemployeeNameStore } = formStore;
+
   return (
     <header className="HeaderLayout">
       <img alt="icon_arrow" src={LOGO_GIBERNO} />

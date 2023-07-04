@@ -32,6 +32,6 @@
     
   .HeaderLayout__logo {
     position: absolute;
-    left: 0px;
+    left: 16px;
   }
 }

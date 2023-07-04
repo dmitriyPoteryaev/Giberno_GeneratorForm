@@ -98,7 +98,7 @@ const ResultPage = observer(() => {
         </header>
         <div className="ResultPageLayout__UrlMobile">
           <div className="ResultPageLayout__headerMobile">
-            Если оплачиваете сами
+            Если оплачиваете сами:
           </div>
           <Button
             ButtonClass={"ResultPageLayout__buttonMobile"}
@@ -110,7 +110,7 @@ const ResultPage = observer(() => {
         </div>
         <div className="ResultPageLayout__UrlMobile_low">
           <div className="ResultPageLayout__headerMobile">
-            Если оплачивает клиент
+            Если оплачивает клиент:
           </div>
           <img
             className="ResultPageLayout__block_imgQrMobile"
@@ -120,10 +120,30 @@ const ResultPage = observer(() => {
             }
           />
         </div>
+        <span className="Sepated_block">или</span>
+        <div className="ResultPageLayout__block_mobileLOWBLOCK">
+          <input
+            className="low_block__URL_inputUrlMobile"
+            value={urlFormPayStore}
+            onChange={() => {
+              return;
+            }}
+          />
+          <CopyButton
+            className={"low_block__URL_coppyButtonMobile"}
+            text={urlFormPayStore}
+          />
+        </div>
       </div>
     );
   }
 
+  // TO-DO - потом это вставить
+  // <img
+  //         className="ResultPageLayout__block_imgQr"
+  //         alt="qr_code"
+  //         src={getqrLinkStore ? "https://api.giberno.ru/" + getqrLinkStore : ""}
+  //       />
   return (
     <div ref={blockRef} className="ResultPageLayout">
       <Header />
@@ -137,21 +157,21 @@ const ResultPage = observer(() => {
           src={getqrLinkStore ? "https://api.giberno.ru/" + getqrLinkStore : ""}
         />
         <div className="ResultPageLayout__block_desc">
-          1.Откройте на смартфоне приложение для сканирования QR-кода. <br />
-          2.Наведите камеру на QR-код. <br />
-          3.Должна появиться ссылка для перехода. Перейдите по ней.
+          1. Откройте на смартфоне приложение для сканирования QR-кода. <br />
+          2. Наведите камеру на QR-код. <br />
+          3. Должна появиться ссылка для перехода. Перейдите по ней.
           <br />
-          4.Проверьте сумму оплаты и ID договора.
+          4. Проверьте сумму оплаты и ID договора.
           <br />
-          6.Нажмите на кнопку “Оплатить”.
+          5. Нажмите на кнопку “Оплатить”.
           <br />
-          7.Выберите банковское приложение для оплаты.
+          6. Выберите банковское приложение для оплаты.
           <br />
-          8.Вас “перебросит” выбранный банк. <br />
+          7. Вас “перебросит” выбранный банк. <br />
           Подтвердите оплату.
         </div>
       </section>
-      <span>или</span>
+      <span className="Sepated_block">или</span>
       <div className="low_block">
         <div className="low_block_desctoLinr">
           Скопируйте ссылку ниже, перешлите её клиенту или себе на смартфон.
@@ -168,7 +188,9 @@ const ResultPage = observer(() => {
           <CopyButton
             className={"low_block__URL_coppyButton"}
             text={urlFormPayStore}
-          />
+          >
+            Копировать URL!
+          </CopyButton>
         </div>
       </div>
     </div>

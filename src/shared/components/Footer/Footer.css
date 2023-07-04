@@ -6,7 +6,6 @@
   bottom: 0px;
   box-shadow: 1px 0 11px rgba(0, 0, 0, 0.09);
   left: 0;
-  padding: 9px 16px 16px;
   position: fixed;
   right: 0;
   z-index: 1;
@@ -14,18 +13,19 @@
 }
 .FooterLayout__block {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  max-width: 80%;
+  width: 800px;
 }
 .FooterLayout__input {
   border-radius: 5px;
   border: 1px solid gray;
-  max-width: 400px;
   height: 50px;
   color: black;
   font-size: 20px;
-  padding-left: 15px;
+  padding-left: 20px;
+  padding-top: 18px;
+  width: 430px
 }
 .FooterLayout__button {
   font-size: 24px;
@@ -33,7 +33,7 @@
   color: white;
   border: none;
   height: 60px;
-  max-width: 320px;
+  width: 332px;
   margin-left: 30px;
   border-radius: 10px;
 }
@@ -45,11 +45,19 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+.FooterLayout__newPLaceHolderBlock {
+  position: absolute;
+  left: 5.1%;
+  top: 8%;
+  font-size: 14px;
+  color: #2C555B;
+}
 .FooterLayout__label {
   position: relative;
 }
 /* mobile */
-@media (max-width: 520px) {
+@media (max-width: 800px) {
   .FooterLayout {
     width: 100%;
     height: 120px;
@@ -65,10 +73,18 @@
     width: 100%;
   }
   .FooterLayout__input {
-    min-width: 100%;
+    width: 100%;
   }
   .FooterLayout__button {
     min-width: 100%;
     margin-left: 0;
+  }
+
+  .FooterLayout__newPLaceHolderBlock {
+    position: absolute;
+    left: 3.2%;
+    top: 8%;
+    font-size: 14px;
+    color: #2C555B;
   }
 }

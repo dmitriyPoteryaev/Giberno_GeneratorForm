@@ -11,8 +11,8 @@ const Header = observer(() => {
 
   return (
     <header className="HeaderLayout">
-      <img alt="icon_arrow" src={LOGO_GIBERNO} />
-      <div>{getemployeeNameStore}</div>
+      <img className="HeaderLayout__logo" alt="icon_arrow" src={LOGO_GIBERNO} />
+      <div className="HeaderLayout__innerBlock">{getemployeeNameStore}</div>
     </header>
   );
 });

@@ -16,6 +16,8 @@ const FormPage = observer(() => {
     getIsLoading,
     getArrayWithAllInputs,
     ChangeArrayWithAllInputs,
+    getShowWhatInputIsEmpty,
+    ChageIsShowInfoHelp,
   } = formStore;
 
   const location = useLocation();
@@ -47,24 +49,18 @@ const FormPage = observer(() => {
       <form className="FormPageLayout__form">
         <div className="FormPageLayout__title">{getclientTitleStore}</div>
         {getArrayWithAllInputs?.map((CurrentInput: any, i: any) => (
-          <label
-            key={CurrentInput.placeholder}
-            className="FormPageLayout__label"
-          >
-            <Input
-              InputClass={"FormPageLayout__input"}
-              key={i}
-              type={CurrentInput?.type}
-              placeholder={CurrentInput?.placeholder}
-              value={CurrentInput?.value}
-              onChange={(event: any) => ChangeArrayWithAllInputs(event, i)}
-            />
-            {CurrentInput.help && (
-              <div className="FormPageLayout__helpblock">
-                {CurrentInput.help}
-              </div>
-            )}
-          </label>
+          <Input
+            key={i}
+            type={CurrentInput?.type}
+            placeholder={CurrentInput?.placeholder}
+            value={CurrentInput?.value}
+            help={CurrentInput?.help}
+            currentNumber={i}
+            IsShowInfoHelp={CurrentInput.IsShowInfoHelp}
+            getShowWhatInputIsEmpty={getShowWhatInputIsEmpty}
+            ChageIsShowInfoHelp={ChageIsShowInfoHelp}
+            onChange={(event: any) => ChangeArrayWithAllInputs(event, i)}
+          />
         ))}
       </form>
       <Footer />

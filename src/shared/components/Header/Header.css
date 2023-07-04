@@ -1,12 +1,37 @@
 .HeaderLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  height: 60px;
+  width: 100%;
+  border-bottom: 0.1px solid #d3d3d3;
+  color: #2c555b;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    height: 60px;
-    padding: 0 16px;
-    width: 100%;
-    border-bottom: 0.5px solid gray;
-    color: #2c555b;
+  position: relative;
+}
+.HeaderLayout__innerBlock {
+  display: flex;
+  width: 800px;
+  justify-content: flex-end;
+}
+
+.HeaderLayout__logo {
+  position: absolute;
+  left: 30px;
+}
+
+@media (max-width: 800px) {
+    
+    .HeaderLayout {
+        padding: 0 16px 0 16px;
+    }
+  }
+
+@media (max-width: 450px) {
+    
+  .HeaderLayout__logo {
+    position: absolute;
+    left: 0px;
+  }
 }

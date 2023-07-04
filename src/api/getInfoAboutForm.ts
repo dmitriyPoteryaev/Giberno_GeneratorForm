@@ -45,7 +45,8 @@ const getInfoAboutForm = (key_gen: string) => {
   //           enabled: true,
   //           emailRequire: true,
   //           emailPlaceholder: "7",
-  //           emailHelp: "8",
+  //           emailHelp:
+  //             "ewijweihfewfwehnfekjlfweknfwelkmnweflkewnmfklewnfklewfnwelknfewlkfewlkwefwe kjwfbjekwbf jfbhewbf webfwebfwef webfuwebfkjewn",
   //         },
   //       },
   //     });

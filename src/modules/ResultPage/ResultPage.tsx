@@ -23,6 +23,7 @@ const ResultPage = observer(() => {
     getArrayWithAllInputs,
     getIsLoading,
     getemployeeNameStoreForPOST,
+    ChageShowWhatInputIsEmpty,
   } = formStore;
 
   if (getIsLoading) {
@@ -30,11 +31,12 @@ const ResultPage = observer(() => {
   }
   useEffect(() => {
     if (getIsLoadingQr_Link) {
+      ChageShowWhatInputIsEmpty(false);
       postQr_Link(
         getemployeeNameStoreForPOST,
         getclientId,
         getkeyGenStore,
-        getObjectWithInfoEmailInput.value,
+        getObjectWithInfoEmailInput.value?.toLowerCase(),
         getArrayWithAllInputs[2].value,
         getArrayWithAllInputs[0].value,
         getArrayWithAllInputs[1].value

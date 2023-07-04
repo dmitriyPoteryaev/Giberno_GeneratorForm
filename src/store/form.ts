@@ -16,6 +16,8 @@ class FormStore {
 
   ArrayWithAllInputs: any;
 
+  ShowWhatInputIsEmpty: any = false;
+
   //всё для имейл инпута
 
   ObjectWithInfoEmailInput: any;
@@ -42,7 +44,7 @@ class FormStore {
         //to-do - потом исправить
         const { config, infoForm } = response;
 
-        // const { infoForm } = response;
+        // const infoForm = response.data;
 
         this.employeeNameStore = infoForm?.employeeName;
         this.employeeNameStoreForPOST = infoForm?.employee;
@@ -56,12 +58,14 @@ class FormStore {
             type: "text",
             placeholder: infoForm?.itemName?.itemNamePlaceholder,
             help: infoForm?.itemName?.itemNameHelp,
+            IsShowInfoHelp: false,
           },
           {
             value: "",
             type: "text",
             placeholder: infoForm?.itemDescription?.itemDescriptionPlaceholder,
             help: infoForm?.itemDescription?.itemDescriptionHelp,
+            IsShowInfoHelp: false,
           },
           {
             value: "",
@@ -75,6 +79,7 @@ class FormStore {
           type: "text",
           placeholder: infoForm?.email?.emailPlaceholder,
           help: infoForm?.email?.emailHelp,
+          IsShowInfoHelp: false,
         };
       })
       .catch((mesError: any) => {
@@ -129,6 +134,33 @@ class FormStore {
       !this.getObjectWithInfoEmailInput.value?.trim()
     );
   }
+
+  get getShowWhatInputIsEmpty() {
+    return this.ShowWhatInputIsEmpty;
+  }
+
+  ChageShowWhatInputIsEmpty = (value: boolean) => {
+    this.ShowWhatInputIsEmpty = value;
+  };
+
+  ChageIsShowInfoHelp = (numberPosition: number) => {
+    if (typeof numberPosition === "number") {
+      this.ArrayWithAllInputs = this.ArrayWithAllInputs.map(
+        (elem: any, i: number) => {
+          if (numberPosition === i) {
+            return { ...elem, IsShowInfoHelp: !elem.IsShowInfoHelp };
+          } else {
+            return elem;
+          }
+        }
+      );
+    } else {
+      this.ObjectWithInfoEmailInput = {
+        ...this.ObjectWithInfoEmailInput,
+        IsShowInfoHelp: !this.ObjectWithInfoEmailInput.IsShowInfoHelp,
+      };
+    }
+  };
 
   // всё для пост запроса
 

@@ -1,0 +1,93 @@
+.FormPageLayout__label {
+  position: relative;
+}
+.FormPageLayout__newPlaceHolder {
+  position: absolute;
+  left: 2.5%;
+  top: -150%;
+  font-size: 14px;
+  color: #2C555B;
+}
+.FormPageLayout__input_first {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 18px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid gray;
+  width: 100%;
+  height: 50px;
+  color: #2C555B;
+  border-bottom: none;
+}
+
+.FormPageLayout__input_last {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 18px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid gray;
+  width: 100%;
+  height: 50px;
+  color: #2C555B;
+  border-top: none;
+}
+
+.FormPageLayout__input_nested {
+  margin-top: 0;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 18px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid gray;
+  width: 100%;
+  height: 50px;
+  color: #2C555B;
+}
+.FormPageLayout__input {
+  border-radius: 5px;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 18px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid gray;
+  width: 100%;
+  height: 50px;
+  color: #2C555B;
+}
+::placeholder {
+  color: #b2bdc7;
+}
+.FormPageLayout__helpblock {
+  cursor: pointer;
+  position: absolute;
+  color: #b2bdc7;
+  right: 12px;
+  top: -20%;
+  transform: translateY(-50%);
+}
+
+/* для модального окна  */
+.Block-Modal {
+  position: absolute;
+  color: white;
+  background: rgba(101, 94, 94, 0.5);
+  right: 0;
+  top: -70px;
+  z-index: 2;
+  max-width: 300px;
+  border-radius: 10px ;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}

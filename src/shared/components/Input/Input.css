@@ -1,70 +1,127 @@
+@font-face {
+  font-family: 'DM Sans';
+  src: url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Nunito+Sans:ital,wght@0,300;1,300&display=swap');
+  /* Повторите этот блок для каждого шрифта, который вы хотите подключить */
+}
 .FormPageLayout__label {
+  display: flex;
+  height: 50px;
   position: relative;
+  width: 100%;
 }
 .FormPageLayout__newPlaceHolder {
   position: absolute;
   left: 2.5%;
-  top: -150%;
+  top: 4;
   font-size: 14px;
-  color: #2C555B;
+  color: #2c555b;
 }
 .FormPageLayout__input_first {
+  font-family: 'DM Sans', sans-serif;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  color: black;
   font-size: 20px;
   padding-left: 20px;
-  padding-top: 18px;
+  padding-top: 11px;
   padding-bottom: 0;
-  vertical-align: text-bottom;
-  border: 1px solid gray;
+  border: 1px solid #B2BDC7;
   width: 100%;
-  height: 50px;
-  color: #2C555B;
+  height: 100%;
+  color: #2c555b;
   border-bottom: none;
 }
 
+.FormPageLayout__input_first::placeholder {
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+  color: #B2BDC7;
+  font-family: 'DM Sans', sans-serif;
+}
+.FormPageLayout__input_first:focus {
+  outline: none; /* Удалить контур при фокусе */
+}
+
 .FormPageLayout__input_last {
+  font-family: 'DM Sans', sans-serif;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   color: black;
   font-size: 20px;
   padding-left: 20px;
-  padding-top: 18px;
+  padding-top: 11px;
   padding-bottom: 0;
   vertical-align: text-bottom;
-  border: 1px solid gray;
+  border: 1px solid #B2BDC7;
   width: 100%;
   height: 50px;
-  color: #2C555B;
+  color: #2c555b;
   border-top: none;
 }
 
+.FormPageLayout__input_last::placeholder {
+  /* смещение плейсхолдера влево на 10 пикселей */
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+  color: #B2BDC7;
+  font-family: 'DM Sans', sans-serif;
+}
+.FormPageLayout__input_last:focus {
+  outline: none; /* Удалить контур при фокусе */
+}
+
 .FormPageLayout__input_nested {
+  font-family: 'DM Sans', sans-serif;
   margin-top: 0;
   color: black;
   font-size: 20px;
   padding-left: 20px;
-  padding-top: 18px;
+  padding-top: 11px;
   padding-bottom: 0;
   vertical-align: text-bottom;
-  border: 1px solid gray;
+  border: 1px solid #B2BDC7;
   width: 100%;
   height: 50px;
-  color: #2C555B;
+  color: #2c555b;
+}
+
+.FormPageLayout__input_nested::placeholder {
+  /* смещение плейсхолдера влево на 10 пикселей */
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+  color: #B2BDC7;
+  font-family: 'DM Sans', sans-serif;
+}
+.FormPageLayout__input_nested:focus {
+  outline: none; /* Удалить контур при фокусе */
 }
 .FormPageLayout__input {
   border-radius: 5px;
   color: black;
   font-size: 20px;
   padding-left: 20px;
-  padding-top: 18px;
+  padding-top: 11px;
   padding-bottom: 0;
   vertical-align: text-bottom;
-  border: 1px solid gray;
+  border: 1px solid #B2BDC7;
   width: 100%;
   height: 50px;
-  color: #2C555B;
+  color: #2c555b;
+}
+.FormPageLayout__input::placeholder {
+  /* смещение плейсхолдера влево на 10 пикселей */
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+}
+.FormPageLayout__input:focus {
+  outline: none; /* Удалить контур при фокусе */
 }
 ::placeholder {
   color: #b2bdc7;
@@ -74,7 +131,7 @@
   position: absolute;
   color: #b2bdc7;
   right: 12px;
-  top: -20%;
+  top: 50%;
   transform: translateY(-50%);
 }
 
@@ -84,10 +141,57 @@
   color: white;
   background: rgba(101, 94, 94, 0.5);
   right: 0;
-  top: -70px;
+  top: -20px;
   z-index: 2;
-  max-width: 300px;
-  border-radius: 10px ;
+  max-width: 200px;
+  border-radius: 10px;
   word-break: break-all;
   overflow-wrap: break-word;
+}
+/* mobile */
+@media (max-width: 750px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 3%;
+   
+  }
+}
+
+@media (max-width: 600px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 3.5%;
+   
+  }
+}
+@media (max-width: 500px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 4.2%;
+   
+  }
+}
+
+@media (max-width: 450px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 4.6%;
+   
+  }
+}
+@media (max-width: 400px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 5%;
+   
+  }
+}
+
+@media (max-width: 350px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 5.6%;
+   
+  }
+}
+
+@media (max-width: 300px) {
+  .FormPageLayout__newPlaceHolder {
+   left: 7%;
+   
+  }
 }

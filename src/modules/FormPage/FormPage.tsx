@@ -18,6 +18,9 @@ const FormPage = observer(() => {
     ChangeArrayWithAllInputs,
     getShowWhatInputIsEmpty,
     ChageIsShowInfoHelp,
+    ChageFocus,
+    DeleteAllHelpers,
+    getObjectWithInfoEmailInput,
   } = formStore;
 
   const location = useLocation();
@@ -37,6 +40,21 @@ const FormPage = observer(() => {
 
     ChangeDataAboutForm(curData.key_gen);
   }, [navigate, location.search, ChangeDataAboutForm]);
+
+  useEffect(() => {
+    if (
+      getArrayWithAllInputs?.some(
+        (elem: any) => elem?.IsShowInfoHelp === true
+      ) ||
+      getObjectWithInfoEmailInput?.IsShowInfoHelp
+    ) {
+      document.addEventListener("click", DeleteAllHelpers);
+    }
+
+    return () => {
+      document?.removeEventListener("click", DeleteAllHelpers);
+    };
+  }, [getArrayWithAllInputs, getObjectWithInfoEmailInput]);
 
   if (getIsLoading) {
     return <PageLoader />;
@@ -58,6 +76,9 @@ const FormPage = observer(() => {
             currentNumber={i}
             IsShowInfoHelp={CurrentInput.IsShowInfoHelp}
             getShowWhatInputIsEmpty={getShowWhatInputIsEmpty}
+            onFocus={CurrentInput?.onFocus}
+            ChageFocus={ChageFocus}
+            getArrayWithAllInputs={getArrayWithAllInputs}
             ChageIsShowInfoHelp={ChageIsShowInfoHelp}
             onChange={(event: any) => ChangeArrayWithAllInputs(event, i)}
           />

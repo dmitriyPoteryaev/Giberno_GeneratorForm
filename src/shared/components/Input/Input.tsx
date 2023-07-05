@@ -1,5 +1,7 @@
 import React from "react";
+
 import "./Input.css";
+import InputNumber from "./InputNumber";
 
 const HELP_QUESTION: any = require("@assets/help_outline_24px.png");
 
@@ -28,6 +30,9 @@ const Input = (props: any) => {
     IsShowInfoHelp,
     ChageIsShowInfoHelp,
     resultValidMail,
+    onFocus,
+    ChageFocus,
+    getArrayWithAllInputs,
     ...rest
   } = props;
 
@@ -41,27 +46,42 @@ const Input = (props: any) => {
           className={
             classNameInput ? classNameInput : "FormPageLayout__input_first"
           }
-          placeholder={placeholder}
+          placeholder={!onFocus ? placeholder : ""}
           onChange={(event: any) => onChange(event.target.value)}
           {...rest}
           type="text"
           value={value}
           style={{
-            border:
-              !value.trim() && getShowWhatInputIsEmpty ? "1px solid red" : "",
-            borderBottom:
-              !value.trim() && getShowWhatInputIsEmpty ? "none" : "",
+            border: onFocus
+              ? "1px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "1px solid red"
+              : "",
+            borderBottom: onFocus
+              ? "0.5px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "0.25px solid red"
+              : "",
           }}
+          onFocus={() => ChageFocus(currentNumber)}
+          onBlur={() => ChageFocus(currentNumber)}
         />
         {help && (
-          <img
-            className={
-              classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
-            }
-            alt="help_icon"
-            src={HELP_QUESTION}
-            onClick={() => ChageIsShowInfoHelp(currentNumber)}
-          />
+          <div
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+          >
+            <img
+              className={
+                classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
+              }
+              alt="help_icon"
+              src={HELP_QUESTION}
+              onClick={() => ChageIsShowInfoHelp(currentNumber)}
+            />
+          </div>
         )}
         <span
           className={
@@ -70,7 +90,7 @@ const Input = (props: any) => {
               : "FormPageLayout__newPlaceHolder"
           }
         >
-          {value ? placeholder : ""}
+          {onFocus || value ? placeholder : ""}
         </span>
         {IsShowInfoHelp && (
           <div
@@ -90,19 +110,28 @@ const Input = (props: any) => {
         key={placeholder}
         className={classNameLabel ? classNameLabel : "FormPageLayout__label"}
       >
-        <input
+        <InputNumber
           className={
             classNameInput ? classNameInput : "FormPageLayout__input_last"
           }
-          placeholder={placeholder}
+          placeholder={!onFocus ? placeholder : ""}
           onChange={(event: any) => onChange(event.target.value)}
+          onFocus={() => ChageFocus(currentNumber)}
+          onBlur={() => ChageFocus(currentNumber)}
           {...rest}
           type="text"
           value={value}
           style={{
-            border:
-              !value.trim() && getShowWhatInputIsEmpty ? "1px solid red" : "",
-            borderTop: !value.trim() && getShowWhatInputIsEmpty ? "none" : "",
+            border: onFocus
+              ? "1px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "1px solid red"
+              : "",
+            borderTop: onFocus
+              ? "0.5px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "0.25px solid red"
+              : "",
           }}
         />
         {help && (
@@ -121,7 +150,7 @@ const Input = (props: any) => {
               : "FormPageLayout__newPlaceHolder"
           }
         >
-          {value ? placeholder : ""}
+          {onFocus || value ? placeholder : ""}
         </span>
       </label>
     );
@@ -136,25 +165,47 @@ const Input = (props: any) => {
           className={
             classNameInput ? classNameInput : "FormPageLayout__input_nested"
           }
-          placeholder={placeholder}
+          placeholder={!onFocus ? placeholder : ""}
           onChange={(event: any) => onChange(event.target.value)}
+          onFocus={() => ChageFocus(currentNumber)}
+          onBlur={() => ChageFocus(currentNumber)}
           {...rest}
           type="text"
           value={value}
           style={{
-            border:
-              !value.trim() && getShowWhatInputIsEmpty ? "1px solid red" : "",
+            border: onFocus
+              ? "1px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "1px solid red"
+              : "",
+            borderTop: onFocus
+              ? "0.5px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "0.1px solid red"
+              : "",
+            borderBottom: onFocus
+              ? "0.5px solid #7B7E80"
+              : !value.trim() && getShowWhatInputIsEmpty
+              ? "0.1px solid red"
+              : "",
           }}
         />
         {help && (
-          <img
-            className={
-              classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
-            }
-            alt="help_icon"
-            src={HELP_QUESTION}
-            onClick={() => ChageIsShowInfoHelp(currentNumber)}
-          />
+          <div
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+          >
+            <img
+              className={
+                classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
+              }
+              alt="help_icon"
+              src={HELP_QUESTION}
+              onClick={() => ChageIsShowInfoHelp(currentNumber)}
+            />
+          </div>
         )}
         <span
           className={
@@ -163,7 +214,7 @@ const Input = (props: any) => {
               : "FormPageLayout__newPlaceHolder"
           }
         >
-          {value ? placeholder : ""}
+          {onFocus || value ? placeholder : ""}
         </span>
         {IsShowInfoHelp && (
           <div
@@ -183,27 +234,45 @@ const Input = (props: any) => {
     >
       <input
         className={classNameInput ? classNameInput : "FormPageLayout__input"}
-        placeholder={placeholder}
+        placeholder={!onFocus ? placeholder : ""}
         onChange={(event: any) => onChange(event.target.value)}
+        onFocus={() => {
+          ChageFocus(currentNumber);
+        }}
+        onBlur={() => ChageFocus(currentNumber)}
         {...rest}
         type="text"
         value={value}
         style={{
-          border:
-            getShowWhatInputIsEmpty || (!value.trim() && resultValidMail(value))
-              ? "1px solid red"
-              : "",
+          border: onFocus
+            ? "1px solid #7B7E80"
+            : getShowWhatInputIsEmpty ||
+              (!value.trim() && resultValidMail(value))
+            ? "1px solid red"
+            : "",
         }}
       />
       {help && (
-        <img
+        <div
           className={
             classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
           }
-          alt="help_icon"
-          src={HELP_QUESTION}
-          onClick={() => ChageIsShowInfoHelp(currentNumber)}
-        />
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          }}
+        >
+          <img
+            className={
+              classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
+            }
+            alt="help_icon"
+            src={HELP_QUESTION}
+            onClick={() => {
+              ChageIsShowInfoHelp(currentNumber);
+            }}
+          />
+        </div>
       )}
       <span
         className={
@@ -212,7 +281,7 @@ const Input = (props: any) => {
             : "FormPageLayout__newPlaceHolder"
         }
       >
-        {value ? placeholder : ""}
+        {onFocus || value ? placeholder : ""}
       </span>
       {IsShowInfoHelp && (
         <div

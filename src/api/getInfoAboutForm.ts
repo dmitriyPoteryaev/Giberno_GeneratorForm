@@ -30,7 +30,7 @@ const getInfoAboutForm = (key_gen: string) => {
   //         employee: "496addd6-9d6c-47eb-9295-2fa342f3fc64",
   //         employeeName: "Лобода Д. А.",
   //         clientId: "fb1969e9-8fa1-4b40-a9a4-da10a3fd968e",
-  //         clientTitle: "1",
+  //         clientTitle: 'САО "ВСК"',
   //         itemName: {
   //           itemNamePlaceholder: "9",
   //           itemNameHelp: "4",
@@ -38,7 +38,7 @@ const getInfoAboutForm = (key_gen: string) => {
   //         itemDescription: {
   //           enabled: true,
   //           descriptionRequire: true,
-  //           itemDescriptionPlaceholder: "5",
+  //           itemDescriptionPlaceholder: "Тип полиса",
   //           itemDescriptionHelp: "6",
   //         },
   //         email: {

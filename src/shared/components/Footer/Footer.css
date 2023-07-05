@@ -1,3 +1,4 @@
+
 .FooterLayout {
   display: flex;
   justify-content: center;
@@ -18,16 +19,31 @@
   width: 800px;
 }
 .FooterLayout__input {
+  font-family: 'DM Sans', sans-serif;
   border-radius: 5px;
-  border: 1px solid gray;
+  border: 1px solid #B2BDC7;
   height: 50px;
   color: black;
   font-size: 20px;
   padding-left: 20px;
-  padding-top: 18px;
-  width: 430px
+  padding-top: 11px;
+  width: 430px;
+}
+.FooterLayout__input::placeholder {
+  /* смещение плейсхолдера влево на 10 пикселей */
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+  color: #B2BDC7;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.FooterLayout__input:focus {
+  outline: none; /* Удалить контур при фокусе */
 }
 .FooterLayout__button {
+   font-family: 'Nunito Sans', sans-serif !important;
   font-size: 24px;
   background: #0a7272;
   color: white;
@@ -48,7 +64,7 @@
 
 .FooterLayout__newPLaceHolderBlock {
   position: absolute;
-  left: 5.1%;
+  left: 4.6%;
   top: 8%;
   font-size: 14px;
   color: #2C555B;
@@ -86,5 +102,60 @@
     top: 8%;
     font-size: 14px;
     color: #2C555B;
+  }
+}
+@media (max-width: 800px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 2.5%;
+   
+  }
+}
+@media (max-width: 750px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 2.7%;
+   
+  }
+}
+@media (max-width: 700px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 3.2%;
+   
+  }
+}
+@media (max-width: 600px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 3.8%;
+   
+  }
+}
+@media (max-width: 500px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 4.3%;
+   
+  }
+}
+@media (max-width: 450px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 5%;
+   
+  }
+}
+
+@media (max-width: 400px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 5.3%;
+   
+  }
+}
+@media (max-width: 350px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 6.3%;
+   
+  }
+}
+@media (max-width: 300px) {
+  .FooterLayout__newPLaceHolderBlock {
+   left: 7%;
+   
   }
 }

@@ -59,6 +59,7 @@ class FormStore {
             placeholder: infoForm?.itemName?.itemNamePlaceholder,
             help: infoForm?.itemName?.itemNameHelp,
             IsShowInfoHelp: false,
+            onFocus: false,
           },
           {
             value: "",
@@ -66,11 +67,13 @@ class FormStore {
             placeholder: infoForm?.itemDescription?.itemDescriptionPlaceholder,
             help: infoForm?.itemDescription?.itemDescriptionHelp,
             IsShowInfoHelp: false,
+            onFocus: false,
           },
           {
             value: "",
             type: "text",
             placeholder: "Сумма",
+            onFocus: false,
           },
         ];
 
@@ -80,6 +83,7 @@ class FormStore {
           placeholder: infoForm?.email?.emailPlaceholder,
           help: infoForm?.email?.emailHelp,
           IsShowInfoHelp: false,
+          onFocus: false,
         };
       })
       .catch((mesError: any) => {
@@ -144,6 +148,16 @@ class FormStore {
   };
 
   ChageIsShowInfoHelp = (numberPosition: number) => {
+    if (this.ObjectWithInfoEmailInput.IsShowInfoHelp) {
+      this.ObjectWithInfoEmailInput.IsShowInfoHelp = false;
+    }
+    if (
+      this.ArrayWithAllInputs.some((elem: any) => elem.IsShowInfoHelp === true)
+    ) {
+      this.ArrayWithAllInputs = this.ArrayWithAllInputs.map((elem: any) => {
+        return { ...elem, IsShowInfoHelp: false };
+      });
+    }
     if (typeof numberPosition === "number") {
       this.ArrayWithAllInputs = this.ArrayWithAllInputs.map(
         (elem: any, i: number) => {
@@ -158,6 +172,43 @@ class FormStore {
       this.ObjectWithInfoEmailInput = {
         ...this.ObjectWithInfoEmailInput,
         IsShowInfoHelp: !this.ObjectWithInfoEmailInput.IsShowInfoHelp,
+      };
+    }
+  };
+
+  DeleteAllHelpers = () => {
+    if (
+      this.ObjectWithInfoEmailInput.IsShowInfoHelp ||
+      this.ArrayWithAllInputs.some((elem: any) => elem.IsShowInfoHelp === true)
+    ) {
+      this.ArrayWithAllInputs = this.ArrayWithAllInputs.map(
+        (elem: any, i: number) => {
+          return { ...elem, IsShowInfoHelp: false };
+        }
+      );
+
+      this.ObjectWithInfoEmailInput = {
+        ...this.ObjectWithInfoEmailInput,
+        IsShowInfoHelp: false,
+      };
+    }
+  };
+
+  ChageFocus = (numberPosition: number) => {
+    if (typeof numberPosition === "number") {
+      this.ArrayWithAllInputs = this.ArrayWithAllInputs.map(
+        (elem: any, i: number) => {
+          if (numberPosition === i) {
+            return { ...elem, onFocus: !elem.onFocus };
+          } else {
+            return elem;
+          }
+        }
+      );
+    } else {
+      this.ObjectWithInfoEmailInput = {
+        ...this.ObjectWithInfoEmailInput,
+        onFocus: !this.ObjectWithInfoEmailInput.onFocus,
       };
     }
   };

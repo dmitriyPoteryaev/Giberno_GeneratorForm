@@ -18,6 +18,7 @@ const Footer = observer(() => {
     ChageShowWhatInputIsEmpty,
     getShowWhatInputIsEmpty,
     ChageIsShowInfoHelp,
+    ChageFocus,
   } = formStore;
 
   const navigate = useNavigate();
@@ -54,6 +55,8 @@ const Footer = observer(() => {
             checkValidMail(event);
           }}
           ChageIsShowInfoHelp={ChageIsShowInfoHelp}
+          ChageFocus={ChageFocus}
+          onFocus={getObjectWithInfoEmailInput?.onFocus}
           resultValidMail={checkValidMail}
           IsShowInfoHelp={getObjectWithInfoEmailInput?.IsShowInfoHelp}
           help={getObjectWithInfoEmailInput?.help}

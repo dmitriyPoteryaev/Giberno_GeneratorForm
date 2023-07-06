@@ -22,6 +22,14 @@ class FormStore {
 
   ObjectWithInfoEmailInput: any;
 
+  // параметры, которые могут обязательными или необязательными
+
+  emailRequireStore: any;
+  emailEnabled: any;
+
+  descriptionRequireStore: any;
+  descriptionEnable: any;
+
   // всё для пост запроса
 
   clientIdStore: any;
@@ -45,12 +53,18 @@ class FormStore {
         const { config, infoForm } = response;
 
         // const infoForm = response.data;
-
         this.employeeNameStore = infoForm?.employeeName;
         this.employeeNameStoreForPOST = infoForm?.employee;
         this.clientTitleStore = infoForm?.clientTitle;
         this.clientIdStore = infoForm?.clientId;
         this.keyGenStore = infoForm?.keyGen;
+
+        this.emailRequireStore = infoForm?.email?.emailRequire;
+        this.emailEnabled = infoForm?.email?.enabled;
+
+        this.descriptionRequireStore =
+          infoForm?.itemDescription?.descriptionRequire;
+        this.descriptionEnable = infoForm?.itemDescription?.enabled;
 
         this.ArrayWithAllInputs = [
           {
@@ -129,8 +143,38 @@ class FormStore {
       value: event,
     };
   };
+  get getEmailRequireStore() {
+    return this.emailRequireStore;
+  }
+
+  get getEmailEnabled() {
+    return this.emailEnabled;
+  }
+  get getDescriptionRequireStore() {
+    return this.descriptionRequireStore;
+  }
+
+  get getDescriptionEnable() {
+    return this.descriptionEnable;
+  }
 
   get IsGeneralButtonActive() {
+    if (!this.getDescriptionRequireStore || !this.getEmailRequireStore) {
+      return (
+        this.getArrayWithAllInputs
+          ?.map((elem: any, i: any) => {
+            if (!this.getDescriptionRequireStore && i === 1) {
+              return "Not empty";
+            } else {
+              return elem.value;
+            }
+          })
+          ?.some((elem: any, i: any) => !elem?.trim()) ||
+        (!this.getEmailRequireStore
+          ? false
+          : !this.getObjectWithInfoEmailInput.value?.trim())
+      );
+    }
     return (
       this.getArrayWithAllInputs
         ?.map((elem: any) => elem?.value)

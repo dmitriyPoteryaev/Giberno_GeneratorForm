@@ -3,6 +3,7 @@
   src: url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;1,300&display=swap');
   /* Повторите этот блок для каждого шрифта, который вы хотите подключить */
 }
+
 .HeaderLayout {
   display: flex;
   justify-content: center;
@@ -15,30 +16,30 @@
 
   position: relative;
 }
+
 .HeaderLayout__innerBlock {
   font-family: 'Nunito Sans', sans-serif;
-  display: flex;
   width: 800px;
   font-size: 20px;
-  justify-content: flex-end;
+  text-align: right;
   color: #2c555b;
 }
 
 .HeaderLayout__logo {
   position: absolute;
   left: 30px;
-  
+
 }
 
 @media (max-width: 800px) {
-    
-    .HeaderLayout {
-        padding: 0 16px 0 16px;
-    }
+
+  .HeaderLayout {
+    padding: 0 16px 0 16px;
   }
+}
 
 @media (max-width: 450px) {
-    
+
   .HeaderLayout__logo {
     position: absolute;
     left: 16px;

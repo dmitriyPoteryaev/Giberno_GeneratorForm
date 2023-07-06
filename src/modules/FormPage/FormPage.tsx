@@ -21,6 +21,9 @@ const FormPage = observer(() => {
     ChageFocus,
     DeleteAllHelpers,
     getObjectWithInfoEmailInput,
+    getDescriptionRequireStore,
+    getEmailRequireStore,
+    getDescriptionEnable,
   } = formStore;
 
   const location = useLocation();
@@ -77,7 +80,10 @@ const FormPage = observer(() => {
             IsShowInfoHelp={CurrentInput.IsShowInfoHelp}
             getShowWhatInputIsEmpty={getShowWhatInputIsEmpty}
             onFocus={CurrentInput?.onFocus}
+            getDescriptionRequireStore={getDescriptionRequireStore}
+            getEmailRequireStore={getEmailRequireStore}
             ChageFocus={ChageFocus}
+            getDescriptionEnable={getDescriptionEnable}
             getArrayWithAllInputs={getArrayWithAllInputs}
             ChageIsShowInfoHelp={ChageIsShowInfoHelp}
             onChange={(event: any) => ChangeArrayWithAllInputs(event, i)}

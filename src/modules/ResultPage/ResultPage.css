@@ -8,7 +8,7 @@
 .ResultPageLayout__header {
   color: #2c555b;
   font-size: 20px;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 0 0;
   text-align: center;
 }
 
@@ -49,15 +49,17 @@
 .low_block__URL {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .low_block__URL_inputUrl {
   font-size: 20px;
   color: #2c555b;
-  width: 70%;
-  border: 1px solid gray;
-  border-radius: 3px;
+  width: 90%;
+  border: 1px solid #B0ACAC;
+  padding-left: 10px;
+  height: 30px;
+  border-radius: 6px;
   margin: 10px 0 10px 0;
   text-overflow: ellipsis;
 }
@@ -89,7 +91,7 @@
   text-align: center;
   color: #2c555b;
   font-size: 28px;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 10px 0;
   min-width: 100%;
   text-align: center;
 }
@@ -154,8 +156,10 @@
   font-size: 20px;
   color: #2c555b;
   width: 90%;
-  border: 1px solid gray;
-  border-radius: 3px;
+  padding-left: 10px;
+  height: 30px;
+  border: 1px solid #B0ACAC;
+  border-radius: 6px;
   margin: 10px 0 10px 0;
   text-overflow: ellipsis;
 }

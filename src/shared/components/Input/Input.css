@@ -28,7 +28,6 @@
   width: 100%;
   height: 100%;
   color: #2c555b;
-  border-bottom: none;
 }
 
 .FormPageLayout__input_first::placeholder {
@@ -57,7 +56,6 @@
   width: 100%;
   height: 50px;
   color: #2c555b;
-  border-top: none;
 }
 
 .FormPageLayout__input_last::placeholder {
@@ -141,12 +139,14 @@
   color: white;
   background: rgba(101, 94, 94, 0.5);
   right: 0;
-  top: -20px;
+  top: -35px;
   z-index: 2;
   max-width: 200px;
-  border-radius: 10px;
+  max-height: 40px;
+  border-radius: 5px;
   word-break: break-all;
   overflow-wrap: break-word;
+  text-overflow: ellipsis;
 }
 /* mobile */
 @media (max-width: 750px) {

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./CopyButton.css";
 
-const COPY_BUTTON: string = require("@assets/copybtn.png");
+const copyBtnGray = require("@assets/copybtnngray.svg").default as string;
+const copyBtnGreen = require("@assets/copybtngreen.svg").default as string;
+
 const CopyButton = ({ className, text, children }: any) => {
+  const [isHover, setIsHover] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -15,8 +18,17 @@ const CopyButton = ({ className, text, children }: any) => {
   };
 
   return (
-    <button className={className} onClick={copyToClipboard}>
-      <img alt="icon_copybtn" src={COPY_BUTTON} />
+    <button
+      className={className}
+      onClick={copyToClipboard}
+      onMouseOver={() => setIsHover(true)}
+      onMouseOut={() => setIsHover(false)}
+    >
+      {isHover || isCopied ? (
+        <img alt="greenCopyBtn" src={copyBtnGreen} />
+      ) : (
+        <img alt="grayCopyBtn" src={copyBtnGray} />
+      )}
       <span>{children && isCopied ? "Скопировано!" : children}</span>
     </button>
   );

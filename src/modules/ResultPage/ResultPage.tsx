@@ -188,9 +188,7 @@ const ResultPage = observer(() => {
           <CopyButton
             className={"low_block__URL_coppyButton"}
             text={urlFormPayStore}
-          >
-            Копировать URL!
-          </CopyButton>
+          />
         </div>
       </div>
     </div>

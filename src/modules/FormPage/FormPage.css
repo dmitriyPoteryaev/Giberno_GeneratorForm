@@ -1,9 +1,4 @@
 
-@font-face {
-  font-family: 'Nunito Sans';
-  src: url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;1,300&display=swap');
-  /* Повторите этот блок для каждого шрифта, который вы хотите подключить */
-}
 .FormPageLayout {
   display: flex;
   flex-direction: column;

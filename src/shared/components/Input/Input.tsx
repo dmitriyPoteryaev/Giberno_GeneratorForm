@@ -40,6 +40,11 @@ const Input = (props: any) => {
     ...rest
   } = props;
 
+  // const BlockLInputClasses = classNames({
+  //   [className]: !!className,
+  //   pageOrder__loader: !!className ? false : true,
+  // });
+
   if (currentNumber === 0) {
     return (
       <label

@@ -24,12 +24,14 @@ const FormPage = observer(() => {
     getDescriptionRequireStore,
     getEmailRequireStore,
     getDescriptionEnable,
+    ChageShowWhatInputIsEmpty,
   } = formStore;
 
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+    ChageShowWhatInputIsEmpty(false);
     const curData: any = {
       key_gen: "8fe86f19-9477-4e73-b198-d08d4e33be6c",
     };

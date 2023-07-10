@@ -37,7 +37,7 @@ const FormPage = observer(() => {
     };
 
     location.search.split("&").forEach((line, i) => {
-      curData.client_id =
+      curData.key_gen =
         line.split("=")[1] || "8fe86f19-9477-4e73-b198-d08d4e33be6c";
     });
 

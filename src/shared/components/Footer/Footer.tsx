@@ -39,10 +39,13 @@ const Footer = observer(() => {
     if (
       !IsGeneralButtonActive &&
       checkValidMail(getObjectWithInfoEmailInput?.value) &&
-      !getArrayWithAllInputs
+      (getArrayWithAllInputs
         .find((elem: any) => elem.placeholder === "Сумма")
-        ?.value.split("")
-        .includes("_")
+        ?.value?.split(".")[1]
+        ?.split("").length ||
+        !getArrayWithAllInputs
+          .find((elem: any) => elem.placeholder === "Сумма")
+          ?.value?.includes("."))
     ) {
       navigate("/result?key_gen=" + getkeyGenStore);
     } else {

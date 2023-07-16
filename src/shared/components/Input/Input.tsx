@@ -1,7 +1,6 @@
 import React from "react";
 
 import "./Input.css";
-import InputNumber from "./InputNumber";
 
 const HELP_QUESTION: any = require("@assets/help_outline_24px.png");
 
@@ -39,11 +38,6 @@ const Input = (props: any) => {
     getDescriptionEnable,
     ...rest
   } = props;
-
-  // const BlockLInputClasses = classNames({
-  //   [className]: !!className,
-  //   pageOrder__loader: !!className ? false : true,
-  // });
 
   if (currentNumber === 0) {
     return (
@@ -119,12 +113,14 @@ const Input = (props: any) => {
         key={placeholder}
         className={classNameLabel ? classNameLabel : "FormPageLayout__label"}
       >
-        <InputNumber
+        <input
           className={
             classNameInput ? classNameInput : "FormPageLayout__input_last"
           }
           placeholder={!onFocus ? placeholder : ""}
-          onChange={(event: any) => onChange(event.target.value)}
+          onChange={(event: any) => {
+            onChange(event.target.value);
+          }}
           onFocus={() => ChageFocus(currentNumber)}
           onBlur={() => ChageFocus(currentNumber)}
           {...rest}

@@ -122,9 +122,35 @@ class FormStore {
   }
 
   ChangeArrayWithAllInputs = (event: any, numberPosition: number) => {
+    // if (event?.split("").includes(".")) {
+    //   console.log("Ты был здесь!");
+    // }
+
     this.ArrayWithAllInputs = this.ArrayWithAllInputs.map(
       (elem: any, k: any) => {
         if (numberPosition === k) {
+          if (numberPosition === 2) {
+            let string = event;
+            if (event.split("").includes(",")) {
+              const arr = event.split("");
+              const index = event.split("").indexOf(",");
+
+              arr[index] = ".";
+              string = arr.join("");
+            }
+            const regex = /^(\d{0,9})(\.\d{0,2})?$/;
+            if (string === "" || regex.test(string)) {
+              if (string.split("")[0] === "0" && string.split("")[1] === "0") {
+                string = "0" + ".";
+              }
+              if (string === ".") {
+                string = "0" + ".";
+              }
+              return { ...elem, value: string };
+            } else {
+              return elem;
+            }
+          }
           return { ...elem, value: event };
         } else {
           return elem;

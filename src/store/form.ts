@@ -143,7 +143,18 @@ class FormStore {
 
               string = arr.join("");
             }
+
             const regex = /^(\d{0,9})(\.\d{0,2})?$/;
+            string = string
+              .split("")
+              .reduce((accumulator: any, currentValue: any) => {
+                if (regex.test(currentValue)) {
+                  return accumulator + currentValue;
+                } else {
+                  return accumulator;
+                }
+              }, "");
+
             if (string === "" || regex.test(string)) {
               if (string.split("")[0] === "0" && string.split("")[1] === "0") {
                 string = "0" + ".";

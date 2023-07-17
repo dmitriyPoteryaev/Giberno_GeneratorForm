@@ -88,6 +88,7 @@ const ResultPage = observer(() => {
   if (getIsLoadingQr_Link) {
     return <PageLoader />;
   }
+  //ты здесь
 
   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
     return (

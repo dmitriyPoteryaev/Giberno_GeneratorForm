@@ -138,6 +138,11 @@ class FormStore {
               arr[index] = ".";
               string = arr.join("");
             }
+            if (string.split("").includes(" ")) {
+              const arr = string.split("").filter((elem: any) => elem !== " ");
+
+              string = arr.join("");
+            }
             const regex = /^(\d{0,9})(\.\d{0,2})?$/;
             if (string === "" || regex.test(string)) {
               if (string.split("")[0] === "0" && string.split("")[1] === "0") {

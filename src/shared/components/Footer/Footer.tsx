@@ -1,85 +1,98 @@
 import React from "react";
 
 import "./Footer.css";
-
 import { formStore } from "@store/index";
+import { createListItemsForPostQuery } from "@utils/createListItemsForPostQuery";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../Button";
 import Input from "../Input";
 
-const Footer = observer(() => {
+const Footer = observer((): any => {
   const {
-    getObjectWithInfoEmailInput,
-    ChangeObjectWithInfoEmailInput,
-    IsGeneralButtonActive,
-    getkeyGenStore,
-    ChageShowWhatInputIsEmpty,
-    getShowWhatInputIsEmpty,
+    ArrayWithAllInputsStore,
     ChageIsShowInfoHelp,
     ChageFocus,
-    getArrayWithAllInputs,
-    getEmailRequireStore,
-    getEmailEnabled,
+    ChageShowWhatInputIsEmpty,
+    keyGenStore,
+    getShowWhatInputIsEmpty,
+    ObjectWithInfoEmailInputStore,
+    IsGeneralButtonActive,
+    ChangeObjectWithInfoEmailInput,
+    employeeNameStoreForPOST,
+    clientIdStore,
+    itemListStore,
+    positionTypeStore,
   } = formStore;
-
-  const navigate = useNavigate();
+  const {
+    type,
+    placeholder,
+    value,
+    help,
+    IsShowInfoHelp,
+    onFocus,
+    IsRequire,
+    IsEnabled,
+  }: any = ObjectWithInfoEmailInputStore;
 
   const checkValidMail = (mail: any) => {
-    if (!getEmailRequireStore && mail === "") {
+    if (!IsRequire && mail === "") {
       return true;
     }
     let reg: any =
       /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
     return reg.test(mail?.toLowerCase());
   };
+  const InputProps = {
+    type: type,
+    placeholder: placeholder,
+    value: value,
+    help: help,
+    uniqKey: "input_email",
+    IsEmpty: getShowWhatInputIsEmpty,
+    onFocus: onFocus,
+    IsShowInfoHelp: IsShowInfoHelp,
+    classNameLabel: "FooterLayout__label",
+    classNameHelper: "FooterLayout__helpblock",
+    classNamePlaceHolder: "FooterLayout__newPLaceHolderBlock",
+    classNameInput: "FooterLayout__input",
+    IsRequire: IsRequire,
+    ChageFocus: ChageFocus,
+    ChageIsShowInfoHelp: ChageIsShowInfoHelp,
+    resultValidMail: checkValidMail,
+    onChange: (event: any) => {
+      ChangeObjectWithInfoEmailInput(event);
+      checkValidMail(event);
+    },
+  };
+
+  const navigate = useNavigate();
 
   const handlerPostQuery = () => {
     if (
       !IsGeneralButtonActive &&
-      checkValidMail(getObjectWithInfoEmailInput?.value) &&
-      (getArrayWithAllInputs
-        .find((elem: any) => elem.placeholder === "Сумма")
+      checkValidMail(value) &&
+      (ArrayWithAllInputsStore.find((elem: any) => elem.placeholder === "Сумма")
         ?.value?.split(".")[1]
         ?.split("").length ||
-        !getArrayWithAllInputs
-          .find((elem: any) => elem.placeholder === "Сумма")
-          ?.value?.includes("."))
+        !ArrayWithAllInputsStore.find(
+          (elem: any) => elem.placeholder === "Сумма"
+        )?.value?.includes("."))
     ) {
-      navigate("/result?key_gen=" + getkeyGenStore);
+      navigate("/test/result?key_gen=" + keyGenStore);
     } else {
       ChageShowWhatInputIsEmpty(true);
     }
   };
+
   return (
     <footer className="FooterLayout">
       <div className="FooterLayout__block">
-        <Input
-          type={getObjectWithInfoEmailInput?.type}
-          placeholder={getObjectWithInfoEmailInput?.placeholder}
-          getEmailRequireStore={getEmailRequireStore}
-          value={getObjectWithInfoEmailInput?.value}
-          classNameInput={"FooterLayout__input"}
-          classNameLabel={"FooterLayout__label"}
-          classNameHelper={"FooterLayout__helpblock"}
-          classNamePlaceHolder={"FooterLayout__newPLaceHolderBlock"}
-          onChange={(event: any) => {
-            ChangeObjectWithInfoEmailInput(event);
-            checkValidMail(event);
-          }}
-          ChageIsShowInfoHelp={ChageIsShowInfoHelp}
-          ChageFocus={ChageFocus}
-          getEmailEnabled={getEmailEnabled}
-          onFocus={getObjectWithInfoEmailInput?.onFocus}
-          resultValidMail={checkValidMail}
-          IsShowInfoHelp={getObjectWithInfoEmailInput?.IsShowInfoHelp}
-          help={getObjectWithInfoEmailInput?.help}
-          getShowWhatInputIsEmpty={getShowWhatInputIsEmpty}
-        />
+        {IsEnabled && <Input {...InputProps} />}
         <Button
           ButtonClass={
-            getEmailEnabled
+            IsEnabled
               ? "FooterLayout__button"
               : "FooterLayout__button_withoutInput"
           }

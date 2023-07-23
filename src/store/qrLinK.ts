@@ -27,7 +27,9 @@ class QrLinktsStore {
     emailCustomer: any,
     amount: any,
     name: any,
-    description: any
+    description: any,
+    positionTypeStore: any,
+    itemListStore: any
   ) => {
     return postLink(
       employee,
@@ -36,7 +38,9 @@ class QrLinktsStore {
       emailCustomer,
       amount,
       name,
-      description
+      description,
+      positionTypeStore,
+      itemListStore
     )
       .then((infoQrLink: any) => {
         if (typeof infoQrLink !== "object") {

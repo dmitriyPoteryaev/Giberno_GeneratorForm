@@ -1,4 +1,5 @@
 import { qrLinkStore } from "@store/index";
+import { createListItemsForPostQuery } from "@utils/createListItemsForPostQuery";
 import axios from "axios";
 
 //api.giberno.ru/invoice_qr/?client_id=fb1969e9-8fa1-4b40-a9a4-da10a3fd968e&key_form=c5c5f096-15b4-4abd-b770-b7379500501a
@@ -9,10 +10,37 @@ const postLink = (
   emailCustomer: any,
   amount: any,
   name: any,
-  description: any
+  description: any,
+  positionTypeStore: any,
+  itemListStore: any
 ) => {
   const { ChangeisLoadingQr_Link } = qrLinkStore;
   ChangeisLoadingQr_Link();
+
+  let POST_BODY;
+  if (positionTypeStore === "MANUAL") {
+    POST_BODY = {
+      employee: employee, //Обязательный параметр
+      client_id: client_id, //Обязательный параметр
+      keyGen: keyGen, //Обязательный параметр
+      emailCustomer: emailCustomer,
+      items: [
+        {
+          name: name, //Обязательный параметр
+          description: description,
+          amount: +amount, //Обязательный параметр
+        },
+      ],
+    };
+  } else {
+    POST_BODY = {
+      employee: employee, //Обязательный параметр
+      client_id: client_id, //Обязательный параметр
+      keyGen: keyGen, //Обязательный параметр
+      emailCustomer: emailCustomer,
+      items: createListItemsForPostQuery(itemListStore, amount),
+    };
+  }
   // return new Promise<any>((resolve, reject) =>
   //   // "https://api.giberno.ru/invoice/?form_pay=497f6eca-6276-4993-bfeb-53cbbbba6f08"
   //   setTimeout(() => {
@@ -28,19 +56,7 @@ const postLink = (
   //   }, 1000)
   // );
   return axios
-    .post(`https://api.giberno.ru/api/webhook/orders/`, {
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-      items: [
-        {
-          name: name, //Обязательный параметр
-          description: description,
-          amount: +amount, //Обязательный параметр
-        },
-      ],
-    })
+    .post(`https://api.giberno.ru/api/webhook/orders/`, POST_BODY)
     .then((response: any) => {
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");

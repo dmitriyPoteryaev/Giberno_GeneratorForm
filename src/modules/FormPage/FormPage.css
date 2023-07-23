@@ -1,4 +1,3 @@
-
 .FormPageLayout {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,7 @@
   align-items: center;
 }
 .FormPageLayout__header {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: "Nunito Sans", sans-serif;
   color: #2c555b;
   font-size: 20px;
   margin: 20px 0 20px 0;
@@ -14,13 +13,86 @@
 .FormPageLayout__form {
   width: 800px;
 }
+
+.Formpagelayout__input_nested {
+  font-family: "DM Sans", sans-serif;
+  margin-top: 0;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 11px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid #b2bdc7;
+  width: 100%;
+  height: 50px;
+  color: #2c555b;
+}
+
+.Formpagelayout__input_nested::placeholder {
+  /* смещение плейсхолдера влево на 10 пикселей */
+  position: absolute;
+  top: 11px;
+  left: 20px;
+  font-size: 20px;
+  color: #B2BDC7;
+  font-family: 'DM Sans', sans-serif;
+}
+.Formpagelayout__input_nested:focus {
+  outline: none; /* Удалить контур при фокусе */
+  border: 1px solid #7B7E80
+}
+
+.Formpagelayout__input_first {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.Formpagelayout__input_last {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
 .FormPageLayout__title {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: "Nunito Sans", sans-serif;
   width: 100%;
   font-size: 28px;
   color: #2c555b;
   text-align: left;
   margin-bottom: 10px;
+}
+/* потом нужно будет убрать */
+.CustomSelect{
+
+  position: relative;
+    z-index: 2;
+}
+.CustomLIstForSelect {
+  position: absolute;
+  width: 800px;
+  font-family: "DM Sans", sans-serif;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border: 1px solid #b2bdc7;
+  color: #2c555b;
+  background-color: white;
+}
+.CustomLIstForSelect_position {
+  font-family: "DM Sans", sans-serif;
+  margin-top: 0;
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-top: 11px;
+  padding-bottom: 0;
+  vertical-align: text-bottom;
+  border-bottom: 1px solid #b2bdc7;
+  width: 100%;
+  height: 50px;
+  color: #2c555b;
+  cursor: pointer;
+}
+.CustomLIstForSelect_position:hover {
+  background-color: #cdffff;
 }
 
 /* mobile */
@@ -28,6 +100,5 @@
   .FormPageLayout__form {
     width: 100%;
     padding: 0 16px 0 16px;
-   
   }
 }

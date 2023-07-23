@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 
 const Logo = require("@assets/Logo.svg").default as string;
 const Header = observer(() => {
-  const { getemployeeNameStore } = formStore;
+  const { employeeNameStore } = formStore;
 
   return (
     <header className="HeaderLayout">
@@ -15,7 +15,7 @@ const Header = observer(() => {
       <div className="HeaderLayout__innerBlock">
         {" "}
         <img alt="HeaderLayout__logo" src={Logo} />
-        <div>{getemployeeNameStore}</div>
+        <div>{employeeNameStore}</div>
       </div>
     </header>
   );

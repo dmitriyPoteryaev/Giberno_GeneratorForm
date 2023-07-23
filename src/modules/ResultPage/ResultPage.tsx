@@ -17,29 +17,32 @@ const ResultPage = observer(() => {
   const { postQr_Link, getIsLoadingQr_Link, getqrLinkStore, urlFormPayStore } =
     qrLinkStore;
   const {
-    getObjectWithInfoEmailInput,
-    getclientId,
-    getkeyGenStore,
-    getArrayWithAllInputs,
-    getIsLoading,
-    getemployeeNameStoreForPOST,
+    ObjectWithInfoEmailInputStore,
+    clientIdStore,
+    keyGenStore,
+    ArrayWithAllInputsStore,
+    employeeNameStoreForPOST,
     ChageShowWhatInputIsEmpty,
+    positionTypeStore,
+    itemListStore,
   } = formStore;
 
-  if (getIsLoading) {
-    return <FormPage />;
-  }
+  // if (getIsLoading) {
+  //   return <FormPage />;
+  // }
   useEffect(() => {
     if (getIsLoadingQr_Link) {
       ChageShowWhatInputIsEmpty(false);
       postQr_Link(
-        getemployeeNameStoreForPOST,
-        getclientId,
-        getkeyGenStore,
-        getObjectWithInfoEmailInput.value?.toLowerCase(),
-        getArrayWithAllInputs[2].value,
-        getArrayWithAllInputs[0].value,
-        getArrayWithAllInputs[1].value
+        employeeNameStoreForPOST,
+        clientIdStore,
+        keyGenStore,
+        ObjectWithInfoEmailInputStore?.value?.toLowerCase(),
+        ArrayWithAllInputsStore?.[2].value,
+        ArrayWithAllInputsStore?.[0].value,
+        ArrayWithAllInputsStore?.[1].value,
+        positionTypeStore,
+        itemListStore
       );
     }
     const handleResize = () => {
@@ -88,7 +91,6 @@ const ResultPage = observer(() => {
   if (getIsLoadingQr_Link) {
     return <PageLoader />;
   }
-  //ты здесь
 
   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
     return (

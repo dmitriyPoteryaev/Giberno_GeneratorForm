@@ -2,7 +2,6 @@ import axios from "axios";
 
 const getInfoAboutForm = (key_gen: string) => {
   // return new Promise<any>((resolve, reject) =>
-  //   // "https://api.giberno.ru/invoice/?form_pay=497f6eca-6276-4993-bfeb-53cbbbba6f08"
   //   setTimeout(() => {
   //     const keyGen = "8fe86f19-9477-4e73-b198-d08d4e33be6c";
   //     const employee = "496addd6-9d6c-47eb-9295-2fa342f3fc64";
@@ -28,6 +27,7 @@ const getInfoAboutForm = (key_gen: string) => {
   //         IsShowInfoHelp: false,
   //         onFocus: false,
   //         IsRequire: true,
+  //         IsEnabled: true,
   //         name: "name_pos",
   //         isopen: "",
   //       },
@@ -48,6 +48,7 @@ const getInfoAboutForm = (key_gen: string) => {
   //         placeholder: "Сумма",
   //         onFocus: false,
   //         IsRequire: true,
+  //         IsEnabled: true,
   //         IsShowInfoHelp: false,
   //         name: "amount",
   //       },
@@ -112,7 +113,6 @@ const getInfoAboutForm = (key_gen: string) => {
         email,
         itemDescription,
         itemName,
-        actualPositions,
         positionType,
         itemList,
       } = infoForm;
@@ -128,7 +128,8 @@ const getInfoAboutForm = (key_gen: string) => {
           IsShowInfoHelp: false,
           onFocus: false,
           IsRequire: true,
-          name: "name_pos",
+          IsEnabled: true,
+          name: "namePos",
           isopen: false,
         },
         {
@@ -141,6 +142,7 @@ const getInfoAboutForm = (key_gen: string) => {
           IsEnabled: itemDescription.enabled,
           IsRequire: itemDescription.descriptionRequire,
           name: "description",
+          isopen: false,
         },
         {
           value: "",
@@ -148,15 +150,25 @@ const getInfoAboutForm = (key_gen: string) => {
           placeholder: "Сумма",
           onFocus: false,
           IsRequire: true,
+          IsEnabled: true,
           IsShowInfoHelp: false,
           name: "amount",
         },
       ];
 
-      if (Array.isArray(actualPositions)) {
+      if (
+        Array.isArray(itemList) &&
+        (positionType === "LIST" || positionType === "MANUAL_LIST")
+      ) {
         ArrayWithFormInputs[0].isopen = false;
       } else {
         ArrayWithFormInputs[0].isopen = null;
+      }
+
+      if (Array.isArray(itemList) && positionType === "LIST") {
+        ArrayWithFormInputs[1].isopen = false;
+      } else {
+        ArrayWithFormInputs[1].isopen = null;
       }
 
       const ObjectWithInfoEmailInput = {

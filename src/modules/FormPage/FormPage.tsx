@@ -7,7 +7,7 @@ import Footer from "@shared/components/Footer";
 import Header from "@shared/components/Header";
 import Input from "@shared/components/Input/Input";
 import { formStore } from "@store/index";
-import { sortNamesPositionsByLetter } from "@utils/sortNamesPositionsByLetter";
+import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -24,8 +24,9 @@ const FormPage = observer(() => {
     isLoading,
     ChangeDataAboutForm,
     ObjectWithInfoEmailInputStore,
-    actualPositionsStore,
     ShowList,
+    itemListStore,
+    positionTypeStore,
   } = formStore;
 
   const location = useLocation();
@@ -45,7 +46,12 @@ const FormPage = observer(() => {
     navigate("/test/formgen?key_gen=" + curData.key_gen);
 
     ChangeDataAboutForm(curData.key_gen);
-  }, [navigate, location.search, ChangeDataAboutForm]);
+  }, [
+    navigate,
+    location.search,
+    ChangeDataAboutForm,
+    ChageShowWhatInputIsEmpty,
+  ]);
 
   // TO-DO здесь проблема
   useEffect(() => {
@@ -54,7 +60,7 @@ const FormPage = observer(() => {
         (elem: any) => elem.IsShowInfoHelp === true
       ) ||
       ObjectWithInfoEmailInputStore.IsShowInfoHelp ||
-      ArrayWithAllInputsStore?.[0]?.isopen
+      ArrayWithAllInputsStore.some((elem: any) => elem.isopen === true)
     ) {
       document.addEventListener("click", DeleteAllHelpers);
     }
@@ -62,28 +68,29 @@ const FormPage = observer(() => {
     return () => {
       document?.removeEventListener("click", DeleteAllHelpers);
     };
-  }, [ArrayWithAllInputsStore, ObjectWithInfoEmailInputStore]);
+  }, [
+    ArrayWithAllInputsStore,
+    ObjectWithInfoEmailInputStore,
+    DeleteAllHelpers,
+  ]);
 
   if (isLoading) {
     return <PageLoader />;
   }
+
   return (
     <div className="FormPageLayout">
       <Header />
       <header className="FormPageLayout__header">Формирование оплаты </header>
       <form className="FormPageLayout__form">
         <div className="FormPageLayout__title">{clientTitleStore}</div>
-        {ArrayWithAllInputsStore.filter((CurrentInput: any, i: any) => {
-          if (!CurrentInput.IsEnabled && i === 1) {
-            return;
-          } else {
-            return CurrentInput;
-          }
-        }).map((CurrentInput: any, i: any, arr: any) => {
+        {ArrayWithAllInputsStore.filter(
+          (CurrentInput: any, i: any) => CurrentInput.IsEnabled
+        ).map((CurrentInput: any, i: any, arr: any) => {
           const uniqKey =
             typeof CurrentInput.isopen === "boolean"
-              ? `select${i}`
-              : `input${i}`;
+              ? `select_${i}`
+              : `input_${i}`;
           const InputProps = {
             key: CurrentInput.placeholder,
             type: CurrentInput.type,
@@ -98,56 +105,40 @@ const FormPage = observer(() => {
             onFocus: CurrentInput.onFocus,
             ChageFocus: ChageFocus,
             ChageIsShowInfoHelp: ChageIsShowInfoHelp,
-            onChange: (event: any, k: any, curname: any) =>
-              ChangeArrayWithAllInputs(event, k, curname),
+            onChange: (type: any, value: any, name: any, isopen: any) => {
+              if (
+                positionTypeStore === "MANUAL" ||
+                typeof isopen !== "boolean"
+              ) {
+                ChangeArrayWithAllInputs(value, name);
+              } else {
+                if (type === "click") {
+                  ChangeArrayWithAllInputs(value, name);
+                }
+              }
+            },
           };
+
           if (i === 0) {
+            const InputProps_First = {
+              className: "Formpagelayout__input_first",
+              uniqKey: uniqKey,
+              ...InputProps,
+            };
             if (CurrentInput.isopen === null) {
-              const InputProps_First = {
-                className: "Formpagelayout__input_first",
-                uniqKey: uniqKey,
-                ...InputProps,
-              };
               return <Input {...InputProps_First} />;
             } else {
               const CustomSelectProps = {
-                className: "Formpagelayout__input_first",
-                uniqKey: uniqKey,
                 ShowList: ShowList,
-                ...InputProps,
-              };
-              const handler = (elem: any) => {
-                InputProps.onChange(
-                  elem,
-                  InputProps.currentNumber,
-                  InputProps.name
-                );
+                actualPositionsStore: MapArrayItemsBySpecificKey(
+                  itemListStore,
+                  "name"
+                ),
+                isopen: CurrentInput.isopen,
+                ...InputProps_First,
               };
 
-              const sortinArrayPositon = sortNamesPositionsByLetter(
-                actualPositionsStore,
-                CurrentInput.value
-              );
-              return (
-                <div key={uniqKey} className="CustomSelect">
-                  <Input {...CustomSelectProps} />
-                  {CurrentInput.isopen && (
-                    <div className="CustomLIstForSelect">
-                      {sortinArrayPositon.map((elem: any) => (
-                        <div
-                          key={elem}
-                          className="CustomLIstForSelect_position"
-                          onClick={() => {
-                            handler(elem);
-                          }}
-                        >
-                          {elem}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
+              return <CustomSelect {...CustomSelectProps} />;
             }
           }
           if (i === arr.length - 1) {
@@ -162,6 +153,23 @@ const FormPage = observer(() => {
               uniqKey: uniqKey,
               ...InputProps,
             };
+
+            if (
+              CurrentInput.name === "description" &&
+              CurrentInput.isopen !== null
+            ) {
+              const CustomSelectProps = {
+                ShowList: ShowList,
+                actualPositionsStore: MapArrayItemsBySpecificKey(
+                  itemListStore,
+                  "description"
+                ),
+                isopen: CurrentInput.isopen,
+                ...Default_Input,
+              };
+
+              return <CustomSelect {...CustomSelectProps} />;
+            }
             return <Input {...Default_Input} />;
           }
         })}

@@ -36,6 +36,7 @@ const Input = (props: any) => {
     IsRequire,
     uniqKey,
     ShowList,
+    isopen,
     ...rest
   } = props;
 
@@ -47,7 +48,6 @@ const Input = (props: any) => {
       (IsEmpty && !value.trim() && IsRequire) ||
       (!resultValidMail(value) && IsEmpty);
   }
-
   return (
     <label
       key={uniqKey}
@@ -63,13 +63,13 @@ const Input = (props: any) => {
             : "Formpagelayout__input_nested"
         }
         placeholder={!onFocus ? placeholder : ""}
-        onChange={(event: any) =>
-          onChange(event.target.value, placeholder, name)
-        }
+        onChange={(event: any) => {
+          onChange(event.type, event.target.value, name, isopen);
+        }}
         onClick={(event) => {
-          if (currentNumber === 0 && uniqKey === "select0") {
+          if (uniqKey.split("_")[0] === "select") {
             event.stopPropagation();
-            ShowList();
+            ShowList(name);
           } else {
             return;
           }
@@ -102,7 +102,7 @@ const Input = (props: any) => {
             alt="help_icon"
             src={HELP_QUESTION}
             onClick={() => {
-              ChageIsShowInfoHelp(placeholder, currentNumber);
+              ChageIsShowInfoHelp(name, currentNumber);
             }}
           />
         </div>
@@ -118,7 +118,7 @@ const Input = (props: any) => {
       </span>
       {IsShowInfoHelp && (
         <div
-          onClick={() => ChageIsShowInfoHelp(currentNumber)}
+          onClick={() => ChageIsShowInfoHelp(name, currentNumber)}
           className="Block-Modal"
         >
           {help}

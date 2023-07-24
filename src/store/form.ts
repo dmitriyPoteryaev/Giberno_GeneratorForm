@@ -1,5 +1,5 @@
 import { changeSomePositionInArray } from "@utils/changeSomePositionInArray";
-import { makeObservable, computed, observable, action } from "mobx";
+import { makeObservable, observable, action } from "mobx";
 
 import { RootStore } from "./root";
 
@@ -23,7 +23,6 @@ class FormStore extends RootStore {
       ShowWhatInputIsEmpty: observable,
       ChageShowWhatInputIsEmpty: action,
       DeleteAllHelpers: action,
-      actualPositionsStore: observable,
       ShowList: action,
       positionTypeStore: observable,
       itemListStore: observable,
@@ -33,18 +32,41 @@ class FormStore extends RootStore {
   ShowWhatInputIsEmpty: any = false;
 
   // изменить значение в инпутах
-  ChangeArrayWithAllInputs = (
-    event: any,
-    placeholderPosition: string,
-    name: string
-  ) => {
-    this.ArrayWithAllInputsStore = changeSomePositionInArray(
-      this.ArrayWithAllInputsStore,
-      "value",
-      event,
-      placeholderPosition,
-      name
-    );
+  ChangeArrayWithAllInputs = (event: any, name: string) => {
+    if (this.positionTypeStore === "LIST") {
+      if (name === "description") {
+        return;
+      }
+      if (name === "namePos") {
+        const changingPosition = ["namePos", "description"];
+
+        const valueDesc = this.itemListStore.find(
+          (elem: any) => elem.name === event
+        ).description;
+
+        this.ArrayWithAllInputsStore = changeSomePositionInArray(
+          this.ArrayWithAllInputsStore,
+          "value",
+          [event, valueDesc],
+          "namePos",
+          "description"
+        );
+      } else {
+        this.ArrayWithAllInputsStore = changeSomePositionInArray(
+          this.ArrayWithAllInputsStore,
+          "value",
+          event,
+          name
+        );
+      }
+    } else {
+      this.ArrayWithAllInputsStore = changeSomePositionInArray(
+        this.ArrayWithAllInputsStore,
+        "value",
+        event,
+        name
+      );
+    }
   };
 
   get getShowWhatInputIsEmpty() {
@@ -55,8 +77,9 @@ class FormStore extends RootStore {
     this.ShowWhatInputIsEmpty = value;
   };
 
-  ChageIsShowInfoHelp = (placeholder: string, numberPosition: number) => {
+  ChageIsShowInfoHelp = (name: string, numberPosition: number) => {
     // сначала убнуляемые все видимые подсказки
+
     if (this.ObjectWithInfoEmailInputStore.IsShowInfoHelp) {
       this.ObjectWithInfoEmailInputStore.IsShowInfoHelp = false;
     }
@@ -77,9 +100,9 @@ class FormStore extends RootStore {
         this.ArrayWithAllInputsStore,
         "IsShowInfoHelp",
         !this.ArrayWithAllInputsStore.find(
-          (elem: any, i: any) => elem.placeholder === placeholder
+          (elem: any, i: any) => elem.name === name
         ).IsShowInfoHelp,
-        placeholder
+        name
       );
     } else {
       this.ObjectWithInfoEmailInputStore = {
@@ -90,7 +113,9 @@ class FormStore extends RootStore {
   };
 
   DeleteAllHelpers = () => {
-    if (this.ArrayWithAllInputsStore[0].isopen === true) {
+    if (
+      this.ArrayWithAllInputsStore.some((elem: any) => elem.isopen === true)
+    ) {
       return (this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
         (elem: any, i: number) => {
           if (elem.hasOwnProperty("isopen")) {
@@ -170,10 +195,19 @@ class FormStore extends RootStore {
       ) || !this.ObjectWithInfoEmailInputStore.value.trim()
     );
   }
-  ShowList = () => {
+  ShowList = (name: string) => {
+    this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
+      (elem: any) => {
+        if (elem.hasOwnProperty("isopen")) {
+          return { ...elem, isopen: false };
+        } else {
+          return { ...elem };
+        }
+      }
+    );
     this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
       (elem: any, i: number) => {
-        if (elem.hasOwnProperty("isopen")) {
+        if (elem.hasOwnProperty("isopen") && elem.name === name) {
           return { ...elem, isopen: true };
         } else {
           return { ...elem };

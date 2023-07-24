@@ -34,12 +34,12 @@ const FormPage = observer(() => {
   useEffect(() => {
     ChageShowWhatInputIsEmpty(false);
     const curData: any = {
-      key_gen: "da55122e-413b-4810-a565-93de82471ebc",
+      key_gen: "48acf988-686f-4be4-bc36-82bf827c3b61",
     };
 
     location.search.split("&").forEach((line, i) => {
       curData.key_gen =
-        line.split("=")[1] || "da55122e-413b-4810-a565-93de82471ebc";
+        line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
     });
 
     navigate("/test/formgen?key_gen=" + curData.key_gen);

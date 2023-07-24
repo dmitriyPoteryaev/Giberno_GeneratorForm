@@ -2,7 +2,6 @@ import { qrLinkStore } from "@store/index";
 import { createListItemsForPostQuery } from "@utils/createListItemsForPostQuery";
 import axios from "axios";
 
-//api.giberno.ru/invoice_qr/?client_id=fb1969e9-8fa1-4b40-a9a4-da10a3fd968e&key_form=c5c5f096-15b4-4abd-b770-b7379500501a
 const postLink = (
   employee: any,
   client_id: any,
@@ -56,7 +55,7 @@ const postLink = (
   //   }, 1000)
   // );
   return axios
-    .post(`https://api.giberno.ru/api/webhook/orders/`, POST_BODY)
+    .post(`https://stage.giberno.ru:20000/test/api/webhook/orders/`, POST_BODY)
     .then((response: any) => {
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");

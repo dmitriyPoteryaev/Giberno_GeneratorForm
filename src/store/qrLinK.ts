@@ -29,7 +29,8 @@ class QrLinktsStore {
     name: any,
     description: any,
     positionTypeStore: any,
-    itemListStore: any
+    itemListStore: any,
+    discount: any
   ) => {
     return postLink(
       employee,
@@ -40,7 +41,8 @@ class QrLinktsStore {
       name,
       description,
       positionTypeStore,
-      itemListStore
+      itemListStore,
+      discount
     )
       .then((infoQrLink: any) => {
         if (typeof infoQrLink !== "object") {
@@ -67,8 +69,8 @@ class QrLinktsStore {
     return this.urlFormPayStore;
   }
 
-  ChangeisLoadingQr_Link = () => {
-    return (this.isLoadingQr_Link = true);
+  ChangeisLoadingQr_Link = (value: any) => {
+    return (this.isLoadingQr_Link = value);
   };
 }
 

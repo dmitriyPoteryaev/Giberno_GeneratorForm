@@ -7,6 +7,7 @@ import Footer from "@shared/components/Footer";
 import Header from "@shared/components/Header";
 import Input from "@shared/components/Input/Input";
 import { formStore } from "@store/index";
+import { qrLinkStore } from "@store/index";
 import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -29,11 +30,14 @@ const FormPage = observer(() => {
     positionTypeStore,
   } = formStore;
 
+  const { ChangeisLoadingQr_Link } = qrLinkStore;
+
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     ChageShowWhatInputIsEmpty(false);
+    ChangeisLoadingQr_Link(true);
     const curData: any = {
       key_gen: "48acf988-686f-4be4-bc36-82bf827c3b61",
     };

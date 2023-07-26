@@ -25,11 +25,12 @@ const ResultPage = observer(() => {
     ChageShowWhatInputIsEmpty,
     positionTypeStore,
     itemListStore,
+    isLoading,
   } = formStore;
 
-  // if (getIsLoading) {
-  //   return <FormPage />;
-  // }
+  if (isLoading) {
+    return <FormPage />;
+  }
   useEffect(() => {
     if (getIsLoadingQr_Link) {
       ChageShowWhatInputIsEmpty(false);
@@ -42,7 +43,8 @@ const ResultPage = observer(() => {
         ArrayWithAllInputsStore?.[0].value,
         ArrayWithAllInputsStore?.[1].value,
         positionTypeStore,
-        itemListStore
+        itemListStore,
+        ArrayWithAllInputsStore?.[3]?.value || " "
       );
     }
     const handleResize = () => {
@@ -62,7 +64,17 @@ const ResultPage = observer(() => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [getIsLoadingQr_Link]);
+  }, [
+    getIsLoadingQr_Link,
+    employeeNameStoreForPOST,
+    clientIdStore,
+    ArrayWithAllInputsStore,
+    itemListStore,
+    ObjectWithInfoEmailInputStore,
+    keyGenStore,
+    positionTypeStore,
+    itemListStore,
+  ]);
 
   // useEffect(() => {
   //   const handleResize = () => {

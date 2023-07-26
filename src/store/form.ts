@@ -4,6 +4,9 @@ import { makeObservable, observable, action } from "mobx";
 import { RootStore } from "./root";
 
 class FormStore extends RootStore {
+  discountStore: any;
+  ShowWhatInputIsEmpty: any = false;
+
   constructor() {
     super();
     makeObservable(this, {
@@ -26,10 +29,9 @@ class FormStore extends RootStore {
       ShowList: action,
       positionTypeStore: observable,
       itemListStore: observable,
+      discountStore: observable,
     });
   }
-
-  ShowWhatInputIsEmpty: any = false;
 
   // изменить значение в инпутах
   ChangeArrayWithAllInputs = (event: any, name: string) => {
@@ -38,18 +40,21 @@ class FormStore extends RootStore {
         return;
       }
       if (name === "namePos") {
-        const changingPosition = ["namePos", "description"];
-
         const valueDesc = this.itemListStore.find(
           (elem: any) => elem.name === event
         ).description;
+
+        const discount = this.itemListStore.find(
+          (elem: any) => elem.name === event
+        )?.discount;
 
         this.ArrayWithAllInputsStore = changeSomePositionInArray(
           this.ArrayWithAllInputsStore,
           "value",
           [event, valueDesc],
           "namePos",
-          "description"
+          "description",
+          discount
         );
       } else {
         this.ArrayWithAllInputsStore = changeSomePositionInArray(
@@ -59,7 +64,30 @@ class FormStore extends RootStore {
           name
         );
       }
-    } else {
+    }
+    if (this.positionTypeStore === "MANUAL_LIST") {
+      if (name === "namePos") {
+        const discount = this.itemListStore.find(
+          (elem: any) => elem.name === event
+        )?.discount;
+
+        this.ArrayWithAllInputsStore = changeSomePositionInArray(
+          this.ArrayWithAllInputsStore,
+          "value",
+          [event],
+          "namePos",
+          discount
+        );
+      } else {
+        this.ArrayWithAllInputsStore = changeSomePositionInArray(
+          this.ArrayWithAllInputsStore,
+          "value",
+          event,
+          name
+        );
+      }
+    }
+    if (this.positionTypeStore === "MANUAL") {
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "value",
@@ -118,7 +146,10 @@ class FormStore extends RootStore {
     ) {
       return (this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
         (elem: any, i: number) => {
-          if (elem.hasOwnProperty("isopen")) {
+          if (
+            elem.hasOwnProperty("isopen") &&
+            typeof elem.isopen === "boolean"
+          ) {
             return { ...elem, isopen: false };
           } else {
             return { ...elem };
@@ -198,7 +229,7 @@ class FormStore extends RootStore {
   ShowList = (name: string) => {
     this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
       (elem: any) => {
-        if (elem.hasOwnProperty("isopen")) {
+        if (elem.hasOwnProperty("isopen") && typeof elem.isopen === "boolean") {
           return { ...elem, isopen: false };
         } else {
           return { ...elem };

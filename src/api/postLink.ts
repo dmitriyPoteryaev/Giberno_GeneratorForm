@@ -11,10 +11,11 @@ const postLink = (
   name: any,
   description: any,
   positionTypeStore: any,
-  itemListStore: any
+  itemListStore: any,
+  discount: any
 ) => {
   const { ChangeisLoadingQr_Link } = qrLinkStore;
-  ChangeisLoadingQr_Link();
+  ChangeisLoadingQr_Link(true);
 
   let POST_BODY;
   if (positionTypeStore === "MANUAL") {
@@ -37,9 +38,16 @@ const postLink = (
       client_id: client_id, //Обязательный параметр
       keyGen: keyGen, //Обязательный параметр
       emailCustomer: emailCustomer,
-      items: createListItemsForPostQuery(itemListStore, amount),
+      items: [
+        {
+          itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
+          amount: +amount,
+          amountAfterDiscount: +discount || "",
+        },
+      ],
     };
   }
+
   // return new Promise<any>((resolve, reject) =>
   //   // "https://api.giberno.ru/invoice/?form_pay=497f6eca-6276-4993-bfeb-53cbbbba6f08"
   //   setTimeout(() => {

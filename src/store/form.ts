@@ -1,37 +1,13 @@
 import { changeSomePositionInArray } from "@utils/changeSomePositionInArray";
-import { makeObservable, observable, action } from "mobx";
+import { DeleteAllPopUpWindow } from "@utils/DeleteAllPopUpWindow";
+import { ResultIsGeneralButtonActive } from "@utils/ResultIsGeneralButtonActive";
+import { makeObservable, observable, action, computed, override } from "mobx";
 
 import { RootStore } from "./root";
 
 class FormStore extends RootStore {
   discountStore: any;
   ShowWhatInputIsEmpty: any = false;
-
-  constructor() {
-    super();
-    makeObservable(this, {
-      isLoading: observable,
-      ArrayWithAllInputsStore: observable,
-      ChangeArrayWithAllInputs: action,
-      ChageFocus: action,
-      ChageIsShowInfoHelp: action,
-      ChangeObjectWithInfoEmailInput: action,
-      Error: observable,
-      ObjectWithInfoEmailInputStore: observable,
-      clientTitleStore: observable,
-      employeeNameStore: observable,
-      clientIdStore: observable,
-      employeeNameStoreForPOST: observable,
-      keyGenStore: observable,
-      ShowWhatInputIsEmpty: observable,
-      ChageShowWhatInputIsEmpty: action,
-      DeleteAllHelpers: action,
-      ShowList: action,
-      positionTypeStore: observable,
-      itemListStore: observable,
-      discountStore: observable,
-    });
-  }
 
   // изменить значение в инпутах
   ChangeArrayWithAllInputs = (event: any, name: string) => {
@@ -105,31 +81,31 @@ class FormStore extends RootStore {
     this.ShowWhatInputIsEmpty = value;
   };
 
-  ChageIsShowInfoHelp = (name: string, numberPosition: number) => {
-    // сначала убнуляемые все видимые подсказки
+  DeleteAllHelpers = () => {
+    const {
+      NEWArrayWithAllInputsStore,
+      NEWObjectWithInfoEmailInputStore,
+    }: any = DeleteAllPopUpWindow(
+      this.ArrayWithAllInputsStore,
+      this.ObjectWithInfoEmailInputStore
+    );
+    this.ArrayWithAllInputsStore = NEWArrayWithAllInputsStore;
 
-    if (this.ObjectWithInfoEmailInputStore.IsShowInfoHelp) {
-      this.ObjectWithInfoEmailInputStore.IsShowInfoHelp = false;
-    }
-    if (
-      this.ArrayWithAllInputsStore.some(
-        (elem: any) => elem.IsShowInfoHelp === true
-      )
-    ) {
-      this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
-        (elem: any) => {
-          return { ...elem, IsShowInfoHelp: false };
-        }
-      );
-    }
-    // потом показывем ту, которую хотим
+    this.ObjectWithInfoEmailInputStore = NEWObjectWithInfoEmailInputStore;
+  };
+
+  ChageIsShowInfoHelp = (name: string, numberPosition: number) => {
+    this.DeleteAllHelpers();
+
+    const changingPosition = this.ArrayWithAllInputsStore.find(
+      (elem: any, i: any) => elem.name === name
+    ).IsShowInfoHelp;
+
     if (typeof numberPosition === "number") {
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "IsShowInfoHelp",
-        !this.ArrayWithAllInputsStore.find(
-          (elem: any, i: any) => elem.name === name
-        ).IsShowInfoHelp,
+        !changingPosition,
         name
       );
     } else {
@@ -140,51 +116,16 @@ class FormStore extends RootStore {
     }
   };
 
-  DeleteAllHelpers = () => {
-    if (
-      this.ArrayWithAllInputsStore.some((elem: any) => elem.isopen === true)
-    ) {
-      return (this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
-        (elem: any, i: number) => {
-          if (
-            elem.hasOwnProperty("isopen") &&
-            typeof elem.isopen === "boolean"
-          ) {
-            return { ...elem, isopen: false };
-          } else {
-            return { ...elem };
-          }
-        }
-      ));
-    }
-    if (
-      this.ObjectWithInfoEmailInputStore.IsShowInfoHelp ||
-      this.ArrayWithAllInputsStore.some(
-        (elem: any) => elem.IsShowInfoHelp === true
-      )
-    ) {
-      return (
-        (this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
-          (elem: any, i: number) => {
-            return { ...elem, IsShowInfoHelp: false };
-          }
-        )),
-        (this.ObjectWithInfoEmailInputStore = {
-          ...this.ObjectWithInfoEmailInputStore,
-          IsShowInfoHelp: false,
-        })
-      );
-    }
-  };
-
   ChageFocus = (currentNumber: number, placeholder: string, isVis: boolean) => {
     if (typeof currentNumber === "number") {
+      const changingPosition = this.ArrayWithAllInputsStore.find(
+        (elem: any, i: any) => elem.placeholder === placeholder
+      ).onFocus;
+
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "onFocus",
-        !this.ArrayWithAllInputsStore.find(
-          (elem: any, i: any) => elem.placeholder === placeholder
-        ).onFocus,
+        !changingPosition,
         placeholder
       );
     } else {
@@ -203,27 +144,9 @@ class FormStore extends RootStore {
   };
 
   get IsGeneralButtonActive() {
-    if (
-      !this.ArrayWithAllInputsStore[1].IsRequire ||
-      !this.ObjectWithInfoEmailInputStore.IsRequire
-    ) {
-      return (
-        this.ArrayWithAllInputsStore.map((elem: any, i: any) => {
-          if (!this.ArrayWithAllInputsStore[1].IsRequire && i === 1) {
-            return "Not empty";
-          } else {
-            return elem.value;
-          }
-        }).some((elem: any, i: any) => !elem.trim()) ||
-        (!this.ObjectWithInfoEmailInputStore.IsRequire
-          ? false
-          : !this.ObjectWithInfoEmailInputStore.value.trim())
-      );
-    }
-    return (
-      this.ArrayWithAllInputsStore.map((elem: any) => elem.value).some(
-        (elem: any) => !elem.trim()
-      ) || !this.ObjectWithInfoEmailInputStore.value.trim()
+    return ResultIsGeneralButtonActive(
+      this.ArrayWithAllInputsStore,
+      this.ObjectWithInfoEmailInputStore
     );
   }
   ShowList = (name: string) => {
@@ -246,6 +169,33 @@ class FormStore extends RootStore {
       }
     );
   };
+
+  constructor() {
+    super();
+    makeObservable(this, {
+      isLoading: override,
+      ArrayWithAllInputsStore: override,
+      ChangeArrayWithAllInputs: action,
+      ChageFocus: action,
+      ChageIsShowInfoHelp: action,
+      ChangeObjectWithInfoEmailInput: action,
+      Error: override,
+      ObjectWithInfoEmailInputStore: override,
+      clientTitleStore: override,
+      employeeNameStore: override,
+      clientIdStore: override,
+      employeeNameStoreForPOST: override,
+      keyGenStore: override,
+      ShowWhatInputIsEmpty: observable,
+      ChageShowWhatInputIsEmpty: action,
+      DeleteAllHelpers: action,
+      ShowList: action,
+      positionTypeStore: override,
+      itemListStore: override,
+      discountStore: observable,
+      IsGeneralButtonActive: computed,
+    });
+  }
 }
 
 export { FormStore };

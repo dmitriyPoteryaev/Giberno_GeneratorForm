@@ -1,4 +1,5 @@
 import { formAPI } from "@api/getInfoAboutForm";
+import { makeObservable, observable, action, computed } from "mobx";
 const { getInfoAboutForm } = formAPI;
 
 class RootStore {
@@ -15,20 +16,20 @@ class RootStore {
   positionTypeStore: any;
   itemListStore: any;
 
-  constructor() {
-    this.isLoading = this.isLoading;
-    this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore;
-    this.ObjectWithInfoEmailInputStore = this.ObjectWithInfoEmailInputStore;
-    this.Error = this.Error;
-    this.clientTitleStore = this.clientTitleStore;
-    this.employeeNameStore = this.employeeNameStore;
-    this.clientIdStore = this.clientIdStore;
-    this.employeeNameStoreForPOST = this.employeeNameStoreForPOST;
-    this.keyGenStore = this.keyGenStore;
-    this.actualPositionsStore = this.actualPositionsStore;
-    this.positionTypeStore = this.positionTypeStore;
-    this.itemListStore = this.itemListStore;
-  }
+  // constructor() {
+  //   this.isLoading = this.isLoading;
+  //   this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore;
+  //   this.ObjectWithInfoEmailInputStore = this.ObjectWithInfoEmailInputStore;
+  //   this.Error = this.Error;
+  //   this.clientTitleStore = this.clientTitleStore;
+  //   this.employeeNameStore = this.employeeNameStore;
+  //   this.clientIdStore = this.clientIdStore;
+  //   this.employeeNameStoreForPOST = this.employeeNameStoreForPOST;
+  //   this.keyGenStore = this.keyGenStore;
+  //   this.actualPositionsStore = this.actualPositionsStore;
+  //   this.positionTypeStore = this.positionTypeStore;
+  //   this.itemListStore = this.itemListStore;
+  // }
 
   ChangeDataAboutForm = (key_gen: string) => {
     return getInfoAboutForm(key_gen)
@@ -67,6 +68,23 @@ class RootStore {
       })
       .finally(() => (this.isLoading = false));
   };
+
+  constructor() {
+    makeObservable(this, {
+      isLoading: observable,
+      ArrayWithAllInputsStore: observable,
+      ObjectWithInfoEmailInputStore: observable,
+      Error: observable,
+      clientTitleStore: observable,
+      employeeNameStore: observable,
+      clientIdStore: observable,
+      employeeNameStoreForPOST: observable,
+      keyGenStore: observable,
+      actualPositionsStore: observable,
+      positionTypeStore: observable,
+      itemListStore: observable,
+    });
+  }
 }
 
 export { RootStore };

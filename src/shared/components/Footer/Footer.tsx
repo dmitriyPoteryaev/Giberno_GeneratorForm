@@ -2,7 +2,6 @@ import React from "react";
 
 import "./Footer.css";
 import { formStore } from "@store/index";
-import { createListItemsForPostQuery } from "@utils/createListItemsForPostQuery";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
@@ -18,12 +17,9 @@ const Footer = observer((): any => {
     keyGenStore,
     getShowWhatInputIsEmpty,
     ObjectWithInfoEmailInputStore,
-    IsGeneralButtonActive,
     ChangeObjectWithInfoEmailInput,
-    employeeNameStoreForPOST,
-    clientIdStore,
-    itemListStore,
     positionTypeStore,
+    IsGeneralButtonActive,
   } = formStore;
   const {
     type,
@@ -35,6 +31,8 @@ const Footer = observer((): any => {
     IsRequire,
     IsEnabled,
   }: any = ObjectWithInfoEmailInputStore;
+
+  console.log(IsGeneralButtonActive);
 
   const checkValidMail = (mail: any) => {
     if (!IsRequire && mail === "") {

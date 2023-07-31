@@ -27,7 +27,6 @@ const FormPage = observer(() => {
     ObjectWithInfoEmailInputStore,
     ShowList,
     itemListStore,
-    positionTypeStore,
   } = formStore;
 
   const { ChangeisLoadingQr_Link } = qrLinkStore;
@@ -46,7 +45,6 @@ const FormPage = observer(() => {
       curData.key_gen =
         line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
     });
-
     navigate("/test/formgen?key_gen=" + curData.key_gen);
 
     ChangeDataAboutForm(curData.key_gen);
@@ -57,7 +55,6 @@ const FormPage = observer(() => {
     ChageShowWhatInputIsEmpty,
   ]);
 
-  // TO-DO здесь проблема
   useEffect(() => {
     if (
       ArrayWithAllInputsStore.some(
@@ -70,7 +67,7 @@ const FormPage = observer(() => {
     }
 
     return () => {
-      document?.removeEventListener("click", DeleteAllHelpers);
+      document.removeEventListener("click", DeleteAllHelpers);
     };
   }, [
     ArrayWithAllInputsStore,
@@ -82,11 +79,19 @@ const FormPage = observer(() => {
     return <PageLoader />;
   }
 
+  const additionalBorder =
+    itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
+
   return (
     <div className="FormPageLayout">
       <Header />
       <header className="FormPageLayout__header">Формирование оплаты </header>
-      <form className="FormPageLayout__form">
+      <form
+        className="FormPageLayout__form"
+        style={{
+          marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
+        }}
+      >
         <div className="FormPageLayout__title">{clientTitleStore}</div>
         {ArrayWithAllInputsStore.filter(
           (CurrentInput: any, i: any) => CurrentInput.IsEnabled
@@ -110,26 +115,22 @@ const FormPage = observer(() => {
             ChageFocus: ChageFocus,
             ChageIsShowInfoHelp: ChageIsShowInfoHelp,
             onChange: (type: any, value: any, name: any, isopen: any) => {
-              if (
-                positionTypeStore === "MANUAL" ||
-                typeof isopen !== "boolean"
-              ) {
+              if (type === "click" || typeof isopen !== "boolean") {
                 ChangeArrayWithAllInputs(value, name);
-              } else {
-                if (type === "click") {
-                  ChangeArrayWithAllInputs(value, name);
-                }
               }
             },
           };
 
           if (i === 0) {
-            const InputProps_First = {
-              className: "Formpagelayout__input_first",
+            const Props_First = {
               uniqKey: uniqKey,
               ...InputProps,
             };
             if (CurrentInput.isopen === null) {
+              const InputProps_First = {
+                className: "Formpagelayout__input_first",
+                ...Props_First,
+              };
               return <Input {...InputProps_First} />;
             } else {
               const CustomSelectProps = {
@@ -138,8 +139,9 @@ const FormPage = observer(() => {
                   itemListStore,
                   "name"
                 ),
+                className: "Formpagelayout__select_first",
                 isopen: CurrentInput.isopen,
-                ...InputProps_First,
+                ...Props_First,
               };
 
               return <CustomSelect {...CustomSelectProps} />;
@@ -164,6 +166,7 @@ const FormPage = observer(() => {
             ) {
               const CustomSelectProps = {
                 ShowList: ShowList,
+                className: "Formpagelayout__select_nested",
                 actualPositionsStore: MapArrayItemsBySpecificKey(
                   itemListStore,
                   "description"

@@ -75,9 +75,9 @@ const Input = (props: any) => {
           }
         }}
         onFocus={() => {
-          ChageFocus(currentNumber, placeholder, true);
+          ChageFocus(currentNumber, name, true);
         }}
-        onBlur={() => ChageFocus(currentNumber, placeholder, false)}
+        onBlur={() => ChageFocus(currentNumber, name, false)}
         {...rest}
         type="text"
         value={value}

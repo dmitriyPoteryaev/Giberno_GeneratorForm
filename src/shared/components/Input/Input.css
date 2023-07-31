@@ -75,6 +75,7 @@
 }
 .FormPageLayout__input_nested:focus {
   outline: none; /* Удалить контур при фокусе */
+  border: 1px solid #7B7E80;
 }
 .FormPageLayout__input {
   border-radius: 5px;
@@ -98,6 +99,7 @@
 }
 .FormPageLayout__input:focus {
   outline: none; /* Удалить контур при фокусе */
+    border: 1px solid #7B7E80;
 }
 ::placeholder {
   color: #b2bdc7;

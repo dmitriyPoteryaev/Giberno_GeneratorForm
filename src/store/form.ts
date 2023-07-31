@@ -1,6 +1,9 @@
 import { changeSomePositionInArray } from "@utils/changeSomePositionInArray";
 import { DeleteAllPopUpWindow } from "@utils/DeleteAllPopUpWindow";
 import { ResultIsGeneralButtonActive } from "@utils/ResultIsGeneralButtonActive";
+import { specificChangingValueInForm__LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__LIST";
+import { specificChangingValueInForm__MANUAL } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL";
+import { specificChangingValueInForm__MANUAL_LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
 import { makeObservable, observable, action, computed, override } from "mobx";
 
 import { RootStore } from "./root";
@@ -11,65 +14,38 @@ class FormStore extends RootStore {
 
   // изменить значение в инпутах
   ChangeArrayWithAllInputs = (event: any, name: string) => {
-    if (this.positionTypeStore === "LIST") {
-      if (name === "description") {
-        return;
-      }
-      if (name === "namePos") {
-        const valueDesc = this.itemListStore.find(
-          (elem: any) => elem.name === event
-        ).description;
+    switch (this.positionTypeStore) {
+      case "MANUAL":
+        return (this.ArrayWithAllInputsStore =
+          specificChangingValueInForm__MANUAL(
+            this.ArrayWithAllInputsStore,
+            name,
+            event
+          ));
+      case "LIST":
+        return (this.ArrayWithAllInputsStore =
+          specificChangingValueInForm__LIST(
+            this.ArrayWithAllInputsStore,
+            this.itemListStore,
+            name,
+            event
+          ));
+      case "MANUAL_LIST":
+        return (this.ArrayWithAllInputsStore =
+          specificChangingValueInForm__MANUAL_LIST(
+            this.ArrayWithAllInputsStore,
+            this.itemListStore,
+            name,
+            event
+          ));
 
-        const discount = this.itemListStore.find(
-          (elem: any) => elem.name === event
-        )?.discount;
-
-        this.ArrayWithAllInputsStore = changeSomePositionInArray(
-          this.ArrayWithAllInputsStore,
-          "value",
-          [event, valueDesc],
-          "namePos",
-          "description",
-          discount
-        );
-      } else {
-        this.ArrayWithAllInputsStore = changeSomePositionInArray(
-          this.ArrayWithAllInputsStore,
-          "value",
-          event,
-          name
-        );
-      }
-    }
-    if (this.positionTypeStore === "MANUAL_LIST") {
-      if (name === "namePos") {
-        const discount = this.itemListStore.find(
-          (elem: any) => elem.name === event
-        )?.discount;
-
-        this.ArrayWithAllInputsStore = changeSomePositionInArray(
-          this.ArrayWithAllInputsStore,
-          "value",
-          [event],
-          "namePos",
-          discount
-        );
-      } else {
-        this.ArrayWithAllInputsStore = changeSomePositionInArray(
-          this.ArrayWithAllInputsStore,
-          "value",
-          event,
-          name
-        );
-      }
-    }
-    if (this.positionTypeStore === "MANUAL") {
-      this.ArrayWithAllInputsStore = changeSomePositionInArray(
-        this.ArrayWithAllInputsStore,
-        "value",
-        event,
-        name
-      );
+      default:
+        return (this.ArrayWithAllInputsStore =
+          specificChangingValueInForm__MANUAL(
+            this.ArrayWithAllInputsStore,
+            name,
+            event
+          ));
     }
   };
 
@@ -97,11 +73,10 @@ class FormStore extends RootStore {
   ChageIsShowInfoHelp = (name: string, numberPosition: number) => {
     this.DeleteAllHelpers();
 
-    const changingPosition = this.ArrayWithAllInputsStore.find(
-      (elem: any, i: any) => elem.name === name
-    ).IsShowInfoHelp;
-
     if (typeof numberPosition === "number") {
+      const changingPosition = this.ArrayWithAllInputsStore.find(
+        (elem: any, i: any) => elem.name === name
+      ).IsShowInfoHelp;
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "IsShowInfoHelp",
@@ -116,17 +91,17 @@ class FormStore extends RootStore {
     }
   };
 
-  ChageFocus = (currentNumber: number, placeholder: string, isVis: boolean) => {
+  ChageFocus = (currentNumber: number, name: string, isVis: boolean) => {
     if (typeof currentNumber === "number") {
       const changingPosition = this.ArrayWithAllInputsStore.find(
-        (elem: any, i: any) => elem.placeholder === placeholder
+        (elem: any, i: any) => elem.name === name
       ).onFocus;
 
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "onFocus",
-        !changingPosition,
-        placeholder
+        isVis,
+        name
       );
     } else {
       this.ObjectWithInfoEmailInputStore = {

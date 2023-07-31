@@ -8,39 +8,109 @@ const getInfoAboutForm = (key_gen: string) => {
   //     const employeeName = "Лобода Д. А.";
   //     const clientId = "d839a0b6-5bae-4e8c-aa33-30b2d8a42b07";
   //     const clientTitle = "Сенной рынок";
-  //     const actualPositions = [
-  //       "Сенной рынок",
-  //       "Здесь",
-  //       "что-то",
-  //       "но",
-  //       "не то",
-  //       "что",
-  //       "нужно",
+  //     const itemList = [
+  //       {
+  //         ItemID: "448116b0-e983-461e-89ba-bba271c57faf",
+  //         name: "Тюльпаны",
+  //         description: "Красивые цветы",
+  //         discount: "ON_EMPLOYEE",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки",
+  //         description: "1 букет0",
+  //         discount: "PROPORTIONAL",
+  //       },
+
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки1",
+  //         description: "1 букет1",
+  //         discount: "PROPORTIONAL",
+  //       },
+
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки2",
+  //         description: "1 букет2",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки3",
+  //         description: "1 букет3",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки4",
+  //         description: "1 букет4",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки5",
+  //         description: "1 букет5",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки6",
+  //         description: "1 букет6",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки7",
+  //         description: "1 букет7",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки8",
+  //         description: "1 букет8",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки9",
+  //         description: "1 букет9",
+  //         discount: "PROPORTIONAL",
+  //       },
+  //       {
+  //         ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
+  //         name: "Ромашки10",
+  //         description: "1 букет10",
+  //         discount: "PROPORTIONAL",
+  //       },
   //     ];
+
+  //     const positionType = "LIST";
 
   //     const ArrayWithFormInputs: any = [
   //       {
   //         value: "",
   //         type: "text",
-  //         placeholder: "Название позиции",
-  //         help: "ОАО СБЕРБАНК",
+  //         placeholder: "Мой плейсхолдер",
+  //         help: "help",
   //         IsShowInfoHelp: false,
   //         onFocus: false,
   //         IsRequire: true,
   //         IsEnabled: true,
-  //         name: "name_pos",
-  //         isopen: "",
+  //         name: "namePos",
+  //         isopen: false,
   //       },
   //       {
   //         value: "",
   //         type: "text",
-  //         placeholder: "Описание позиции",
-  //         help: "lol",
+  //         placeholder: "Твой плейсхолдер",
+  //         help: "help",
   //         IsShowInfoHelp: false,
   //         onFocus: false,
   //         IsEnabled: true,
   //         IsRequire: true,
   //         name: "description",
+  //         isopen: false,
   //       },
   //       {
   //         value: "",
@@ -52,17 +122,20 @@ const getInfoAboutForm = (key_gen: string) => {
   //         IsShowInfoHelp: false,
   //         name: "amount",
   //       },
-  //     ].filter((CurrentInput: any, i: any) => {
-  //       if (!CurrentInput.IsEnabled && i === 1) {
-  //         return;
-  //       } else {
-  //         return CurrentInput;
-  //       }
-  //     });
-  //     if (Array.isArray(actualPositions)) {
+  //     ];
+  //     if (
+  //       Array.isArray(itemList) &&
+  //       (positionType === "LIST" || positionType === "MANUAL_LIST")
+  //     ) {
   //       ArrayWithFormInputs[0].isopen = false;
   //     } else {
   //       ArrayWithFormInputs[0].isopen = null;
+  //     }
+
+  //     if (Array.isArray(itemList) && positionType === "LIST") {
+  //       ArrayWithFormInputs[1].isopen = false;
+  //     } else {
+  //       ArrayWithFormInputs[1].isopen = null;
   //     }
   //     const ObjectWithInfoEmailInput = {
   //       value: "",
@@ -84,7 +157,8 @@ const getInfoAboutForm = (key_gen: string) => {
   //       clientId: clientId,
   //       clientTitle: clientTitle,
   //       keyGen: keyGen,
-  //       actualPositions: actualPositions,
+  //       positionType: positionType,
+  //       itemList: itemList,
   //     });
   //   }, 1000)
   // );

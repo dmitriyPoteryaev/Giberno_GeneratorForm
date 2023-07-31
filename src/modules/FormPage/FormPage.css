@@ -47,6 +47,16 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
+
+.Formpagelayout__select_first {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  caret-color: transparent;
+}
+.Formpagelayout__select_nested {
+  caret-color: transparent;
+}
+
 .Formpagelayout__input_last {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;

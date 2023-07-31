@@ -12,6 +12,7 @@
     color: #2c555b;
     background-color: white;
     z-index: 2;
+    margin-bottom: 200px;
   }
   .CustomLIstForSelect_position {
     font-family: "DM Sans", sans-serif;

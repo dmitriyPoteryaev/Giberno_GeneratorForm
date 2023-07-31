@@ -9,7 +9,7 @@
   left: 0;
   position: fixed;
   right: 0;
-  z-index: 1;
+  z-index: 6;
   height: 106px;
 }
 .FooterLayout__block {
@@ -41,6 +41,7 @@
 
 .FooterLayout__input:focus {
   outline: none; /* Удалить контур при фокусе */
+  border: 1px solid #7B7E80;
 }
 .FooterLayout__button {
    font-family: 'Nunito Sans', sans-serif !important;

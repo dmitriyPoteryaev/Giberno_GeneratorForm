@@ -1,5 +1,4 @@
 import { qrLinkStore } from "@store/index";
-import { createListItemsForPostQuery } from "@utils/createListItemsForPostQuery";
 import axios from "axios";
 
 const postLink = (

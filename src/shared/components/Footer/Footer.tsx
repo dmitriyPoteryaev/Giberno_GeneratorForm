@@ -32,8 +32,6 @@ const Footer = observer((): any => {
     IsEnabled,
   }: any = ObjectWithInfoEmailInputStore;
 
-  console.log(IsGeneralButtonActive);
-
   const checkValidMail = (mail: any) => {
     if (!IsRequire && mail === "") {
       return true;

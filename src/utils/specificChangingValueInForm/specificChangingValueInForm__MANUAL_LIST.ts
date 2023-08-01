@@ -5,7 +5,7 @@ const regex = /^(\d{0,9})(\.\d{0,2})?$/;
 const InputWithDiccount = {
   value: "",
   type: "text",
-  placeholder: "Сумма со скидкой",
+  placeholder: "Цена после скидки",
   onFocus: false,
   IsEnabled: true,
   IsRequire: true,

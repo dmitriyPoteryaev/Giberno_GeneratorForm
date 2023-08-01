@@ -16,27 +16,9 @@ const postLink = (
   const { ChangeisLoadingQr_Link } = qrLinkStore;
   ChangeisLoadingQr_Link(true);
 
-  let POST_BODY;
-  if (positionTypeStore === "MANUAL") {
+  let POST_BODY = {};
+  if (discount) {
     POST_BODY = {
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-      items: [
-        {
-          name: name, //Обязательный параметр
-          description: description,
-          amount: +amount, //Обязательный параметр
-        },
-      ],
-    };
-  } else {
-    POST_BODY = {
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
       items: [
         {
           itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
@@ -44,6 +26,24 @@ const postLink = (
           amountAfterDiscount: +discount || "",
         },
       ],
+      employee: employee, //Обязательный параметр
+      client_id: client_id, //Обязательный параметр
+      keyGen: keyGen, //Обязательный параметр
+      emailCustomer: emailCustomer,
+    };
+  } else {
+    POST_BODY = {
+      items: [
+        {
+          name: name, //Обязательный параметр
+          description: description,
+          amount: +amount, //Обязательный параметр
+        },
+      ],
+      employee: employee, //Обязательный параметр
+      client_id: client_id, //Обязательный параметр
+      keyGen: keyGen, //Обязательный параметр
+      emailCustomer: emailCustomer,
     };
   }
 

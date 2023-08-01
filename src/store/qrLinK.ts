@@ -16,6 +16,10 @@ class QrLinktsStore {
 
   urlFormPayStore: any;
 
+  client_idStore: any;
+
+  keyGenStore: any;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -48,9 +52,10 @@ class QrLinktsStore {
         if (typeof infoQrLink !== "object") {
           throw Error(infoQrLink);
         }
-
         this.qrLinkStore = infoQrLink?.urlQR;
         this.urlFormPayStore = infoQrLink?.urlFormPay;
+        this.keyGenStore = infoQrLink?.keyGen;
+        this.client_idStore = infoQrLink?.client_id;
       })
       .catch((mesError) => {
         alert(`${mesError.message}`);
@@ -67,6 +72,12 @@ class QrLinktsStore {
   }
   get geturlFormPayStore() {
     return this.urlFormPayStore;
+  }
+  get getClientidStore() {
+    return this.client_idStore;
+  }
+  get getkeyGenStore() {
+    return this.keyGenStore;
   }
 
   ChangeisLoadingQr_Link = (value: any) => {

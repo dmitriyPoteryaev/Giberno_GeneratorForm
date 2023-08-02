@@ -85,6 +85,7 @@ const postLink = (
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");
       }
+
       return response.data.result;
     })
     .catch((err) => {

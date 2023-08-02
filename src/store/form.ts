@@ -93,10 +93,6 @@ class FormStore extends RootStore {
 
   ChageFocus = (currentNumber: number, name: string, isVis: boolean) => {
     if (typeof currentNumber === "number") {
-      const changingPosition = this.ArrayWithAllInputsStore.find(
-        (elem: any, i: any) => elem.name === name
-      ).onFocus;
-
       this.ArrayWithAllInputsStore = changeSomePositionInArray(
         this.ArrayWithAllInputsStore,
         "onFocus",
@@ -145,9 +141,14 @@ class FormStore extends RootStore {
     );
   };
 
+  get getClientTitleStore() {
+    return this.clientTitleStore;
+  }
+
   constructor() {
     super();
     makeObservable(this, {
+      ChangeDataAboutForm: override,
       isLoading: override,
       ArrayWithAllInputsStore: override,
       ChangeArrayWithAllInputs: action,
@@ -157,6 +158,7 @@ class FormStore extends RootStore {
       Error: override,
       ObjectWithInfoEmailInputStore: override,
       clientTitleStore: override,
+      getClientTitleStore: computed,
       employeeNameStore: override,
       clientIdStore: override,
       employeeNameStoreForPOST: override,

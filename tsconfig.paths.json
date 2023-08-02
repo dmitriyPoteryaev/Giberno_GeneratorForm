@@ -10,7 +10,9 @@
         "@shared/*": ["src/shared/*"],
         "@assets/*": ["src/assets/*"],
         "@api/*": ["src/api/*"],
-        "@store/*": ["src/store/*"]
+        "@store/*": ["src/store/*"],
+        "@hooks/*": ["src/hooks/*"],
+        "@types/*": ["src/types/*"],
       }
     }
   }

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { ObjectInputProps } from "../types/formTypes";
+
 const getInfoAboutForm = (key_gen: string) => {
   // return new Promise<any>((resolve, reject) =>
   //   setTimeout(() => {
@@ -191,9 +193,7 @@ const getInfoAboutForm = (key_gen: string) => {
         itemList,
       } = infoForm;
 
-      // const itemList = typeof itemList === "undefined" ? itemList : [];
-
-      const ArrayWithFormInputs: any = [
+      const ArrayWithFormInputs: ObjectInputProps[] = [
         {
           value: "",
           type: "text",
@@ -236,13 +236,13 @@ const getInfoAboutForm = (key_gen: string) => {
       ) {
         ArrayWithFormInputs[0].isopen = false;
       } else {
-        ArrayWithFormInputs[0].isopen = null;
+        ArrayWithFormInputs[0].isopen = undefined;
       }
 
       if (Array.isArray(itemList) && positionType === "LIST") {
         ArrayWithFormInputs[1].isopen = false;
       } else {
-        ArrayWithFormInputs[1].isopen = null;
+        ArrayWithFormInputs[1].isopen = undefined;
       }
 
       const ObjectWithInfoEmailInput = {
@@ -255,6 +255,7 @@ const getInfoAboutForm = (key_gen: string) => {
         IsRequire: email.emailRequire,
         IsEnabled: email.enabled,
         name: "email",
+        isopen: null,
       };
 
       return {

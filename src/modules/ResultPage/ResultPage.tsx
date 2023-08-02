@@ -80,7 +80,8 @@ const ResultPage = observer(() => {
     ObjectWithInfoEmailInputStore,
     keyGenStore,
     positionTypeStore,
-    itemListStore,
+    postQr_Link,
+    ChageShowWhatInputIsEmpty,
   ]);
 
   const handlerGoToFormPay = () => {

@@ -1,21 +1,19 @@
 import React, { useEffect } from "react";
 
 import "./FormPage.css";
+import { useChooseSelectOrInput } from "@hooks/use-choose-select-or-input";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
-import CustomSelect from "@shared/components/CustomSelect/CustomSelect";
 import Footer from "@shared/components/Footer";
 import Header from "@shared/components/Header";
-import Input from "@shared/components/Input/Input";
 import { formStore } from "@store/index";
 import { qrLinkStore } from "@store/index";
-import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const FormPage = observer(() => {
   const {
-    clientTitleStore,
+    getClientTitleStore,
     ArrayWithAllInputsStore,
     ChangeArrayWithAllInputs,
     getShowWhatInputIsEmpty,
@@ -24,11 +22,11 @@ const FormPage = observer(() => {
     DeleteAllHelpers,
     ChageShowWhatInputIsEmpty,
     isLoading,
-    ChangeDataAboutForm,
     ObjectWithInfoEmailInputStore,
     ShowList,
     itemListStore,
     Error,
+    ChangeDataAboutForm,
   } = formStore;
 
   const { ChangeisLoadingQr_Link } = qrLinkStore;
@@ -55,6 +53,7 @@ const FormPage = observer(() => {
     location.search,
     ChangeDataAboutForm,
     ChageShowWhatInputIsEmpty,
+    ChangeisLoadingQr_Link,
   ]);
 
   useEffect(() => {
@@ -98,15 +97,14 @@ const FormPage = observer(() => {
           marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
         }}
       >
-        <div className="FormPageLayout__title">{clientTitleStore}</div>
+        <div className="FormPageLayout__title">{getClientTitleStore}</div>
         {ArrayWithAllInputsStore.filter(
           (CurrentInput: any, i: any) => CurrentInput.IsEnabled
         ).map((CurrentInput: any, i: any, arr: any) => {
+          const { isopen } = CurrentInput;
           const uniqKey =
-            typeof CurrentInput.isopen === "boolean"
-              ? `select_${i}`
-              : `input_${i}`;
-          const InputProps = {
+            typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
+          const InputOrSelectProps = {
             key: CurrentInput.placeholder,
             type: CurrentInput.type,
             name: CurrentInput.name,
@@ -127,64 +125,15 @@ const FormPage = observer(() => {
             },
           };
 
-          if (i === 0) {
-            const Props_First = {
-              uniqKey: uniqKey,
-              ...InputProps,
-            };
-            if (CurrentInput.isopen === null) {
-              const InputProps_First = {
-                className: "Formpagelayout__input_first",
-                ...Props_First,
-              };
-              return <Input {...InputProps_First} />;
-            } else {
-              const CustomSelectProps = {
-                ShowList: ShowList,
-                actualPositionsStore: MapArrayItemsBySpecificKey(
-                  itemListStore,
-                  "name"
-                ),
-                className: "Formpagelayout__select_first",
-                isopen: CurrentInput.isopen,
-                ...Props_First,
-              };
-
-              return <CustomSelect {...CustomSelectProps} />;
-            }
-          }
-          if (i === arr.length - 1) {
-            const InputProps_Last = {
-              className: "Formpagelayout__input_last",
-              uniqKey: uniqKey,
-              ...InputProps,
-            };
-            return <Input {...InputProps_Last} />;
-          } else {
-            const Default_Input = {
-              uniqKey: uniqKey,
-              ...InputProps,
-            };
-
-            if (
-              CurrentInput.name === "description" &&
-              CurrentInput.isopen !== null
-            ) {
-              const CustomSelectProps = {
-                ShowList: ShowList,
-                className: "Formpagelayout__select_nested",
-                actualPositionsStore: MapArrayItemsBySpecificKey(
-                  itemListStore,
-                  "description"
-                ),
-                isopen: CurrentInput.isopen,
-                ...Default_Input,
-              };
-
-              return <CustomSelect {...CustomSelectProps} />;
-            }
-            return <Input {...Default_Input} />;
-          }
+          return useChooseSelectOrInput(
+            isopen,
+            ShowList,
+            itemListStore,
+            i,
+            uniqKey,
+            InputOrSelectProps,
+            arr
+          );
         })}
       </form>
       <Footer />

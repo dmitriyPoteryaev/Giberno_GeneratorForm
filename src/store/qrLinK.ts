@@ -6,11 +6,12 @@ const { postLink } = qrLinkAPI;
 // ВСЁ ЧТО НАЧИНАЕТСЯ НА GET - ЭТО ПРОСТО ВЗЯТЬ ЗНАЧЕНИЕ
 // ВСЁ ЧТО НАЧИНАЕТСЯ НА CHANGE - ЭТО ИЗМЕНИТЬ ЭТО ЗНАЧЕНИЕ
 class QrLinktsStore {
+  ErroQrLin: any;
   CurHeight: any = 0;
 
   isLoadingQr_Link: any = true;
 
-  Error_QrLink: any;
+  ErroQrLink: any;
 
   qrLinkStore: any;
 
@@ -58,7 +59,7 @@ class QrLinktsStore {
         this.client_idStore = infoQrLink?.client_id;
       })
       .catch((mesError) => {
-        alert(`${mesError.message}`);
+        this.ErroQrLink = mesError.message;
       })
       .finally(() => (this.isLoadingQr_Link = false));
   };

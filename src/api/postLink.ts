@@ -17,13 +17,13 @@ const postLink = (
   ChangeisLoadingQr_Link(true);
 
   let POST_BODY = {};
-  if (discount) {
+  if (itemListStore?.find((elem: any) => elem?.name === name)?.discount) {
     POST_BODY = {
       items: [
         {
           itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
           amount: +amount,
-          amountAfterDiscount: +discount || "",
+          amountAfterDiscount: +discount || 0,
         },
       ],
       employee: employee, //Обязательный параметр

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import "./FormPage.css";
+import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import CustomSelect from "@shared/components/CustomSelect/CustomSelect";
 import Footer from "@shared/components/Footer";
@@ -27,6 +28,7 @@ const FormPage = observer(() => {
     ObjectWithInfoEmailInputStore,
     ShowList,
     itemListStore,
+    Error,
   } = formStore;
 
   const { ChangeisLoadingQr_Link } = qrLinkStore;
@@ -77,6 +79,10 @@ const FormPage = observer(() => {
 
   if (isLoading) {
     return <PageLoader />;
+  }
+
+  if (Error) {
+    return <PageError error={Error} />;
   }
 
   const additionalBorder =

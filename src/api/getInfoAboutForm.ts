@@ -170,7 +170,7 @@ const getInfoAboutForm = (key_gen: string) => {
     })
     .then((response: any) => {
       if (response.status !== 200) {
-        return "Что пошло не так! Перезагрузите страницу";
+        throw Error("Что пошло не так! Перезагрузите страницу");
       }
       return {
         config: response.config.params,

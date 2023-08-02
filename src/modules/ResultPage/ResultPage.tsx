@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import FormPage from "@modules/FormPage";
+import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader";
 import Button from "@shared/components/Button";
 import CopyButton from "@shared/components/CopyButton";
@@ -19,8 +20,7 @@ const ResultPage = observer(() => {
     getIsLoadingQr_Link,
     getqrLinkStore,
     urlFormPayStore,
-    getClientidStore,
-    getkeyGenStore,
+    ErroQrLink,
   } = qrLinkStore;
 
   const {
@@ -83,32 +83,15 @@ const ResultPage = observer(() => {
     itemListStore,
   ]);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (blockRef.current) {
-  //       const width = blockRef.current.offsetWidth;
-  //       setCurrentWidth(width);
-  //     }
-  //   };
-
-  //   // Добавляем слушатель события resize при монтировании компонента
-  //   window.addEventListener("resize", handleResize);
-
-  //   // Выполняем обработчик события resize сразу после монтирования компонента
-  //   handleResize();
-
-  //   // Удаляем слушатель события resize при размонтировании компонента
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, [currentWidth]);
-
   const handlerGoToFormPay = () => {
     window.open(urlFormPayStore);
   };
 
   if (getIsLoadingQr_Link) {
     return <PageLoader />;
+  }
+  if (ErroQrLink) {
+    return <PageError error={ErroQrLink} />;
   }
 
   const curData: any = {

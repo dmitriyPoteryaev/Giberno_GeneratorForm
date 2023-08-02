@@ -84,7 +84,9 @@ const ResultPage = observer(() => {
   ]);
 
   const handlerGoToFormPay = () => {
-    window.open(urlFormPayStore);
+    window.open(
+      `https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`
+    );
   };
 
   if (getIsLoadingQr_Link) {
@@ -154,12 +156,6 @@ const ResultPage = observer(() => {
     );
   }
 
-  // TO-DO - потом это вставить
-  // <img
-  //         className="ResultPageLayout__block_imgQr"
-  //         alt="qr_code"
-  //         src={getqrLinkStore ? "https://api.giberno.ru/" + getqrLinkStore : ""}
-  //       />
   return (
     <div ref={blockRef} className="ResultPageLayout">
       <Header />

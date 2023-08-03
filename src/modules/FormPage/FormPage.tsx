@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 import "./FormPage.css";
-import { useChooseSelectOrInput } from "@hooks/use-choose-select-or-input";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
@@ -10,6 +9,8 @@ import { formStore } from "@store/index";
 import { qrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
+
+import { useChooseSelectOrInput } from "../../hooks/use-choose-select-or-input";
 
 const FormPage = observer(() => {
   const {
@@ -45,7 +46,7 @@ const FormPage = observer(() => {
       curData.key_gen =
         line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
     });
-    navigate("/test/formgen?key_gen=" + curData.key_gen);
+    navigate("/formgen?key_gen=" + curData.key_gen);
 
     ChangeDataAboutForm(curData.key_gen);
   }, [

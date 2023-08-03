@@ -85,9 +85,7 @@ const ResultPage = observer(() => {
   ]);
 
   const handlerGoToFormPay = () => {
-    window.open(
-      `https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`
-    );
+    window.open(urlFormPayStore);
   };
 
   if (getIsLoadingQr_Link) {
@@ -96,15 +94,6 @@ const ResultPage = observer(() => {
   if (ErroQrLink) {
     return <PageError error={ErroQrLink} />;
   }
-
-  const curData: any = {
-    client_id: "",
-    key_form: "",
-  };
-  urlFormPayStore?.split("&")?.forEach((line: any, i: any) => {
-    curData[line?.split("=")[0]?.split("?").reverse()?.[0]] =
-      line?.split("=")?.[1];
-  });
 
   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
     return (
@@ -133,9 +122,7 @@ const ResultPage = observer(() => {
             className="ResultPageLayout__block_imgQrMobile"
             alt="qr_code"
             src={
-              getqrLinkStore
-                ? "https://stage.giberno.ru:20000/" + getqrLinkStore
-                : ""
+              getqrLinkStore ? "https://api.giberno.ru/" + getqrLinkStore : ""
             }
           />
         </div>
@@ -143,14 +130,14 @@ const ResultPage = observer(() => {
         <div className="ResultPageLayout__block_mobileLOWBLOCK">
           <input
             className="low_block__URL_inputUrlMobile"
-            value={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            value={urlFormPayStore}
             onChange={() => {
               return;
             }}
           />
           <CopyButton
             className={"low_block__URL_coppyButtonMobile"}
-            text={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            text={urlFormPayStore}
           />
         </div>
       </div>
@@ -167,11 +154,7 @@ const ResultPage = observer(() => {
         <img
           className="ResultPageLayout__block_imgQr"
           alt="qr_code"
-          src={
-            getqrLinkStore
-              ? "https://stage.giberno.ru:20000/" + getqrLinkStore
-              : ""
-          }
+          src={getqrLinkStore ? "https://api.giberno.ru/" + getqrLinkStore : ""}
         />
         <div className="ResultPageLayout__block_desc">
           1. Откройте на смартфоне приложение для сканирования QR-кода. <br />
@@ -197,14 +180,14 @@ const ResultPage = observer(() => {
         <div className="low_block__URL">
           <input
             className="low_block__URL_inputUrl"
-            value={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            value={urlFormPayStore}
             onChange={() => {
               return;
             }}
           />
           <CopyButton
             className={"low_block__URL_coppyButton"}
-            text={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            text={urlFormPayStore}
           />
         </div>
       </div>

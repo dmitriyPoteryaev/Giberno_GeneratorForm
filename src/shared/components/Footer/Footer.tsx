@@ -18,7 +18,6 @@ const Footer = observer((): any => {
     getShowWhatInputIsEmpty,
     ObjectWithInfoEmailInputStore,
     ChangeObjectWithInfoEmailInput,
-    positionTypeStore,
     IsGeneralButtonActive,
   } = formStore;
   const {
@@ -57,13 +56,8 @@ const Footer = observer((): any => {
     ChageFocus: ChageFocus,
     ChageIsShowInfoHelp: ChageIsShowInfoHelp,
     resultValidMail: checkValidMail,
-    onChange: (type: any, value: any, name: any, isopen: any) => {
-      if (positionTypeStore === "MANUAL" || typeof isopen !== "boolean") {
-        ChangeObjectWithInfoEmailInput(value);
-        checkValidMail(value);
-      } else {
-        return;
-      }
+    onChange: () => {
+      ChangeObjectWithInfoEmailInput(value);
     },
   };
 
@@ -80,7 +74,7 @@ const Footer = observer((): any => {
           (elem: any) => elem.placeholder === "Сумма"
         )?.value?.includes("."))
     ) {
-      navigate("/test/result?key_gen=" + keyGenStore);
+      navigate("/result?key_gen=" + keyGenStore);
     } else {
       ChageShowWhatInputIsEmpty(true);
     }

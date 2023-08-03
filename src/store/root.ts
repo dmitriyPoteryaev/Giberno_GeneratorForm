@@ -54,9 +54,11 @@ class RootStore {
           this.itemListStore = itemList;
         })
       )
-      .catch((mesError: any) => {
-        this.Error = mesError.message;
-      })
+      .catch(
+        action((mesError: any) => {
+          this.Error = mesError.message;
+        })
+      )
       .finally(action(() => (this.isLoading = false)));
   };
 

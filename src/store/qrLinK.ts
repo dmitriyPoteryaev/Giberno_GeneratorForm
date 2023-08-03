@@ -1,5 +1,6 @@
 import { qrLinkAPI } from "@api/postLink";
 import { makeAutoObservable } from "mobx";
+import { action } from "mobx";
 
 const { postLink } = qrLinkAPI;
 
@@ -49,19 +50,23 @@ class QrLinktsStore {
       itemListStore,
       discount
     )
-      .then((infoQrLink: any) => {
-        if (typeof infoQrLink !== "object") {
-          throw Error(infoQrLink);
-        }
-        this.qrLinkStore = infoQrLink?.urlQR;
-        this.urlFormPayStore = infoQrLink?.urlFormPay;
-        this.keyGenStore = infoQrLink?.keyGen;
-        this.client_idStore = infoQrLink?.client_id;
-      })
-      .catch((mesError) => {
-        this.ErroQrLink = mesError.message;
-      })
-      .finally(() => (this.isLoadingQr_Link = false));
+      .then(
+        action((infoQrLink: any) => {
+          if (typeof infoQrLink !== "object") {
+            throw Error(infoQrLink);
+          }
+          this.qrLinkStore = infoQrLink?.urlQR;
+          this.urlFormPayStore = infoQrLink?.urlFormPay;
+          this.keyGenStore = infoQrLink?.keyGen;
+          this.client_idStore = infoQrLink?.client_id;
+        })
+      )
+      .catch(
+        action((mesError) => {
+          this.ErroQrLink = mesError.message;
+        })
+      )
+      .finally(action(() => (this.isLoadingQr_Link = false)));
   };
   // НЕЗАВИСИМЫЕ ПАРАМЕТРЫ
   get getIsLoadingQr_Link() {

@@ -1,16 +1,6 @@
 import { checkSymbolsInAmountInput } from "./checkSymbolsInAmountInput";
 const regex = /^(\d{0,9})(\.\d{0,2})?$/;
 
-const InputWithDiccount = {
-  value: "",
-  type: "text",
-  placeholder: "Сумма со скидкой",
-  onFocus: false,
-  IsEnabled: true,
-  IsRequire: true,
-  name: "amount_discount",
-};
-
 export const changeSomePositionInArray = (
   array: any,
   name: string,

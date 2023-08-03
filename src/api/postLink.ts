@@ -16,76 +16,70 @@ const postLink = (
   const { ChangeisLoadingQr_Link } = qrLinkStore;
   ChangeisLoadingQr_Link(true);
 
-  let POST_BODY = {};
-  if (positionTypeStore === "LIST") {
-    POST_BODY = {
-      items: [
-        {
-          itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
-          amount: +amount,
-          amountAfterDiscount: +discount || 0,
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
-  if (positionTypeStore === "MANUAL_LIST") {
-    POST_BODY = {
-      items: [
-        {
-          itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
-          description: description,
-          amount: +amount,
-          amountAfterDiscount: +discount || 0,
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
+  const ChoosePOST_BODY = () => {
+    switch (positionTypeStore) {
+      case "LIST":
+        return {
+          items: [
+            {
+              itemID: itemListStore.find((elem: any) => elem.name === name)
+                .ItemID,
+              amount: +amount,
+              amountAfterDiscount: +discount || 0,
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+      case "MANUAL_LIST":
+        return {
+          items: [
+            {
+              itemID: itemListStore.find((elem: any) => elem.name === name)
+                .ItemID,
+              description: description,
+              amount: +amount,
+              amountAfterDiscount: +discount || 0,
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+      default:
+        return {
+          items: [
+            {
+              name: name, //Обязательный параметр
+              description: description,
+              amount: +amount, //Обязательный параметр
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+    }
+  };
 
-  if (positionTypeStore === "MANUAL") {
-    POST_BODY = {
-      items: [
-        {
-          name: name, //Обязательный параметр
-          description: description,
-          amount: +amount, //Обязательный параметр
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
+  let POST_BODY = ChoosePOST_BODY();
 
-  // return new Promise<any>((resolve, reject) =>
-  //   // "https://api.giberno.ru/invoice/?form_pay=497f6eca-6276-4993-bfeb-53cbbbba6f08"
-  //   setTimeout(() => {
-  //     resolve({
-  //       employee: "a379a4b4-8cd6-4abd-8f9b-a7679e683a54",
-  //       client_id: "4ca92167-9c15-4c26-8b7f-9df30cafef67",
-  //       keyGen: "8fe86f19-9477-4e73-b198-d08d4e33be6c",
-  //       urlFormPay:
-  //         "https://qr.giberno.ru/formpay?client_id=fb1969e9-8fa1-4b40-a9a4-da10a3fd968e&key_form=1ac3749a-d27e-4133-b422-f6f15cd42e97",
-  //       urlQR:
-  //         "https://stage.giberno.ru:20000/media/invoce_spb_payment_qr_code/invoice_sbp_qr_code_30qr.png",
-  //     });
-  //   }, 1000)
-  // );
   return axios
-    .post(`https://stage.giberno.ru:20000/test/api/webhook/orders/`, POST_BODY)
+    .post(`https://api.giberno.ru/api/webhook/orders/`, POST_BODY)
     .then((response: any) => {
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");
       }
-
+      if (Array.isArray(response.data.result)) {
+        throw Error(response.data.result[0]);
+      }
+      if (typeof response.data !== "object") {
+        throw Error("Что пошло не так! Попробуйте ввести данные заново");
+      }
       return response.data.result;
     })
     .catch((err) => {

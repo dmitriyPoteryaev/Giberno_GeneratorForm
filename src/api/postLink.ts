@@ -72,11 +72,16 @@ const postLink = (
     .post(`https://api.giberno.ru/api/webhook/orders/`, POST_BODY)
     .then((response: any) => {
       if (response.status !== 200) {
-        throw Error("Что пошло не так! Перезагрузите страницу");
+        if (response?.data?.result?.[0]) {
+          throw Error(response?.data?.result?.[0]);
+        }
+        if (response?.data?.result?.error_message?.[0]) {
+          throw Error(response?.data?.result?.error_message?.[0]);
+        } else {
+          throw Error("Что пошло не так! Попробуйте ввести данные заново");
+        }
       }
-      if (Array.isArray(response.data.result)) {
-        throw Error(response.data.result[0]);
-      }
+
       if (typeof response.data !== "object") {
         throw Error("Что пошло не так! Попробуйте ввести данные заново");
       }

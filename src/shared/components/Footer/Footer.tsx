@@ -56,8 +56,10 @@ const Footer = observer((): any => {
     ChageFocus: ChageFocus,
     ChageIsShowInfoHelp: ChageIsShowInfoHelp,
     resultValidMail: checkValidMail,
-    onChange: () => {
-      ChangeObjectWithInfoEmailInput(value);
+    onChange: (type: any, value: any, name: any, isopen: any) => {
+      if (type === "click" || typeof isopen !== "boolean") {
+        ChangeObjectWithInfoEmailInput(value);
+      }
     },
   };
 

@@ -2,17 +2,6 @@ export const DeleteAllPopUpWindow = (
   ArrayWithAllInputsStore: any,
   ObjectWithInfoEmailInputStore: any
 ) => {
-  //   if (ArrayWithAllInputsStore.some((elem: any) => elem.isopen === true)) {
-  //     return (ArrayWithAllInputsStore = ArrayWithAllInputsStore.map(
-  //       (elem: any, i: number) => {
-  //         if (elem.hasOwnProperty("isopen") && typeof elem.isopen === "boolean") {
-  //           return { ...elem, isopen: false };
-  //         } else {
-  //           return { ...elem };
-  //         }
-  //       }
-  //     ));
-  //   }
   if (
     ObjectWithInfoEmailInputStore.IsShowInfoHelp ||
     ArrayWithAllInputsStore.some((elem: any) => elem.IsShowInfoHelp === true) ||

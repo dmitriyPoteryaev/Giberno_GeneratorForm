@@ -16,54 +16,57 @@ const postLink = (
   const { ChangeisLoadingQr_Link } = qrLinkStore;
   ChangeisLoadingQr_Link(true);
 
-  let POST_BODY = {};
-  if (positionTypeStore === "LIST") {
-    POST_BODY = {
-      items: [
-        {
-          itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
-          amount: +amount,
-          amountAfterDiscount: +discount || 0,
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
-  if (positionTypeStore === "MANUAL_LIST") {
-    POST_BODY = {
-      items: [
-        {
-          itemID: itemListStore.find((elem: any) => elem.name === name).ItemID,
-          description: description,
-          amount: +amount,
-          amountAfterDiscount: +discount || 0,
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
+  const ChoosePOST_BODY = () => {
+    switch (positionTypeStore) {
+      case "LIST":
+        return {
+          items: [
+            {
+              itemID: itemListStore.find((elem: any) => elem.name === name)
+                .ItemID,
+              amount: +amount,
+              amountAfterDiscount: +discount || 0,
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+      case "MANUAL_LIST":
+        return {
+          items: [
+            {
+              itemID: itemListStore.find((elem: any) => elem.name === name)
+                .ItemID,
+              description: description,
+              amount: +amount,
+              amountAfterDiscount: +discount || 0,
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+      default:
+        return {
+          items: [
+            {
+              name: name, //Обязательный параметр
+              description: description,
+              amount: +amount, //Обязательный параметр
+            },
+          ],
+          employee: employee, //Обязательный параметр
+          client_id: client_id, //Обязательный параметр
+          keyGen: keyGen, //Обязательный параметр
+          emailCustomer: emailCustomer,
+        };
+    }
+  };
 
-  if (positionTypeStore === "MANUAL") {
-    POST_BODY = {
-      items: [
-        {
-          name: name, //Обязательный параметр
-          description: description,
-          amount: +amount, //Обязательный параметр
-        },
-      ],
-      employee: employee, //Обязательный параметр
-      client_id: client_id, //Обязательный параметр
-      keyGen: keyGen, //Обязательный параметр
-      emailCustomer: emailCustomer,
-    };
-  }
+  let POST_BODY = ChoosePOST_BODY();
 
   // return new Promise<any>((resolve, reject) =>
   //   // "https://api.giberno.ru/invoice/?form_pay=497f6eca-6276-4993-bfeb-53cbbbba6f08"

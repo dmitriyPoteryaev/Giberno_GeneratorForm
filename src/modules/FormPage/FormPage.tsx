@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import "./FormPage.css";
-import { useChooseSelectOrInput } from "@hooks/use-choose-select-or-input";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
@@ -10,6 +9,8 @@ import { formStore } from "@store/index";
 import { qrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
+
+import { useChooseSelectOrInput } from "../../hooks/use-choose-select-or-input";
 
 const FormPage = observer(() => {
   const {
@@ -76,6 +77,19 @@ const FormPage = observer(() => {
     DeleteAllHelpers,
   ]);
 
+  const FormEnabledInput = useMemo(
+    () =>
+      ArrayWithAllInputsStore.filter(
+        (CurrentInput: any, i: any) => CurrentInput.IsEnabled
+      ),
+    [ArrayWithAllInputsStore]
+  );
+
+  const ChangeInput = useMemo(
+    () => ChageFocus,
+    [ArrayWithAllInputsStore, ChageFocus]
+  );
+
   if (isLoading) {
     return <PageLoader />;
   }
@@ -98,9 +112,7 @@ const FormPage = observer(() => {
         }}
       >
         <div className="FormPageLayout__title">{getClientTitleStore}</div>
-        {ArrayWithAllInputsStore.filter(
-          (CurrentInput: any, i: any) => CurrentInput.IsEnabled
-        ).map((CurrentInput: any, i: any, arr: any) => {
+        {FormEnabledInput.map((CurrentInput: any, i: any, arr: any) => {
           const { isopen } = CurrentInput;
           const uniqKey =
             typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
@@ -116,7 +128,7 @@ const FormPage = observer(() => {
             IsShowInfoHelp: CurrentInput.IsShowInfoHelp,
             IsRequire: CurrentInput.IsRequire,
             onFocus: CurrentInput.onFocus,
-            ChageFocus: ChageFocus,
+            ChageFocus: ChangeInput,
             ChageIsShowInfoHelp: ChageIsShowInfoHelp,
             onChange: (type: any, value: any, name: any, isopen: any) => {
               if (type === "click" || typeof isopen !== "boolean") {

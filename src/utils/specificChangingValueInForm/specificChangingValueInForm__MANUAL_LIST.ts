@@ -1,4 +1,3 @@
-import { changeSomePositionInArray } from "../changeSomePositionInArray";
 import { checkSymbolsInAmountInput } from "../checkSymbolsInAmountInput";
 const regex = /^(\d{0,9})(\.\d{0,2})?$/;
 

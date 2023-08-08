@@ -1,5 +1,5 @@
 import { FormStore } from "./form";
-import { QrLinktsStore } from "./qrLinK";
+import { RootQrLinkStore } from "./rootQrLinK";
 
 export const formStore = new FormStore();
-export const qrLinkStore = new QrLinktsStore();
+export const rootQrLinkStore = new RootQrLinkStore();

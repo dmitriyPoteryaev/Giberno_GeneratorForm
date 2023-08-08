@@ -2,10 +2,8 @@ import { formAPI } from "@api/getInfoAboutForm";
 import { makeObservable, observable, action } from "mobx";
 const { getInfoAboutForm } = formAPI;
 
-class RootStore {
-  isLoading: boolean = true;
+class RootFormStore {
   ArrayWithAllInputsStore: any = [];
-  Error: any;
   ObjectWithInfoEmailInputStore: any = {};
   clientTitleStore: any;
   employeeNameStore: any;
@@ -17,7 +15,7 @@ class RootStore {
   itemListStore: any;
 
   ChangeDataAboutForm = (key_gen: string) => {
-    getInfoAboutForm(key_gen)
+    return getInfoAboutForm(key_gen)
       .then((response: any) => {
         if (typeof response !== "object") {
           throw Error(response);
@@ -53,20 +51,14 @@ class RootStore {
           this.positionTypeStore = positionType;
           this.itemListStore = itemList;
         })
-      )
-      .catch((mesError: any) => {
-        this.Error = mesError.message;
-      })
-      .finally(action(() => (this.isLoading = false)));
+      );
   };
 
   constructor() {
     makeObservable(this, {
       ChangeDataAboutForm: action,
-      isLoading: observable,
       ArrayWithAllInputsStore: observable,
       ObjectWithInfoEmailInputStore: observable,
-      Error: observable,
       clientTitleStore: observable,
       employeeNameStore: observable,
       clientIdStore: observable,
@@ -79,4 +71,4 @@ class RootStore {
   }
 }
 
-export { RootStore };
+export { RootFormStore };

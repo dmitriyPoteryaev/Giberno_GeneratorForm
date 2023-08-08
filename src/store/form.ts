@@ -7,9 +7,9 @@ import { specificChangingValueInForm__MANUAL } from "@utils/specificChangingValu
 import { specificChangingValueInForm__MANUAL_LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
 import { makeObservable, observable, action, computed, override } from "mobx";
 
-import { RootStore } from "./root";
+import { RootFormStore } from "./rootForm";
 
-class FormStore extends RootStore {
+class FormStore extends RootFormStore {
   discountStore: any;
   ShowWhatInputIsEmpty: any = false;
 
@@ -185,13 +185,11 @@ class FormStore extends RootStore {
     super();
     makeObservable(this, {
       ChangeDataAboutForm: override,
-      isLoading: override,
       ArrayWithAllInputsStore: override,
       ChangeArrayWithAllInputs: action,
       ChageFocus: action,
       ChageIsShowInfoHelp: action,
       ChangeObjectWithInfoEmailInput: action,
-      Error: override,
       ObjectWithInfoEmailInputStore: override,
       clientTitleStore: override,
       getClientTitleStore: computed,

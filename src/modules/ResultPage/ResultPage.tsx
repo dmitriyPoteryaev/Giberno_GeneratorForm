@@ -3,25 +3,25 @@ import React, { useEffect, useState, useRef } from "react";
 import FormPage from "@modules/FormPage";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader";
-import Button from "@shared/components/Button";
 import CopyButton from "@shared/components/CopyButton";
 import Header from "@shared/components/Header";
-import { formStore, qrLinkStore } from "@store/index";
+import { formStore, rootQrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
+
+import ResultPage__Mobile from "./ResultPage__Mobile";
+import useFetching from "../../hooks/useFetching";
+import { ObjectInputProps } from "../../types/formTypes";
+
 import "./ResultPage.css";
 
 const ResultPage = observer(() => {
+  const { postQr_Link, qrLinkStore, urlFormPayStore } = rootQrLinkStore;
+  const [fetching, isLoading, error]: [Function, boolean, string] =
+    useFetching(postQr_Link);
   const blockRef = useRef<any>(null);
-  const [currentWidth, setCurrentWidth] = useState<any>(
+  const [currentWidth, setCurrentWidth] = useState<number>(
     blockRef.current?.offsetWidth
   );
-  const {
-    postQr_Link,
-    getIsLoadingQr_Link,
-    getqrLinkStore,
-    urlFormPayStore,
-    ErroQrLink,
-  } = qrLinkStore;
 
   const {
     ObjectWithInfoEmailInputStore,
@@ -32,28 +32,30 @@ const ResultPage = observer(() => {
     ChageShowWhatInputIsEmpty,
     positionTypeStore,
     itemListStore,
-    isLoading,
   } = formStore;
 
-  if (isLoading) {
+  const [nameInput, descriptionInput, amountInput, discountInput] =
+    ArrayWithAllInputsStore.map(
+      (inputObject: ObjectInputProps) => inputObject.value
+    );
+
+  if (!positionTypeStore) {
     return <FormPage />;
   }
   useEffect(() => {
-    if (getIsLoadingQr_Link) {
-      ChageShowWhatInputIsEmpty(false);
-      postQr_Link(
-        employeeNameStoreForPOST,
-        clientIdStore,
-        keyGenStore,
-        ObjectWithInfoEmailInputStore?.value?.toLowerCase(),
-        ArrayWithAllInputsStore?.[2].value,
-        ArrayWithAllInputsStore?.[0].value,
-        ArrayWithAllInputsStore?.[1].value,
-        positionTypeStore,
-        itemListStore,
-        ArrayWithAllInputsStore?.[3]?.value
-      );
-    }
+    fetching(
+      employeeNameStoreForPOST,
+      clientIdStore,
+      keyGenStore,
+      ObjectWithInfoEmailInputStore.value.toLowerCase(),
+      amountInput,
+      nameInput,
+      descriptionInput,
+      positionTypeStore,
+      itemListStore,
+      discountInput
+    );
+
     const handleResize = () => {
       if (blockRef.current) {
         const width = blockRef.current.offsetWidth;
@@ -72,7 +74,6 @@ const ResultPage = observer(() => {
       window.removeEventListener("resize", handleResize);
     };
   }, [
-    getIsLoadingQr_Link,
     employeeNameStoreForPOST,
     clientIdStore,
     ArrayWithAllInputsStore,
@@ -84,17 +85,11 @@ const ResultPage = observer(() => {
     ChageShowWhatInputIsEmpty,
   ]);
 
-  const handlerGoToFormPay = () => {
-    window.open(
-      `https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`
-    );
-  };
-
-  if (getIsLoadingQr_Link) {
+  if (isLoading) {
     return <PageLoader />;
   }
-  if (ErroQrLink) {
-    return <PageError error={ErroQrLink} />;
+  if (error) {
+    return <PageError error={error} />;
   }
 
   const curData: any = {
@@ -105,55 +100,20 @@ const ResultPage = observer(() => {
     curData[line?.split("=")[0]?.split("?").reverse()?.[0]] =
       line?.split("=")?.[1];
   });
+  const UrlToPay =
+    "https://dev.qr.giberno.ru/test/formpay?client_id=" +
+    curData.client_id +
+    "&key_form=" +
+    curData.key_form;
 
+  const qrCodePay = "https://stage.giberno.ru:20000/" + qrLinkStore;
   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
     return (
-      <div ref={blockRef} className="ResultPageLayout">
-        <Header />
-        <header className="ResultPageLayout__header">
-          Счет успешно сформирован!
-        </header>
-        <div className="ResultPageLayout__UrlMobile">
-          <div className="ResultPageLayout__headerMobile">
-            Если оплачиваете сами:
-          </div>
-          <Button
-            ButtonClass={"ResultPageLayout__buttonMobile"}
-            disabled={false}
-            onClick={handlerGoToFormPay}
-          >
-            Перейти на форму оплаты
-          </Button>
-        </div>
-        <div className="ResultPageLayout__UrlMobile_low">
-          <div className="ResultPageLayout__headerMobile">
-            Если оплачивает клиент:
-          </div>
-          <img
-            className="ResultPageLayout__block_imgQrMobile"
-            alt="qr_code"
-            src={
-              getqrLinkStore
-                ? "https://stage.giberno.ru:20000/" + getqrLinkStore
-                : ""
-            }
-          />
-        </div>
-        <span className="Sepated_block">или</span>
-        <div className="ResultPageLayout__block_mobileLOWBLOCK">
-          <input
-            className="low_block__URL_inputUrlMobile"
-            value={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
-            onChange={() => {
-              return;
-            }}
-          />
-          <CopyButton
-            className={"low_block__URL_coppyButtonMobile"}
-            text={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
-          />
-        </div>
-      </div>
+      <ResultPage__Mobile
+        blockRef={blockRef}
+        UrlToPay={UrlToPay}
+        qrCodePay={qrCodePay}
+      />
     );
   }
 
@@ -167,11 +127,7 @@ const ResultPage = observer(() => {
         <img
           className="ResultPageLayout__block_imgQr"
           alt="qr_code"
-          src={
-            getqrLinkStore
-              ? "https://stage.giberno.ru:20000/" + getqrLinkStore
-              : ""
-          }
+          src={qrCodePay}
         />
         <div className="ResultPageLayout__block_desc">
           1. Откройте на смартфоне приложение для сканирования QR-кода. <br />
@@ -197,14 +153,14 @@ const ResultPage = observer(() => {
         <div className="low_block__URL">
           <input
             className="low_block__URL_inputUrl"
-            value={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            value={UrlToPay}
             onChange={() => {
               return;
             }}
           />
           <CopyButton
             className={"low_block__URL_coppyButton"}
-            text={`https://dev.qr.giberno.ru/test/formpay?client_id=${curData.client_id}&key_form=${curData.key_form}`}
+            text={UrlToPay}
           />
         </div>
       </div>

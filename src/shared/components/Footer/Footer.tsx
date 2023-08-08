@@ -5,10 +5,10 @@ import { formStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
+import { ObjectInputProps } from "../../../types/formTypes";
 import Button from "../Button";
 import Input from "../Input";
-
-const Footer = observer((): any => {
+const Footer = observer(() => {
   const {
     ChageIsShowInfoHelp,
     ChageFocus,
@@ -30,7 +30,7 @@ const Footer = observer((): any => {
     onFocus,
     IsRequire,
     IsEnabled,
-  }: any = ObjectWithInfoEmailInputStore;
+  }: ObjectInputProps = ObjectWithInfoEmailInputStore;
 
   const InputProps = {
     type: type,
@@ -49,7 +49,7 @@ const Footer = observer((): any => {
     ChageFocus: ChageFocus,
     ChageIsShowInfoHelp: ChageIsShowInfoHelp,
     resultValidMail: isValidMail,
-    onChange: (type: any, value: any, name: any, isopen: any) => {
+    onChange: (type: string, value: string, name: string, isopen: boolean) => {
       if (positionTypeStore === "MANUAL" || typeof isopen !== "boolean") {
         ChangeObjectWithInfoEmailInput(value);
       } else {

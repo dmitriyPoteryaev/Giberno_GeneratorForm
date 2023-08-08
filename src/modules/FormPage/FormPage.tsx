@@ -7,27 +7,25 @@ import Footer from "@shared/components/Footer";
 import Form from "@shared/components/Form";
 import Header from "@shared/components/Header";
 import { formStore } from "@store/index";
-import { qrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
+
+import useFetching from "../../hooks/useFetching";
 
 const FormPage = observer(() => {
   const {
     DeleteAllPopUpWindow,
     ChageShowWhatInputIsEmpty,
-    isLoading,
-    Error,
     ChangeDataAboutForm,
   } = formStore;
 
-  const { ChangeisLoadingQr_Link } = qrLinkStore;
+  const [fetching, isLoading, error]: [Function, boolean, string] =
+    useFetching(ChangeDataAboutForm);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    ChageShowWhatInputIsEmpty(false);
-    ChangeisLoadingQr_Link(true);
     const curData: any = {
       key_gen: "48acf988-686f-4be4-bc36-82bf827c3b61",
     };
@@ -38,7 +36,7 @@ const FormPage = observer(() => {
     });
     navigate("/test/formgen?key_gen=" + curData.key_gen);
 
-    ChangeDataAboutForm(curData.key_gen);
+    fetching(curData.key_gen);
 
     document.addEventListener("click", DeleteAllPopUpWindow);
 
@@ -50,7 +48,6 @@ const FormPage = observer(() => {
     location.search,
     ChangeDataAboutForm,
     ChageShowWhatInputIsEmpty,
-    ChangeisLoadingQr_Link,
     DeleteAllPopUpWindow,
   ]);
 
@@ -58,8 +55,8 @@ const FormPage = observer(() => {
     return <PageLoader />;
   }
 
-  if (Error) {
-    return <PageError error={Error} />;
+  if (error) {
+    return <PageError error={error} />;
   }
 
   return (

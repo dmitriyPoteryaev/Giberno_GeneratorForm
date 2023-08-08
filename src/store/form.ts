@@ -1,6 +1,7 @@
 import { changeSomePositionInArray } from "@utils/changeSomePositionInArray";
+import { checkValidMail } from "@utils/checkValidMail";
 import { DeleteAllPopUpWindow } from "@utils/DeleteAllPopUpWindow";
-import { ResultIsGeneralButtonActive } from "@utils/ResultIsGeneralButtonActive";
+import { ResultIsGeneralButtonDisabled } from "@utils/ResultIsGeneralButtonDisabled";
 import { specificChangingValueInForm__LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__LIST";
 import { specificChangingValueInForm__MANUAL } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL";
 import { specificChangingValueInForm__MANUAL_LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
@@ -49,15 +50,11 @@ class FormStore extends RootStore {
     }
   };
 
-  get getShowWhatInputIsEmpty() {
-    return this.ShowWhatInputIsEmpty;
-  }
-
   ChageShowWhatInputIsEmpty = (value: boolean) => {
     this.ShowWhatInputIsEmpty = value;
   };
 
-  DeleteAllHelpers = () => {
+  DeleteAllPopUpWindow = () => {
     const {
       NEWArrayWithAllInputsStore,
       NEWObjectWithInfoEmailInputStore,
@@ -65,13 +62,26 @@ class FormStore extends RootStore {
       this.ArrayWithAllInputsStore,
       this.ObjectWithInfoEmailInputStore
     );
-    this.ArrayWithAllInputsStore = NEWArrayWithAllInputsStore;
 
-    this.ObjectWithInfoEmailInputStore = NEWObjectWithInfoEmailInputStore;
+    if (
+      this.ArrayWithAllInputsStore.some(
+        (elem: any) =>
+          elem.isopen === true ||
+          this.ArrayWithAllInputsStore.some(
+            (elem: any) => elem.IsShowInfoHelp === true
+          )
+      )
+    ) {
+      this.ArrayWithAllInputsStore = NEWArrayWithAllInputsStore;
+    }
+
+    if (this.ObjectWithInfoEmailInputStore.IsShowInfoHelp) {
+      this.ObjectWithInfoEmailInputStore = NEWObjectWithInfoEmailInputStore;
+    }
   };
 
   ChageIsShowInfoHelp = (name: string, numberPosition: number) => {
-    this.DeleteAllHelpers();
+    this.DeleteAllPopUpWindow();
 
     if (typeof numberPosition === "number") {
       const changingPosition = this.ArrayWithAllInputsStore.find(
@@ -114,31 +124,57 @@ class FormStore extends RootStore {
     };
   };
 
-  get IsGeneralButtonActive() {
-    return ResultIsGeneralButtonActive(
-      this.ArrayWithAllInputsStore,
-      this.ObjectWithInfoEmailInputStore
+  get IsGeneralButtonDisabled() {
+    return (
+      ResultIsGeneralButtonDisabled(
+        this.ArrayWithAllInputsStore,
+        this.ObjectWithInfoEmailInputStore
+      ) ||
+      (this.ArrayWithAllInputsStore?.find(
+        (elem: any) => elem?.placeholder === "Сумма"
+      )
+        ?.value?.split(".")[1]
+        ?.split("")?.length === 0 &&
+        this.ArrayWithAllInputsStore.find(
+          (elem: any) => elem.placeholder === "Сумма"
+        )?.value?.includes("."))
     );
   }
+
+  get isValidMail() {
+    return checkValidMail(
+      this.ObjectWithInfoEmailInputStore.IsRequire,
+      this.ObjectWithInfoEmailInputStore.value
+    );
+  }
+
   ShowList = (name: string) => {
-    this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
-      (elem: any) => {
-        if (elem.hasOwnProperty("isopen") && typeof elem.isopen === "boolean") {
-          return { ...elem, isopen: false };
-        } else {
-          return { ...elem };
+    if (
+      !this.ArrayWithAllInputsStore.find((elem: any) => elem.name === name)
+        .isopen
+    ) {
+      this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
+        (elem: any) => {
+          if (
+            elem.hasOwnProperty("isopen") &&
+            typeof elem.isopen === "boolean"
+          ) {
+            return { ...elem, isopen: false };
+          } else {
+            return { ...elem };
+          }
         }
-      }
-    );
-    this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
-      (elem: any, i: number) => {
-        if (elem.hasOwnProperty("isopen") && elem.name === name) {
-          return { ...elem, isopen: true };
-        } else {
-          return { ...elem };
+      );
+      this.ArrayWithAllInputsStore = this.ArrayWithAllInputsStore.map(
+        (elem: any, i: number) => {
+          if (elem.hasOwnProperty("isopen") && elem.name === name) {
+            return { ...elem, isopen: true };
+          } else {
+            return { ...elem };
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   get getClientTitleStore() {
@@ -165,12 +201,12 @@ class FormStore extends RootStore {
       keyGenStore: override,
       ShowWhatInputIsEmpty: observable,
       ChageShowWhatInputIsEmpty: action,
-      DeleteAllHelpers: action,
+      DeleteAllPopUpWindow: action,
       ShowList: action,
       positionTypeStore: override,
       itemListStore: override,
       discountStore: observable,
-      IsGeneralButtonActive: computed,
+      IsGeneralButtonDisabled: computed,
     });
   }
 }

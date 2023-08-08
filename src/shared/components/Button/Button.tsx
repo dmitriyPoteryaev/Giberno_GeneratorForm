@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 export type ButtonProps = React.PropsWithChildren<{
   /**
@@ -10,14 +10,22 @@ export type ButtonProps = React.PropsWithChildren<{
 }> &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: React.FC<ButtonProps> = (props) => {
-  const { children, disabled, onClick, ButtonClass, ...rest } = props;
+export const Button: React.FC<ButtonProps> = memo(
+  (props) => {
+    const { children, disabled, onClick, ButtonClass, ...rest } = props;
 
-  return (
-    <button className={ButtonClass} onClick={onClick} {...rest}>
-      {children}
-    </button>
-  );
-};
+    return (
+      <button className={ButtonClass} onClick={onClick} {...rest}>
+        {children}
+      </button>
+    );
+  },
+  (prevProps: any, nextProps: any) => {
+    if (prevProps.disabled === nextProps.disabled) {
+      return true;
+    }
+    return false;
+  }
+);
 
 export default Button;

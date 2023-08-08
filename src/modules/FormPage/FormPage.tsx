@@ -1,31 +1,21 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
 import "./FormPage.css";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
+import Form from "@shared/components/Form";
 import Header from "@shared/components/Header";
 import { formStore } from "@store/index";
 import { qrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { useChooseSelectOrInput } from "../../hooks/use-choose-select-or-input";
-
 const FormPage = observer(() => {
   const {
-    getClientTitleStore,
-    ArrayWithAllInputsStore,
-    ChangeArrayWithAllInputs,
-    getShowWhatInputIsEmpty,
-    ChageIsShowInfoHelp,
-    ChageFocus,
-    DeleteAllHelpers,
+    DeleteAllPopUpWindow,
     ChageShowWhatInputIsEmpty,
     isLoading,
-    ObjectWithInfoEmailInputStore,
-    ShowList,
-    itemListStore,
     Error,
     ChangeDataAboutForm,
   } = formStore;
@@ -49,46 +39,20 @@ const FormPage = observer(() => {
     navigate("/test/formgen?key_gen=" + curData.key_gen);
 
     ChangeDataAboutForm(curData.key_gen);
+
+    document.addEventListener("click", DeleteAllPopUpWindow);
+
+    return () => {
+      document.removeEventListener("click", DeleteAllPopUpWindow);
+    };
   }, [
     navigate,
     location.search,
     ChangeDataAboutForm,
     ChageShowWhatInputIsEmpty,
     ChangeisLoadingQr_Link,
+    DeleteAllPopUpWindow,
   ]);
-
-  useEffect(() => {
-    if (
-      ArrayWithAllInputsStore.some(
-        (elem: any) => elem.IsShowInfoHelp === true
-      ) ||
-      ObjectWithInfoEmailInputStore.IsShowInfoHelp ||
-      ArrayWithAllInputsStore.some((elem: any) => elem.isopen === true)
-    ) {
-      document.addEventListener("click", DeleteAllHelpers);
-    }
-
-    return () => {
-      document.removeEventListener("click", DeleteAllHelpers);
-    };
-  }, [
-    ArrayWithAllInputsStore,
-    ObjectWithInfoEmailInputStore,
-    DeleteAllHelpers,
-  ]);
-
-  const FormEnabledInput = useMemo(
-    () =>
-      ArrayWithAllInputsStore.filter(
-        (CurrentInput: any, i: any) => CurrentInput.IsEnabled
-      ),
-    [ArrayWithAllInputsStore]
-  );
-
-  const ChangeInput = useMemo(
-    () => ChageFocus,
-    [ArrayWithAllInputsStore, ChageFocus]
-  );
 
   if (isLoading) {
     return <PageLoader />;
@@ -98,56 +62,11 @@ const FormPage = observer(() => {
     return <PageError error={Error} />;
   }
 
-  const additionalBorder =
-    itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
-
   return (
     <div className="FormPageLayout">
       <Header />
       <header className="FormPageLayout__header">Формирование оплаты </header>
-      <form
-        className="FormPageLayout__form"
-        style={{
-          marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
-        }}
-      >
-        <div className="FormPageLayout__title">{getClientTitleStore}</div>
-        {FormEnabledInput.map((CurrentInput: any, i: any, arr: any) => {
-          const { isopen } = CurrentInput;
-          const uniqKey =
-            typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
-          const InputOrSelectProps = {
-            key: CurrentInput.placeholder,
-            type: CurrentInput.type,
-            name: CurrentInput.name,
-            placeholder: CurrentInput.placeholder,
-            value: CurrentInput.value,
-            help: CurrentInput.help,
-            currentNumber: i,
-            IsEmpty: getShowWhatInputIsEmpty,
-            IsShowInfoHelp: CurrentInput.IsShowInfoHelp,
-            IsRequire: CurrentInput.IsRequire,
-            onFocus: CurrentInput.onFocus,
-            ChageFocus: ChangeInput,
-            ChageIsShowInfoHelp: ChageIsShowInfoHelp,
-            onChange: (type: any, value: any, name: any, isopen: any) => {
-              if (type === "click" || typeof isopen !== "boolean") {
-                ChangeArrayWithAllInputs(value, name);
-              }
-            },
-          };
-
-          return useChooseSelectOrInput(
-            isopen,
-            ShowList,
-            itemListStore,
-            i,
-            uniqKey,
-            InputOrSelectProps,
-            arr
-          );
-        })}
-      </form>
+      <Form></Form>
       <Footer />
     </div>
   );

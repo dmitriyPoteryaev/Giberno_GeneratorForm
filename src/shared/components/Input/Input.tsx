@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import "./Input.css";
 
@@ -14,118 +14,135 @@ export type InputProps = Omit<
   onChange: (value: any) => any;
 };
 
-const Input = (props: any) => {
-  const {
-    value,
-    placeholder,
-    onChange,
-    help,
-    classNameInput,
-    classNameLabel,
-    classNameHelper,
-    classNamePlaceHolder,
-    currentNumber,
-    IsEmpty,
-    IsShowInfoHelp,
-    ChageIsShowInfoHelp,
-    resultValidMail,
-    onFocus,
-    ChageFocus,
-    className,
-    name,
-    IsRequire,
-    uniqKey,
-    ShowList,
-    isopen,
-    ...rest
-  } = props;
+const Input = memo(
+  (props: any) => {
+    const {
+      value,
+      placeholder,
+      onChange,
+      help,
+      classNameInput,
+      classNameLabel,
+      classNameHelper,
+      classNamePlaceHolder,
+      currentNumber,
+      IsEmpty,
+      IsShowInfoHelp,
+      ChageIsShowInfoHelp,
+      resultValidMail,
+      onFocus,
+      ChageFocus,
+      className,
+      name,
+      IsRequire,
+      uniqKey,
+      ShowList,
+      isopen,
+      ...rest
+    } = props;
 
-  let isRedBorder;
-  if (typeof currentNumber === "number") {
-    isRedBorder = IsEmpty && !value.trim() && IsRequire;
-  } else {
-    isRedBorder =
-      (IsEmpty && !value.trim() && IsRequire) ||
-      (!resultValidMail(value) && IsEmpty);
-  }
-  return (
-    <label
-      key={uniqKey}
-      className={classNameLabel ? classNameLabel : "FormPageLayout__label"}
-    >
-      <input
-        name={name}
-        className={
-          classNameInput
-            ? classNameInput
-            : className
-            ? `Formpagelayout__input_nested ${className}`
-            : "Formpagelayout__input_nested"
-        }
-        placeholder={!onFocus ? placeholder : ""}
-        onChange={(event: any) => {
-          onChange(event.type, event.target.value, name, isopen);
-        }}
-        onClick={(event) => {
-          if (uniqKey.split("_")[0] === "select") {
-            event.stopPropagation();
-            ShowList(name);
-          } else {
-            return;
-          }
-        }}
-        onFocus={() => {
-          ChageFocus(currentNumber, name, true);
-        }}
-        onBlur={() => ChageFocus(currentNumber, name, false)}
-        {...rest}
-        type="text"
-        value={value}
-        style={{
-          border: isRedBorder ? "1px solid red" : "",
-        }}
-      />
-      {help && (
-        <div
+    let isRedBorder;
+    if (typeof currentNumber === "number") {
+      isRedBorder = IsEmpty && !value.trim() && IsRequire;
+    } else {
+      isRedBorder =
+        (IsEmpty && !value.trim() && IsRequire) ||
+        (!resultValidMail && IsEmpty);
+    }
+
+    return (
+      <label
+        key={uniqKey}
+        className={classNameLabel ? classNameLabel : "FormPageLayout__label"}
+      >
+        <input
+          name={name}
           className={
-            classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
+            classNameInput
+              ? classNameInput
+              : className
+              ? `Formpagelayout__input_nested ${className}`
+              : "Formpagelayout__input_nested"
           }
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+          placeholder={!onFocus ? placeholder : ""}
+          onChange={(event: any) => {
+            onChange(event.type, event.target.value, name, isopen);
           }}
-        >
-          <img
+          onClick={(event) => {
+            if (uniqKey?.split("_")[0] === "select") {
+              event.stopPropagation();
+              ShowList(name);
+            } else {
+              return;
+            }
+          }}
+          onFocus={() => {
+            ChageFocus(currentNumber, name, true);
+          }}
+          onBlur={() => ChageFocus(currentNumber, name, false)}
+          {...rest}
+          type="text"
+          value={value}
+          style={{
+            border: isRedBorder ? "1px solid red" : "",
+          }}
+        />
+        {help && (
+          <div
             className={
               classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
             }
-            alt="help_icon"
-            src={HELP_QUESTION}
-            onClick={() => {
-              ChageIsShowInfoHelp(name, currentNumber);
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
             }}
-          />
-        </div>
-      )}
-      <span
-        className={
-          classNamePlaceHolder
-            ? classNamePlaceHolder
-            : "FormPageLayout__newPlaceHolder"
-        }
-      >
-        {onFocus || value ? placeholder : ""}
-      </span>
-      {IsShowInfoHelp && (
-        <div
-          onClick={() => ChageIsShowInfoHelp(name, currentNumber)}
-          className="Block-Modal"
+          >
+            <img
+              className={
+                classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
+              }
+              alt="help_icon"
+              src={HELP_QUESTION}
+              onClick={() => {
+                ChageIsShowInfoHelp(name, currentNumber);
+              }}
+            />
+          </div>
+        )}
+        <span
+          className={
+            classNamePlaceHolder
+              ? classNamePlaceHolder
+              : "FormPageLayout__newPlaceHolder"
+          }
         >
-          {help}
-        </div>
-      )}
-    </label>
-  );
-};
+          {onFocus || value ? placeholder : ""}
+        </span>
+        {IsShowInfoHelp && (
+          <div
+            onClick={() => ChageIsShowInfoHelp(name, currentNumber)}
+            className="Block-Modal"
+          >
+            {help}
+          </div>
+        )}
+      </label>
+    );
+  },
+  (prevProps: any, nextProps: any) => {
+    if (
+      prevProps.isopen === nextProps.isopen &&
+      prevProps.value === nextProps.value &&
+      prevProps.IsShowInfoHelp === nextProps.IsShowInfoHelp &&
+      prevProps.onFocus === nextProps.onFocus &&
+      prevProps.IsEmpty === nextProps.IsEmpty &&
+      prevProps.classNameInput === nextProps.classNameInput &&
+      prevProps.className === nextProps.className
+    ) {
+      return true;
+    }
+    return false;
+  }
+);
 
 export default Input;

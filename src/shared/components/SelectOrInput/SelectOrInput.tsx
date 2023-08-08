@@ -4,15 +4,9 @@ import CustomSelect from "@shared/components/CustomSelect/CustomSelect";
 import Input from "@shared/components/Input/Input";
 import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
 
-export const useChooseSelectOrInput = (
-  isopen: any,
-  ShowList: any,
-  itemListStore: any,
-  i: any,
-  uniqKey: any,
-  mainProps: any,
-  arr: any
-): any => {
+const SelectOrInput = (props: any) => {
+  const { isopen, ShowList, itemListStore, i, uniqKey, mainProps, arr } = props;
+
   const LAST_NUMBER: number = arr.length - 1;
 
   if (typeof isopen === "boolean") {
@@ -76,3 +70,5 @@ export const useChooseSelectOrInput = (
       return <Input {...InputProps_Nested} />;
   }
 };
+
+export default SelectOrInput;

@@ -1,4 +1,4 @@
-export const ResultIsGeneralButtonActive = (
+export const ResultIsGeneralButtonDisabled = (
   arr: any,
   ObjectWithInfoEmailInputStore: any
 ) => {

@@ -2,24 +2,20 @@ export const ResultIsGeneralButtonDisabled = (
   arr: any,
   ObjectWithInfoEmailInputStore: any
 ) => {
-  if (arr[1].IsRequire || !ObjectWithInfoEmailInputStore.IsRequire) {
-    return (
-      arr
-        .map((elem: any, i: any) => {
-          if (!arr.IsRequire && i === 1) {
-            return "Not empty";
-          } else {
-            return elem.value;
-          }
-        })
-        .some((elem: any, i: any) => !elem.trim()) ||
-      (!ObjectWithInfoEmailInputStore.IsRequire
-        ? false
-        : !ObjectWithInfoEmailInputStore.value.trim())
-    );
-  }
   return (
-    arr.map((elem: any) => elem.value).some((elem: any) => !elem.trim()) ||
-    !ObjectWithInfoEmailInputStore.value.trim()
+    [...arr, ObjectWithInfoEmailInputStore].reduce((accum: any, elem: any) => {
+      if (!elem.IsRequire) {
+        return accum;
+      } else {
+        return accum || !elem.value.trim();
+      }
+    }, false) ||
+    (arr
+      ?.find((elem: any) => elem?.placeholder === "Сумма")
+      ?.value?.split(".")[1]
+      ?.split("")?.length === 0 &&
+      arr
+        .find((elem: any) => elem.placeholder === "Сумма")
+        ?.value?.includes("."))
   );
 };

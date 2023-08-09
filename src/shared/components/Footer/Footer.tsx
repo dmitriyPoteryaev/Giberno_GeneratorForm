@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useRef } from "react";
 
 import "./Footer.css";
 import { formStore } from "@store/index";
@@ -32,6 +32,12 @@ const Footer = observer(() => {
     IsEnabled,
   }: ObjectInputProps = ObjectWithInfoEmailInputStore;
 
+  const IsGeneralButtonDisabledRef = useRef();
+  const isValidMaildRef = useRef();
+
+  IsGeneralButtonDisabledRef.current = IsGeneralButtonDisabled;
+  isValidMaildRef.current = isValidMail;
+
   const InputProps = {
     type: type,
     placeholder: placeholder,
@@ -57,16 +63,15 @@ const Footer = observer(() => {
       }
     },
   };
-
   const navigate = useNavigate();
 
-  const handlerPostQuery = () => {
-    if (!IsGeneralButtonDisabled && isValidMail) {
+  const handlerPostQuery = useCallback(() => {
+    if (!IsGeneralButtonDisabledRef.current && isValidMaildRef.current) {
       navigate("/test/result?key_gen=" + keyGenStore);
     } else {
       ChageShowWhatInputIsEmpty(true);
     }
-  };
+  }, []);
 
   return (
     <footer className="FooterLayout">

@@ -125,19 +125,9 @@ class FormStore extends RootFormStore {
   };
 
   get IsGeneralButtonDisabled() {
-    return (
-      ResultIsGeneralButtonDisabled(
-        this.ArrayWithAllInputsStore,
-        this.ObjectWithInfoEmailInputStore
-      ) ||
-      (this.ArrayWithAllInputsStore?.find(
-        (elem: any) => elem?.placeholder === "Сумма"
-      )
-        ?.value?.split(".")[1]
-        ?.split("")?.length === 0 &&
-        this.ArrayWithAllInputsStore.find(
-          (elem: any) => elem.placeholder === "Сумма"
-        )?.value?.includes("."))
+    return ResultIsGeneralButtonDisabled(
+      this.ArrayWithAllInputsStore,
+      this.ObjectWithInfoEmailInputStore
     );
   }
 

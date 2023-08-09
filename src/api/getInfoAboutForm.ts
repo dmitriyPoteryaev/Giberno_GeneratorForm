@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ObjectInputProps } from "../types/formTypes";
+import { ObjectInputProps, responseForm } from "../types/formTypes";
 
 const getInfoAboutForm = (key_gen: string) => {
   return axios
@@ -9,16 +9,13 @@ const getInfoAboutForm = (key_gen: string) => {
         key_gen: key_gen,
       },
     })
-    .then((response: any) => {
+    .then((response) => {
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");
       }
-      return {
-        config: response.config.params,
-        infoForm: response.data.data,
-      };
+      return response.data.data;
     })
-    .then(({ config, infoForm }: any) => {
+    .then((infoForm: responseForm) => {
       const {
         employeeName,
         employee,
@@ -30,7 +27,7 @@ const getInfoAboutForm = (key_gen: string) => {
         itemName,
         positionType,
         itemList,
-      } = infoForm;
+      }: responseForm = infoForm;
 
       const ArrayWithFormInputs: ObjectInputProps[] = [
         {

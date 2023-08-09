@@ -1,25 +1,54 @@
 import axios from "axios";
 
+import { positionType, itemFromList } from "../types/formTypes";
+
 const postLink = (
-  employee: any,
-  client_id: any,
-  keyGen: any,
-  emailCustomer: any,
-  amount: any,
-  name: any,
-  description: any,
-  positionTypeStore: any,
-  itemListStore: any,
-  discount: any
+  ...dataPostQuery: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    positionType,
+    itemFromList[] | undefined,
+    string
+  ]
 ) => {
+  const [
+    employee,
+    client_id,
+    keyGen,
+    emailCustomer,
+    amount,
+    name,
+    description,
+    positionTypeStore,
+    itemListStore,
+    discount,
+  ]: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    positionType,
+    itemFromList[] | undefined,
+    string
+  ] = dataPostQuery;
+
   const ChoosePOST_BODY = () => {
     switch (positionTypeStore) {
       case "LIST":
         return {
           items: [
             {
-              itemID: itemListStore.find((elem: any) => elem.name === name)
-                .ItemID,
+              itemID: itemListStore?.find(
+                (elem: itemFromList) => elem.name === name
+              )?.ItemID,
               amount: +amount,
               amountAfterDiscount: +discount || 0,
             },
@@ -33,8 +62,8 @@ const postLink = (
         return {
           items: [
             {
-              itemID: itemListStore.find((elem: any) => elem.name === name)
-                .ItemID,
+              itemID: itemListStore?.find((elem: any) => elem.name === name)
+                ?.ItemID,
               description: description,
               amount: +amount,
               amountAfterDiscount: +discount || 0,
@@ -66,7 +95,10 @@ const postLink = (
 
   return axios
     .post(`https://stage.giberno.ru:20000/test/api/webhook/orders/`, POST_BODY)
-    .then((response: any) => {
+    .then((response) => {
+      if (Array.isArray(response.data.result)) {
+        throw Error(response.data.result[0]);
+      }
       if (response.status !== 200) {
         throw Error("Что пошло не так! Перезагрузите страницу");
       }

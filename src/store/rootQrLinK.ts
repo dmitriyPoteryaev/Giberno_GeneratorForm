@@ -20,7 +20,7 @@ class RootQrLinkStore {
     amount: string,
     name: string,
     description: string,
-    positionTypeStore: string,
+    positionTypeStore: any,
     itemListStore: any[],
     discount: string
   ) => {

@@ -20,33 +20,25 @@ export const specificChangingValueInForm__MANUAL_LIST = (
   if (nameInput === "namePos") {
     // ЛОГИКА, СВЯЗАННАЯ  С ДОБАВЛЕНИЕМ НОВОГО ИНПУТА С УЧЁТОМ ТИПА СКИДКИ
 
-    const discount = arrayWithItems.find(
+    const ObjectWithChosedItem = arrayWithItems.find(
       (elem: any) => elem.name === value
-    ).discount;
+    );
+    const { discount } = ObjectWithChosedItem;
 
-    if (!array.find((elem: any) => elem.name === "amount_discount")) {
-      if (discount === "ON_EMPLOYEE" || discount === "PROPORTIONAL") {
-        array = [...array, { ...InputWithDiccount, discount: discount }];
-      }
+    const ObjectAmountDiscount = array.find(
+      (elem: any) => elem.name === "amount_discount"
+    );
+
+    if (!ObjectAmountDiscount && discount !== "NO_DISCOUNT") {
+      array = [...array, { ...InputWithDiccount, discount: discount }];
     }
-    if (
-      array.find((elem: any) => elem.name === "amount_discount")?.discount !==
-        undefined &&
-      array.find((elem: any) => elem.name === "amount_discount")?.discount !==
-        discount
-    ) {
-      if (discount === "ON_EMPLOYEE" || discount === "PROPORTIONAL") {
-        const index = array.indexOf(
-          (elem: any) => elem.name === "amount_discount"
-        );
-        array.splice(index, 1);
-
+    if (ObjectAmountDiscount && ObjectAmountDiscount.discount !== discount) {
+      const index = array.indexOf(
+        (elem: any) => elem.name === "amount_discount"
+      );
+      array.splice(index, 1);
+      if (discount !== "NO_DISCOUNT") {
         array = [...array, { ...InputWithDiccount, discount: discount }];
-      } else {
-        const index = array.indexOf(
-          (elem: any) => elem.name === "amount_discount"
-        );
-        array.splice(index, 1);
       }
     }
 

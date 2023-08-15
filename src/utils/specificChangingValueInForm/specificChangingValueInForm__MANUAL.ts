@@ -5,7 +5,7 @@ const regex = /^(\d{0,9})(\.\d{0,2})?$/;
 export const specificChangingValueInForm__MANUAL = (
   array: any,
   nameInput: string,
-  value: any
+  value: string
 ) => {
   return array.map((elem: any, k: any) => {
     if (elem.name === nameInput) {

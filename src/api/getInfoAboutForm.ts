@@ -28,7 +28,6 @@ const getInfoAboutForm = (key_gen: string) => {
         positionType,
         itemList,
       }: responseForm = infoForm;
-      console.log(infoForm);
 
       const ArrayWithFormInputs: ObjectInputProps[] = [
         {

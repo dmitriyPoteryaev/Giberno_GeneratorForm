@@ -35,7 +35,6 @@ const FormPage = observer(() => {
         line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
     });
     navigate("/test/formgen?key_gen=" + curData.key_gen);
-
     fetching(curData.key_gen);
 
     document.addEventListener("click", DeleteAllPopUpWindow);

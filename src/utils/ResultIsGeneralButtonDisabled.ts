@@ -1,4 +1,4 @@
-import {ObjectInputProps} from "../types/formTypes"
+import { ObjectInputProps } from "../types/formTypes";
 export const ResultIsGeneralButtonDisabled = (
   arr: ObjectInputProps[],
   ObjectWithInfoEmailInputStore: ObjectInputProps

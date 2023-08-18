@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Тестирование endpoint. Получение информация для заполнения формы Получение данных по ключу - 5d60d33f-5251-4b19-8925-56d757a3cb20 1`] = `
+{
+  "data": {
+    "clientId": "2fd076e3-22d4-4a30-923d-31278eb5b5dc",
+    "clientTitle": "СК "ВСК"",
+    "email": {
+      "emailHelp": "emailHelp",
+      "emailPlaceholder": "Email клиента для чека",
+      "emailRequire": true,
+      "enabled": true,
+    },
+    "employee": "86bd0673-0f86-43f9-a5a4-a9907610dc0a",
+    "employeeName": "Егоров Р. ",
+    "itemDescription": {
+      "descriptionRequire": true,
+      "enabled": true,
+      "itemDescriptionHelp": null,
+      "itemDescriptionPlaceholder": "ID договора страхования",
+    },
+    "itemList": [
+      {
+        "ItemID": "35860c6d-69f7-4a9e-90ab-bfe20fbe0818",
+        "discount": "NO_DISCOUNT",
+        "name": "Сбер ипотека",
+      },
+      {
+        "ItemID": "ca306ff3-17e2-44d3-904d-0aae06f1f2fb",
+        "discount": "PROPORTIONAL",
+        "name": "Страхование авто",
+      },
+      {
+        "ItemID": "c0a3d1a3-7bc0-457f-9c67-548b89f9eb7a",
+        "discount": "ON_EMPLOYEE",
+        "name": "Страхование имущества",
+      },
+      {
+        "ItemID": "3afbbc66-4922-44ab-8a8a-c2cc84706d3b",
+        "discount": "NO_DISCOUNT",
+        "name": "Страхование жизни",
+      },
+    ],
+    "itemName": {
+      "itemNameHelp": "Тип страхового полиса (Осаго ФЛ, Ипотека Сбер и т.д)",
+      "itemNamePlaceholder": "Тип договора",
+    },
+    "keyGen": "5d60d33f-5251-4b19-8925-56d757a3cb20",
+    "positionType": "MANUAL_LIST",
+  },
+  "status": "success",
+}
+`;
+
+exports[`Тестирование endpoint. Получение информация для заполнения формы Получение данных по ключу - 48acf988-686f-4be4-bc36-82bf827c3b61 1`] = `
+{
+  "data": {
+    "clientId": "d839a0b6-5bae-4e8c-aa33-30b2d8a42b07",
+    "clientTitle": "Сенной рынок",
+    "email": {
+      "emailHelp": "emailHelp",
+      "emailPlaceholder": "Email клиента для чека",
+      "emailRequire": false,
+      "enabled": false,
+    },
+    "employee": "86bd0673-0f86-43f9-a5a4-a9907610dc0a",
+    "employeeName": "Егоров Р. ",
+    "itemDescription": {
+      "descriptionRequire": false,
+      "enabled": true,
+      "itemDescriptionHelp": "lol",
+      "itemDescriptionPlaceholder": "Описание позиции",
+    },
+    "itemList": [
+      {
+        "ItemID": "448116b0-e983-461e-89ba-bba271c57faf",
+        "description": "Красивые цветы",
+        "discount": "ON_EMPLOYEE",
+        "name": "Тюльпаны",
+      },
+      {
+        "ItemID": "39797c53-413f-46d2-9838-12553f5179d7",
+        "description": "1 букет",
+        "discount": "PROPORTIONAL",
+        "name": "Ромашки",
+      },
+    ],
+    "itemName": {
+      "itemNameHelp": null,
+      "itemNamePlaceholder": null,
+    },
+    "keyGen": "48acf988-686f-4be4-bc36-82bf827c3b61",
+    "positionType": "LIST",
+  },
+  "status": "success",
+}
+`;
+
+exports[`Тестирование endpoint. Получение информация для заполнения формы Получение данных по ключу - da55122e-413b-4810-a565-93de82471ebc 1`] = `
+{
+  "data": {
+    "clientId": "fb1969e9-8fa1-4b40-a9a4-da10a3fd968e",
+    "clientTitle": "СК "ВСК"",
+    "email": {
+      "emailHelp": null,
+      "emailPlaceholder": "Email клиента для чека",
+      "emailRequire": true,
+      "enabled": true,
+    },
+    "employee": "db2e5744-72ee-4bd9-8b3e-0242ca2218d9",
+    "employeeName": "Воронцов А. Р.",
+    "itemDescription": {
+      "descriptionRequire": true,
+      "enabled": true,
+      "itemDescriptionHelp": null,
+      "itemDescriptionPlaceholder": "ID договора страхования",
+    },
+    "itemList": [
+      {
+        "ItemID": "674a4efb-47cc-49ce-bd8c-84c5a154b828",
+        "discount": "NO_DISCOUNT",
+        "name": "Сбер - Ипотека - Титульная",
+      },
+      {
+        "ItemID": "c9598936-5084-4eae-98eb-e340d191e3c8",
+        "discount": "NO_DISCOUNT",
+        "name": "Сбер - Ипотека - Жизнь",
+      },
+      {
+        "ItemID": "147584a8-1cc8-4e6b-a991-0412728dc055",
+        "discount": "NO_DISCOUNT",
+        "name": "Сбер - Ипотека - Имущество",
+      },
+    ],
+    "itemName": {
+      "itemNameHelp": null,
+      "itemNamePlaceholder": "Тип договора",
+    },
+    "keyGen": "da55122e-413b-4810-a565-93de82471ebc",
+    "positionType": "MANUAL_LIST",
+  },
+  "status": "success",
+}
+`;

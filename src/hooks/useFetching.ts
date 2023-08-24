@@ -1,5 +1,3 @@
-import { AnyCnameRecord } from "dns";
-
 import { useState } from "react";
 
 const useFetching = (callback: Function): any => {
@@ -8,9 +6,13 @@ const useFetching = (callback: Function): any => {
 
   const fetching = async (...data: any) => {
     try {
-      await callback(...data);
+      const response = await callback(...data);
+
+      if (typeof response !== "object") {
+        throw Error(response);
+      }
     } catch (mesError: any) {
-      setError(mesError);
+      setError(mesError.message);
     } finally {
       setIsLoading(false);
     }

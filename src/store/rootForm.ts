@@ -17,12 +17,11 @@ class RootFormStore {
   ChangeDataAboutForm = async (key_gen: string) => {
     try {
       const response = await getInfoAboutForm(key_gen);
+      if (typeof response !== "object") {
+        throw Error(response);
+      }
 
       runInAction(() => {
-        if (typeof response !== "object") {
-          throw Error(response);
-        }
-
         const {
           ArrayWithFormInputs,
           ObjectWithInfoEmailInput,

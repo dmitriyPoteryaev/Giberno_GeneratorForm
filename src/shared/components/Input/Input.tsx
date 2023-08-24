@@ -57,6 +57,7 @@ const Input = memo(
       >
         <input
           name={name}
+          data-testid="input-item"
           className={
             classNameInput
               ? classNameInput

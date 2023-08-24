@@ -31,7 +31,6 @@ const FormPage = observer(() => {
     });
     navigate("/test/formgen?key_gen=" + curData.key_gen);
     fetching(curData.key_gen);
-
     document.addEventListener("click", DeleteAllPopUpWindow);
 
     return () => {

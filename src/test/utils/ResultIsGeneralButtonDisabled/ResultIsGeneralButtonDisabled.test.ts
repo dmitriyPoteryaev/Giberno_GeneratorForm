@@ -1,4 +1,5 @@
-import { ResultIsGeneralButtonDisabled } from "../../../utils/ResultIsGeneralButtonDisabled";
+import { ResultIsGeneralButtonDisabled } from "@utils/ResultIsGeneralButtonDisabled";
+
 import { ObjectInputProps } from "../../../types/formTypes";
 
 describe("Тестирование активности главной кнопки", () => {

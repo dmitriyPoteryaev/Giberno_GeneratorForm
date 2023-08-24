@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Example 1 renders successfully 1`] = `
+<button>
+  <img
+    alt="grayCopyBtn"
+  />
+  <span>
+    Я здесь
+  </span>
+</button>
+`;
+
+exports[`test CopyButton Есть ли в функциональном компоненте тег - button 1`] = `
+<button>
+  <img
+    alt="grayCopyBtn"
+  />
+  <span>
+    Я здесь
+  </span>
+</button>
+`;

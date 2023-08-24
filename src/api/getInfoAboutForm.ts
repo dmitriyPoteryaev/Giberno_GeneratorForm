@@ -2,113 +2,109 @@ import axios from "axios";
 
 import { ObjectInputProps, responseForm } from "../types/formTypes";
 
-const getInfoAboutForm = (key_gen: string) => {
-  return axios
-    .get(`https://api.giberno.ru/test/formgen/`, {
+const getInfoAboutForm = async (key_gen: string) => {
+  try {
+    const response = await axios.get(`https://api.giberno.ru/test/formgen/`, {
       params: {
         key_gen: key_gen,
       },
-    })
-    .then((response) => {
-      if (response.status !== 200) {
-        throw Error("Что пошло не так! Перезагрузите страницу");
-      }
-      return response.data.data;
-    })
-    .then((infoForm: responseForm) => {
-      const {
-        employeeName,
-        employee,
-        clientId,
-        clientTitle,
-        keyGen,
-        email,
-        itemDescription,
-        itemName,
-        positionType,
-        itemList,
-      }: responseForm = infoForm;
+    });
+    if (response.status !== 200) {
+      throw Error("Что пошло не так! Перезагрузите страницу");
+    }
 
-      const ArrayWithFormInputs: ObjectInputProps[] = [
-        {
-          value: "",
-          type: "text",
-          placeholder: itemName.itemNamePlaceholder,
-          help: itemName.itemNameHelp,
-          IsShowInfoHelp: false,
-          onFocus: false,
-          IsRequire: true,
-          IsEnabled: true,
-          name: "namePos",
-          isopen: false,
-        },
-        {
-          value: "",
-          type: "text",
-          placeholder: itemDescription.itemDescriptionPlaceholder,
-          help: itemDescription.itemDescriptionHelp,
-          IsShowInfoHelp: false,
-          onFocus: false,
-          IsEnabled: itemDescription.enabled,
-          IsRequire: itemDescription.descriptionRequire,
-          name: "description",
-          isopen: false,
-        },
-        {
-          value: "",
-          type: "text",
-          placeholder: "Сумма",
-          onFocus: false,
-          IsRequire: true,
-          IsEnabled: true,
-          IsShowInfoHelp: false,
-          name: "amount",
-        },
-      ];
+    const {
+      employeeName,
+      employee,
+      clientId,
+      clientTitle,
+      keyGen,
+      email,
+      itemDescription,
+      itemName,
+      positionType,
+      itemList,
+    }: responseForm = response.data.data;
 
-      if (
-        Array.isArray(itemList) &&
-        (positionType === "LIST" || positionType === "MANUAL_LIST")
-      ) {
-        ArrayWithFormInputs[0].isopen = false;
-      } else {
-        ArrayWithFormInputs[0].isopen = undefined;
-      }
-
-      if (Array.isArray(itemList) && positionType === "LIST") {
-        ArrayWithFormInputs[1].isopen = false;
-      } else {
-        ArrayWithFormInputs[1].isopen = undefined;
-      }
-
-      const ObjectWithInfoEmailInput = {
+    const ArrayWithFormInputs: ObjectInputProps[] = [
+      {
         value: "",
         type: "text",
-        placeholder: email.emailPlaceholder,
-        help: email.emailHelp,
+        placeholder: itemName.itemNamePlaceholder,
+        help: itemName.itemNameHelp,
         IsShowInfoHelp: false,
         onFocus: false,
-        IsRequire: email.emailRequire,
-        IsEnabled: email.enabled,
-        name: "email",
-        isopen: null,
-      };
+        IsRequire: true,
+        IsEnabled: true,
+        name: "namePos",
+        isopen: false,
+      },
+      {
+        value: "",
+        type: "text",
+        placeholder: itemDescription.itemDescriptionPlaceholder,
+        help: itemDescription.itemDescriptionHelp,
+        IsShowInfoHelp: false,
+        onFocus: false,
+        IsEnabled: itemDescription.enabled,
+        IsRequire: itemDescription.descriptionRequire,
+        name: "description",
+        isopen: false,
+      },
+      {
+        value: "",
+        type: "text",
+        placeholder: "Сумма",
+        onFocus: false,
+        IsRequire: true,
+        IsEnabled: true,
+        IsShowInfoHelp: false,
+        name: "amount",
+      },
+    ];
 
-      return {
-        ArrayWithFormInputs: ArrayWithFormInputs,
-        ObjectWithInfoEmailInput: ObjectWithInfoEmailInput,
-        employeeName: employeeName,
-        employee: employee,
-        clientId: clientId,
-        clientTitle: clientTitle,
-        keyGen: keyGen,
-        positionType: positionType,
-        itemList: itemList,
-      };
-    })
-    .catch((err) => {
-      return err.message;
-    });
+    if (
+      Array.isArray(itemList) &&
+      (positionType === "LIST" || positionType === "MANUAL_LIST")
+    ) {
+      ArrayWithFormInputs[0].isopen = false;
+    } else {
+      ArrayWithFormInputs[0].isopen = undefined;
+    }
+
+    if (Array.isArray(itemList) && positionType === "LIST") {
+      ArrayWithFormInputs[1].isopen = false;
+    } else {
+      ArrayWithFormInputs[1].isopen = undefined;
+    }
+
+    const ObjectWithInfoEmailInput = {
+      value: "",
+      type: "text",
+      placeholder: email.emailPlaceholder,
+      help: email.emailHelp,
+      IsShowInfoHelp: false,
+      onFocus: false,
+      IsRequire: email.emailRequire,
+      IsEnabled: email.enabled,
+      name: "email",
+      isopen: null,
+    };
+
+    return {
+      ArrayWithFormInputs: ArrayWithFormInputs,
+      ObjectWithInfoEmailInput: ObjectWithInfoEmailInput,
+      employeeName: employeeName,
+      employee: employee,
+      clientId: clientId,
+      clientTitle: clientTitle,
+      keyGen: keyGen,
+      positionType: positionType,
+      itemList: itemList,
+    };
+  } catch (err: any) {
+    return err.message;
+  }
 };
 
 export const formAPI = {

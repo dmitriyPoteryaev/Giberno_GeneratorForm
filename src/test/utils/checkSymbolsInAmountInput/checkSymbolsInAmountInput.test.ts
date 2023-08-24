@@ -1,4 +1,4 @@
-import { checkSymbolsInAmountInput } from "../../../utils/checkSymbolsInAmountInput";
+import { checkSymbolsInAmountInput } from "@utils/checkSymbolsInAmountInput";
 
 describe("Проверка значения суммы", () => {
   test("Передаём значение 2 300,4 RUB", () => {

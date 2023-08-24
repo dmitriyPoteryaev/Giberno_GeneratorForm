@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { getInfoAboutForm } from "./getInfoAboutForm";
 
 // jest.mock("axios");
@@ -6,9 +7,7 @@ import { getInfoAboutForm } from "./getInfoAboutForm";
 describe("Тестирование endpoint. Получение информация для заполнения формы", () => {
   // let MockResponse: any;
 
-  beforeEach(() => {
-  
-  });
+  beforeEach(() => {});
   test("Получение данных по ключу - 48acf988-686f-4be4-bc36-82bf827c3b61", async () => {
     // (axios.get as jest.Mock).mockReturnValue(MockResponse);
     const result: any = await getInfoAboutForm(

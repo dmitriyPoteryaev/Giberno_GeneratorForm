@@ -16,8 +16,7 @@ import "./ResultPage.css";
 
 const ResultPage = observer(() => {
   const { postQr_Link, qrLinkStore, urlFormPayStore } = rootQrLinkStore;
-  const [fetching, isLoading, error]: [Function, boolean, string] =
-    useFetching(postQr_Link);
+  const [fetching, isLoading, error]: any = useFetching(postQr_Link);
   const blockRef = useRef<any>(null);
   const [currentWidth, setCurrentWidth] = useState<number>(
     blockRef.current?.offsetWidth

@@ -1,4 +1,4 @@
-import { specificChangingValueInForm__MANUAL } from "../../../../utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL";
+import { specificChangingValueInForm__MANUAL } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL";
 
 describe("Проверка формы на positionType =  MANUAL", () => {
   const MockArrayWithAllInputsInForm = [

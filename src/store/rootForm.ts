@@ -1,5 +1,5 @@
 import { formAPI } from "@api/getInfoAboutForm";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, runInAction } from "mobx";
 const { getInfoAboutForm } = formAPI;
 
 class RootFormStore {
@@ -14,44 +14,44 @@ class RootFormStore {
   positionTypeStore: any;
   itemListStore: any;
 
-  ChangeDataAboutForm = (key_gen: string) => {
-    return getInfoAboutForm(key_gen)
-      .then((response: any) => {
+  ChangeDataAboutForm = async (key_gen: string) => {
+    try {
+      const response = await getInfoAboutForm(key_gen);
+
+      runInAction(() => {
         if (typeof response !== "object") {
           throw Error(response);
         }
 
-        return response;
-      })
-      .then(
-        action((response: any) => {
-          const {
-            ArrayWithFormInputs,
-            ObjectWithInfoEmailInput,
-            employeeName,
-            employee,
-            clientId,
-            clientTitle,
-            keyGen,
-            actualPositions,
-            positionType,
-            itemList,
-          } = response;
-          this.employeeNameStore = employeeName;
-          this.employeeNameStoreForPOST = employee;
-          this.clientTitleStore = clientTitle;
-          this.clientIdStore = clientId;
-          this.keyGenStore = keyGen;
+        const {
+          ArrayWithFormInputs,
+          ObjectWithInfoEmailInput,
+          employeeName,
+          employee,
+          clientId,
+          clientTitle,
+          keyGen,
+          actualPositions,
+          positionType,
+          itemList,
+        } = response;
+        this.employeeNameStore = employeeName;
+        this.employeeNameStoreForPOST = employee;
+        this.clientTitleStore = clientTitle;
+        this.clientIdStore = clientId;
+        this.keyGenStore = keyGen;
 
-          this.ArrayWithAllInputsStore = ArrayWithFormInputs;
-          this.ObjectWithInfoEmailInputStore = ObjectWithInfoEmailInput;
+        this.ArrayWithAllInputsStore = ArrayWithFormInputs;
+        this.ObjectWithInfoEmailInputStore = ObjectWithInfoEmailInput;
 
-          this.actualPositionsStore = actualPositions;
+        this.actualPositionsStore = actualPositions;
 
-          this.positionTypeStore = positionType;
-          this.itemListStore = itemList;
-        })
-      );
+        this.positionTypeStore = positionType;
+        this.itemListStore = itemList;
+      });
+    } catch (err: any) {
+      return err.message;
+    }
   };
 
   constructor() {

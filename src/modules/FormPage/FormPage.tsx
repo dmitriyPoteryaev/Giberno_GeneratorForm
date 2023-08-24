@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import "./FormPage.css";
+import useFetching from "@hooks/useFetching";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
@@ -10,14 +11,8 @@ import { formStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import useFetching from "../../hooks/useFetching";
-
 const FormPage = observer(() => {
-  const {
-    DeleteAllPopUpWindow,
-    ChageShowWhatInputIsEmpty,
-    ChangeDataAboutForm,
-  } = formStore;
+  const { DeleteAllPopUpWindow, ChangeDataAboutForm } = formStore;
 
   const [fetching, isLoading, error]: [Function, boolean, string] =
     useFetching(ChangeDataAboutForm);
@@ -42,16 +37,10 @@ const FormPage = observer(() => {
     return () => {
       document.removeEventListener("click", DeleteAllPopUpWindow);
     };
-  }, [
-    navigate,
-    location.search,
-    ChangeDataAboutForm,
-    ChageShowWhatInputIsEmpty,
-    DeleteAllPopUpWindow,
-  ]);
+  }, []);
 
   if (isLoading) {
-    return <PageLoader />;
+    return <PageLoader description={"Ожидайте, скоро появится Ваш заказ!"} />;
   }
 
   if (error) {
@@ -61,7 +50,7 @@ const FormPage = observer(() => {
   return (
     <div className="FormPageLayout">
       <Header />
-      <header className="FormPageLayout__header">Формирование оплаты </header>
+      <header className="FormPageLayout__header">Формирование оплаты</header>
       <Form></Form>
       <Footer />
     </div>

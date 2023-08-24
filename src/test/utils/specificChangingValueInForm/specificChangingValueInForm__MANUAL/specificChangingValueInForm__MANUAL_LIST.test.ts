@@ -1,4 +1,4 @@
-import { specificChangingValueInForm__MANUAL_LIST } from "../../../../utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
+import { specificChangingValueInForm__MANUAL_LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
 
 describe("Проверка формы на positionType =  MANUAL_LIST", () => {
   const MockArrayWithAllInputsInForm = [
@@ -197,7 +197,7 @@ describe("Проверка формы на positionType =  MANUAL_LIST", () => {
         IsEnabled: true,
         IsShowInfoHelp: false,
         name: "amount",
-      }
+      },
     ]);
   });
   test("Mеняем amount", () => {
@@ -242,7 +242,7 @@ describe("Проверка формы на positionType =  MANUAL_LIST", () => {
         IsEnabled: true,
         IsShowInfoHelp: false,
         name: "amount",
-      }
+      },
     ]);
   });
   test("Mеняем amount. Вводим некорректное значение", () => {
@@ -287,7 +287,7 @@ describe("Проверка формы на positionType =  MANUAL_LIST", () => {
         IsEnabled: true,
         IsShowInfoHelp: false,
         name: "amount",
-      }
+      },
     ]);
   });
 });

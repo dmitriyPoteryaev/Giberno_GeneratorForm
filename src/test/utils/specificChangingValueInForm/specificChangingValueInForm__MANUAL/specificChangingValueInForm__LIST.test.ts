@@ -1,4 +1,4 @@
-import { specificChangingValueInForm__LIST } from "../../../../utils/specificChangingValueInForm/specificChangingValueInForm__LIST";
+import { specificChangingValueInForm__LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__LIST";
 
 describe("Проверка формы на positionType =  LIST", () => {
   const MockArrayWithAllInputsInForm = [

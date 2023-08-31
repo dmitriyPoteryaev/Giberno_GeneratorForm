@@ -9,36 +9,25 @@ import Form from "@shared/components/Form";
 import Header from "@shared/components/Header";
 import { formStore } from "@store/index";
 import { observer } from "mobx-react-lite";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const FormPage = observer(() => {
-  const { DeleteAllPopUpWindow, ChangeDataAboutForm } = formStore;
+  const { ChangeDataAboutForm } = formStore;
 
   const [fetching, isLoading, error]: [Function, boolean, string] =
     useFetching(ChangeDataAboutForm);
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const curData: any = {
-      key_gen: "48acf988-686f-4be4-bc36-82bf827c3b61",
-    };
+    let key_gen = "48acf988-686f-4be4-bc36-82bf827c3b61";
 
     location.search.split("&").forEach((line, i) => {
-      curData.key_gen =
-        line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
+      key_gen = line.split("=")[1] || "48acf988-686f-4be4-bc36-82bf827c3b61";
     });
 
-    fetching(curData.key_gen);
-
-    navigate("/test/formgen?key_gen=" + curData.key_gen);
-
-    document.addEventListener("click", DeleteAllPopUpWindow);
-
-    return () => {
-      document.removeEventListener("click", DeleteAllPopUpWindow);
-    };
+    fetching(key_gen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {

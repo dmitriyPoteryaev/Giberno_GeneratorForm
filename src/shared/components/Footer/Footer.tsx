@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 
 import "./Footer.css";
 import { formStore } from "@store/index";
@@ -20,7 +20,16 @@ const Footer = observer(() => {
     positionTypeStore,
     IsGeneralButtonDisabled,
     isValidMail,
+    DeleteAllPopUpWindow,
   } = formStore;
+
+  useEffect(() => {
+    document.addEventListener("click", DeleteAllPopUpWindow);
+
+    return () => {
+      document.removeEventListener("click", DeleteAllPopUpWindow);
+    };
+  }, []);
   const {
     type,
     placeholder,

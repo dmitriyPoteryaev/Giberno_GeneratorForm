@@ -41,6 +41,10 @@ const Input = memo(
       ...rest
     } = props;
 
+    // if (name === "email") {
+    //   console.log(classNameInput, className);
+    // }
+
     let isRedBorder;
     if (typeof currentNumber === "number") {
       isRedBorder = IsEmpty && !value.trim() && IsRequire;

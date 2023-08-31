@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import CustomSelect from "@shared/components/CustomSelect/CustomSelect";
 import Input from "@shared/components/Input/Input";
@@ -19,10 +19,20 @@ const Form = observer(() => {
     ChageFocus,
     ShowList,
     itemListStore,
+    DeleteAllPopUpWindow,
   } = formStore;
+
+  useEffect(() => {
+    document.addEventListener("click", DeleteAllPopUpWindow);
+
+    return () => {
+      document.removeEventListener("click", DeleteAllPopUpWindow);
+    };
+  }, [DeleteAllPopUpWindow]);
 
   const additionalBorder =
     itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
+
   return (
     <form
       key={"form"}

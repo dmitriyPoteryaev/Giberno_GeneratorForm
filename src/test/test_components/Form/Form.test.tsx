@@ -34,7 +34,7 @@ describe("test Form", () => {
 
     curentInputs = inputsResponse;
   });
-  test("Проверяем есть ли в форме все поля для ввода. По ключу - 48acf988-686f-4be4-bc36-82bf827c3b61", async () => {
+  test("Проверяем есть ли в форме все поля для ввода. По ключу - 48acf988-686f-4be4-bc36-82bf827c3b61", () => {
     // Ожидаем загрузки данных
 
     // Ожидаем появления обновленного состояния после выполнения useEffect
@@ -49,7 +49,7 @@ describe("test Form", () => {
     expect(inputName.placeholder).toBe("");
   });
 
-  test("Проверяем есть ли в форме все поля для ввода. По ключу - 48acf988-686f-4be4-bc36-82bf827c3b61. Нет поля ввода для e-mail", async () => {
+  test("Проверяем есть ли в форме все поля для ввода. По ключу - 48acf988-686f-4be4-bc36-82bf827c3b61. Нет поля ввода для e-mail", () => {
     // Ожидаем загрузки данных
 
     const inputEmail = screen.queryByRole("input", { name: "email" });
@@ -57,12 +57,12 @@ describe("test Form", () => {
     expect(inputEmail).toBeNull();
   });
 
-  test("Всплывающего окна для выбора конкретной позиции не будет видно", async () => {
+  test("Всплывающего окна для выбора конкретной позиции не будет видно", () => {
     const select = screen.queryByTestId("select_namePos");
 
     expect(select).toBeNull();
   });
-  test("По нажатию на инпут появится всплывающее окно для выбора позиции", async () => {
+  test("По нажатию на инпут появится всплывающее окно для выбора позиции", () => {
     const [inputName, inputDescription, inputAmout] = curentInputs;
 
     userEvent.click(inputName);
@@ -72,7 +72,7 @@ describe("test Form", () => {
     expect(SelectName).toBeInTheDocument();
   });
 
-  test("По нажатию на конкретную позицию в сплывающе окне она появится в инпуте. А всплывающего окна не будет", async () => {
+  test("По нажатию на конкретную позицию в сплывающе окне она появится в инпуте. А всплывающего окна не будет", () => {
     const [inputName, inputDescription, inputAmout] = curentInputs;
 
     userEvent.click(inputName);
@@ -88,7 +88,7 @@ describe("test Form", () => {
     expect(SelectName).toBeNull();
   });
 
-  test("По нажатию на позицию с discoint !== NO_DISCOUNT в сплывающе окне, то должно появиться 4 поле в форме", async () => {
+  test("По нажатию на позицию с discoint !== NO_DISCOUNT в сплывающе окне, то должно появиться 4 поле в форме", () => {
     const [inputName, inputDescription, inputAmout] = curentInputs;
 
     userEvent.click(inputName);

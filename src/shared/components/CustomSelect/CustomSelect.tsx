@@ -6,7 +6,7 @@ import Input from "../Input/Input";
 
 const CustomSelect = memo(
   ({ actualPositionsStore, ShowList, isopen, ...InputProps_First }: any) => {
-    const { name, onChange, uniqKey, currentNumber } = InputProps_First;
+    const { name, onChange, uniqKey } = InputProps_First;
 
     const handler = (EventType: any, elem: any, name: any) => {
       onChange(EventType, elem, name, isopen);
@@ -17,7 +17,7 @@ const CustomSelect = memo(
       ...InputProps_First,
     };
 
-    const testid: string = `select_${currentNumber}`;
+    const testid: string = `select_${name}`;
 
     return (
       <div key={uniqKey} className="CustomSelect">

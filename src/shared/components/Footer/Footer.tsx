@@ -30,6 +30,7 @@ const Footer = observer(() => {
     onFocus,
     IsRequire,
     IsEnabled,
+    name,
   }: ObjectInputProps = ObjectWithInfoEmailInputStore;
 
   const IsGeneralButtonDisabledRef = useRef();
@@ -43,6 +44,7 @@ const Footer = observer(() => {
     placeholder: placeholder,
     value: value,
     help: help,
+    name: name,
     uniqKey: "input_email",
     IsEmpty: ShowWhatInputIsEmpty,
     onFocus: onFocus,

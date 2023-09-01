@@ -4,9 +4,10 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Input from "@shared/components/Input";
-import App from "../../../App";
-import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
+
+import App from "../../../App";
 
 describe("test CopyButton", () => {
   test("Отображается ли нужный переданное value в input", () => {
@@ -72,7 +73,7 @@ describe("test CopyButton", () => {
       screen.getAllByTestId("input-item");
 
     inputsUpdate.forEach((input: HTMLInputElement) => {
-      if (input.name === "email" || input.name === "description" ) {
+      if (input.name === "email" || input.name === "description") {
         expect(input).not.toHaveStyle({ border: "1px solid red" });
       } else {
         expect(input).toHaveStyle({ border: "1px solid red" });

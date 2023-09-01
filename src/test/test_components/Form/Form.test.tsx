@@ -2,11 +2,9 @@
 import React from "react";
 
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-
 import userEvent from "@testing-library/user-event";
 
-import App from "../../../App";
+import RenderWithRoter from "../helpers/RenderWithRoter/RenderWithRoter";
 import "@testing-library/jest-dom";
 
 describe("test Form", () => {
@@ -14,13 +12,10 @@ describe("test Form", () => {
 
   beforeEach(async () => {
     render(
-      <MemoryRouter
-        initialEntries={[
-          "/test/formgen?key_gen=48acf988-686f-4be4-bc36-82bf827c3b61",
-        ]}
-      >
-        <App />
-      </MemoryRouter>
+      RenderWithRoter(
+        null,
+        "/test/formgen?key_gen=48acf988-686f-4be4-bc36-82bf827c3b61"
+      )
     );
     const loadingElement = await screen.findByText(
       "Ожидайте, скоро появится Ваш заказ!"
@@ -63,7 +58,7 @@ describe("test Form", () => {
     expect(select).toBeNull();
   });
   test("По нажатию на инпут появится всплывающее окно для выбора позиции", () => {
-    const [inputName, inputDescription, inputAmout] = curentInputs;
+    const [inputName] = curentInputs;
 
     userEvent.click(inputName);
 
@@ -73,7 +68,7 @@ describe("test Form", () => {
   });
 
   test("По нажатию на конкретную позицию в сплывающе окне она появится в инпуте. А всплывающего окна не будет", () => {
-    const [inputName, inputDescription, inputAmout] = curentInputs;
+    const [inputName] = curentInputs;
 
     userEvent.click(inputName);
 
@@ -89,7 +84,7 @@ describe("test Form", () => {
   });
 
   test("По нажатию на позицию с discoint !== NO_DISCOUNT в сплывающе окне, то должно появиться 4 поле в форме", () => {
-    const [inputName, inputDescription, inputAmout] = curentInputs;
+    const [inputName] = curentInputs;
 
     userEvent.click(inputName);
 

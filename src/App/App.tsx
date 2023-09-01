@@ -1,15 +1,8 @@
 import React from "react";
 
-import FormPage from "@modules/FormPage";
-import ResultPage from "@modules/ResultPage";
-import { Route, Routes } from "react-router-dom";
+import AppRoter from "../routes/AppRoter";
 const App = () => {
-  return (
-    <Routes>
-      <Route path="test/formgen" element={<FormPage />} />
-      <Route path="test/result" element={<ResultPage />} />
-    </Routes>
-  );
+  return <AppRoter />;
 };
 
 export default App;

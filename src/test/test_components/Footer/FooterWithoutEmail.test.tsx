@@ -2,21 +2,17 @@
 import React from "react";
 
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 
-import App from "../../../App";
+import RenderWithRoter from "../helpers/RenderWithRoter";
 import "@testing-library/jest-dom";
 
 describe("test FormPage", () => {
   test("Проверяем есть ли в форме все поля для ввода. По ключу - 48acf988-686f-4be4-bc36-82bf827c3b61. Нет поля ввода для e-mail", async () => {
     render(
-      <MemoryRouter
-        initialEntries={[
-          "/test/formgen?key_gen=48acf988-686f-4be4-bc36-82bf827c3b61",
-        ]}
-      >
-        <App />
-      </MemoryRouter>
+      RenderWithRoter(
+        null,
+        "/test/formgen?key_gen=5d60d33f-5251-4b19-8925-56d757a3cb20"
+      )
     );
 
     const loadingElement = await screen.findByText(

@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import FormPage from "@modules/FormPage";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader";
 import CopyButton from "@shared/components/CopyButton";
 import Header from "@shared/components/Header";
 import { formStore, rootQrLinkStore } from "@store/index";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 import ResultPage__Mobile from "./ResultPage__Mobile";
 import useFetching from "../../hooks/useFetching";
@@ -38,15 +38,17 @@ const ResultPage = observer(() => {
       (inputObject: ObjectInputProps) => inputObject.value
     );
 
-  if (!positionTypeStore) {
-    return <FormPage />;
-  }
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!positionTypeStore) {
+      navigate(-1);
+    }
     fetching(
       employeeNameStoreForPOST,
       clientIdStore,
       keyGenStore,
-      ObjectWithInfoEmailInputStore.value.toLowerCase(),
+      ObjectWithInfoEmailInputStore.value?.toLowerCase() || "",
       amountInput,
       nameInput,
       descriptionInput,
@@ -85,7 +87,7 @@ const ResultPage = observer(() => {
   ]);
 
   if (isLoading) {
-    return <PageLoader />;
+    return <PageLoader description={"Ожидайте, скоро появится Ваш заказ!"} />;
   }
   if (error) {
     return <PageError error={error} />;

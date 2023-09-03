@@ -11,7 +11,7 @@ import { RootFormStore } from "./rootForm";
 
 class FormStore extends RootFormStore {
   discountStore: any;
-  ShowWhatInputIsEmpty: any = false;
+  ShowWhatInputIsEmpty: boolean = false;
 
   // изменить значение в инпутах
   ChangeArrayWithAllInputs = (event: any, name: string) => {
@@ -50,7 +50,7 @@ class FormStore extends RootFormStore {
     }
   };
 
-  ChageShowWhatInputIsEmpty = (value: boolean) => {
+  ChageShowWhatInputIsEmpty = (value: boolean): void => {
     this.ShowWhatInputIsEmpty = value;
   };
 

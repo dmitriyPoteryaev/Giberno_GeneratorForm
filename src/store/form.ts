@@ -124,7 +124,7 @@ class FormStore extends RootFormStore {
     };
   };
 
-  get IsGeneralButtonDisabled() {
+  get IsGeneralButtonDisabled(): boolean {
     return ResultIsGeneralButtonDisabled(
       this.ArrayWithAllInputsStore,
       this.ObjectWithInfoEmailInputStore

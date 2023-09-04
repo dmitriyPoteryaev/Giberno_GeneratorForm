@@ -68,4 +68,64 @@ describe("test Routing", () => {
 
     expect(result).toBeInTheDocument();
   });
+
+  test("Не переходим", async () => {
+    // Ожидаем появления обновленного состояния после выполнения useEffect
+
+    render(
+      RenderWithRoter(
+        null,
+        "/test/formgen?key_gen=da55122e-413b-4810-a565-93de82471ebc"
+      )
+    );
+
+    const loadingElement = await screen.findByText(
+      "Ожидайте, скоро появится Ваш заказ!"
+    );
+
+    expect(loadingElement).toBeInTheDocument();
+
+    const payment = await screen.findByText("Формирование оплаты");
+
+    expect(payment).toBeInTheDocument();
+
+    const inputs: HTMLInputElement[] = await screen.findAllByTestId(
+      "input-item"
+    );
+
+    inputs.forEach((input: HTMLInputElement) => {
+      if (input.name === "amount") {
+        userEvent.type(input, "123.10");
+      }
+      if (input.name === "namePos") {
+        userEvent.click(input);
+
+        const select_namePos = screen.getAllByTestId("select-item");
+
+        userEvent.click(select_namePos[0]);
+      }
+
+      if (input.name === "description") {
+        userEvent.type(input, "description");
+      }
+    });
+
+    const generalButton: HTMLButtonElement =
+      screen.getByText(/Сформировать оплату/i);
+
+    userEvent.click(generalButton);
+
+    screen.debug();
+
+    const loadingElementUpdate = screen.queryByText(
+      "Ожидайте, скоро появится Ваш заказ!"
+    );
+
+    expect(loadingElementUpdate).toBeNull();
+
+    const result = screen.queryByText(/Счет успешно сформирован!/i);
+
+    expect(result).toBeNull();
+    screen.debug();
+  });
 });

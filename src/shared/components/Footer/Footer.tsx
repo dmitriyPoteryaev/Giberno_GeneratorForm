@@ -42,11 +42,13 @@ const Footer = observer(() => {
     name,
   }: ObjectInputProps = ObjectWithInfoEmailInputStore;
 
-  const IsGeneralButtonDisabledRef = useRef();
+  const IsGeneralButtonDisabledRef = useRef<any>();
   const isValidMaildRef = useRef();
 
   IsGeneralButtonDisabledRef.current = IsGeneralButtonDisabled;
   isValidMaildRef.current = isValidMail;
+
+  console.log(IsGeneralButtonDisabledRef.current);
 
   const InputProps = {
     type: type,

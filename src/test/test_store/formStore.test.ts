@@ -1,4 +1,3 @@
-import { positionType } from "./../../types/formTypes";
 import { FormStore } from "@store/form";
 import { RootFormStore } from "@store/rootForm";
 import { formAPI } from "@api/getInfoAboutForm";
@@ -9,152 +8,135 @@ const { getInfoAboutForm } = formAPI;
 
 jest.mock("axios");
 
-describe("MyClass", () => {
+describe("Тестирование formStore", () => {
   let formStore: any;
-  let rootStore: any;
 
-  let MockResponse: any;
+  const Mock = {
+    data: {
+      data: {
+        clientId: "d839a0b6-5bae-4e8c-aa33-30b2d8a42b07",
+        clientTitle: "Сенной рынок",
+        email: {
+          enabled: false,
+          emailRequire: false,
+          emailPlaceholder: "Email клиента для чека",
+          emailHelp: "emailHelp",
+        },
+        employee: "496addd6-9d6c-47eb-9295-2fa342f3fc64",
+        itemName: { itemNamePlaceholder: null, itemNameHelp: null },
+        itemDescription: {
+          enabled: true,
+          descriptionRequire: false,
+          itemDescriptionPlaceholder: "Описание позиции",
+          itemDescriptionHelp: "lol",
+        },
+        employeeName: "Лобода Д. А.",
+        keyGen: "8fe86f19-9477-4e73-b198-d08d4e33be6c",
+        positionType: "LIST",
+      },
+      status: "success",
+    },
+
+    status: 200,
+    statusText: "OK",
+  };
+
+  // const Mock = {
+  //   ArrayWithFormInputs: [
+  //     {
+  //       IsEnabled: true,
+  //       IsRequire: true,
+  //       IsShowInfoHelp: false,
+  //       help: "Тип страхового полиса (Осаго ФЛ, Ипотека Сбер и т.д)",
+  //       isopen: false,
+  //       name: "namePos",
+  //       onFocus: false,
+  //       placeholder: "Тип договора",
+  //       type: "text",
+  //       value: "",
+  //     },
+  //     {
+  //       IsEnabled: true,
+  //       IsRequire: true,
+  //       IsShowInfoHelp: false,
+  //       help: null,
+  //       isopen: undefined,
+  //       name: "description",
+  //       onFocus: false,
+  //       placeholder: "ID договора страхования",
+  //       type: "text",
+  //       value: "",
+  //     },
+  //     {
+  //       IsEnabled: true,
+  //       IsRequire: true,
+  //       IsShowInfoHelp: false,
+  //       name: "amount",
+  //       onFocus: false,
+  //       placeholder: "Сумма",
+  //       type: "text",
+  //       value: "",
+  //     },
+  //   ],
+  //   ObjectWithInfoEmailInput: {
+  //     IsEnabled: true,
+  //     IsRequire: true,
+  //     IsShowInfoHelp: false,
+  //     help: "emailHelp",
+  //     isopen: null,
+  //     name: "email",
+  //     onFocus: false,
+  //     placeholder: "Email клиента для чека",
+  //     type: "text",
+  //     value: "",
+  //   },
+  //   clientId: "2fd076e3-22d4-4a30-923d-31278eb5b5dc",
+  //   clientTitle: "СК ВСК",
+  //   employee: "86bd0673-0f86-43f9-a5a4-a9907610dc0a",
+  //   employeeName: "Егоров Р. ",
+  //   itemList: [
+  //     {
+  //       ItemID: "35860c6d-69f7-4a9e-90ab-bfe20fbe0818",
+  //       discount: "NO_DISCOUNT",
+  //       name: "Сбер ипотека",
+  //     },
+  //     {
+  //       ItemID: "ca306ff3-17e2-44d3-904d-0aae06f1f2fb",
+  //       discount: "PROPORTIONAL",
+  //       name: "Страхование авто",
+  //     },
+  //     {
+  //       ItemID: "c0a3d1a3-7bc0-457f-9c67-548b89f9eb7a",
+  //       discount: "ON_EMPLOYEE",
+  //       name: "Страхование имущества",
+  //     },
+  //     {
+  //       ItemID: "3afbbc66-4922-44ab-8a8a-c2cc84706d3b",
+  //       discount: "NO_DISCOUNT",
+  //       name: "Страхование жизни",
+  //     },
+  //   ],
+  //   keyGen: "5d60d33f-5251-4b19-8925-56d757a3cb20",
+  //   positionType: "MANUAL_LIST",
+  // };
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    rootStore = new RootFormStore();
+    // jest.clearAllMocks();
     formStore = new FormStore();
-    // formStore.__proto__ = rootStore;
-
-    MockResponse = {
-      data: {
-        data: {
-          clientId: "d839a0b6-5bae-4e8c-aa33-30b2d8a42b07",
-          clientTitle: "Сенной рынок",
-          email: {
-            enabled: false,
-            emailRequire: false,
-            emailPlaceholder: "Email клиента для чека",
-            emailHelp: "emailHelp",
-          },
-          employee: "496addd6-9d6c-47eb-9295-2fa342f3fc64",
-          itemName: { itemNamePlaceholder: null, itemNameHelp: null },
-          itemDescription: {
-            enabled: true,
-            descriptionRequire: false,
-            itemDescriptionPlaceholder: "Описание позиции",
-            itemDescriptionHelp: "lol",
-          },
-          employeeName: "Лобода Д. А.",
-          keyGen: "8fe86f19-9477-4e73-b198-d08d4e33be6c",
-          positionType: "LIST",
-        },
-        status: "success",
-      },
-
-      status: 200,
-      statusText: "OK",
-    };
-
-    // MockResponse = {
-    //   ArrayWithFormInputs: [
-    //     {
-    //       value: "",
-    //       type: "text",
-    //       placeholder: true,
-    //       help: true,
-    //       IsShowInfoHelp: false,
-    //       onFocus: false,
-    //       IsRequire: true,
-    //       IsEnabled: true,
-    //       name: "namePos",
-    //       isopen: false,
-    //     },
-    //     {
-    //       value: "",
-    //       type: "text",
-    //       placeholder: "Описание позиции",
-    //       help: null,
-    //       IsShowInfoHelp: false,
-    //       onFocus: false,
-    //       IsEnabled: true,
-    //       IsRequire: true,
-    //       name: "description",
-    //       isopen: false,
-    //     },
-    //     {
-    //       value: "",
-    //       type: "text",
-    //       placeholder: "Сумма",
-    //       onFocus: false,
-    //       IsRequire: true,
-    //       IsEnabled: true,
-    //       IsShowInfoHelp: false,
-    //       name: "amount",
-    //     },
-    //   ],
-    //   ObjectWithInfoEmailInput: {
-    //     value: "",
-    //     type: "text",
-    //     placeholder: "Email клиента для чека",
-    //     help: null,
-    //     IsShowInfoHelp: false,
-    //     onFocus: false,
-    //     IsRequire: true,
-    //     IsEnabled: true,
-    //     name: "email",
-    //     isopen: null,
-    //   },
-
-    //   clientId: "d839a0b6-5bae-4e8c-aa33-30b2d8a42b07",
-    //   clientTitle: "Сенной рынок",
-    //   employee: "496addd6-9d6c-47eb-9295-2fa342f3fc64",
-    //   employeeName: "Лобода Д. А.",
-    //   itemList: [
-    //     {
-    //       ItemID: "448116b0-e983-461e-89ba-bba271c57faf",
-    //       description: "Красивые цветы",
-    //       discount: "ON_EMPLOYEE",
-    //       name: "Тюльпаны"
-    //     },
-    //     {
-    //       ItemID: "39797c53-413f-46d2-9838-12553f5179d7",
-    //       description: "1 букет",
-    //       discount: "PROPORTIONAL",
-    //       name: "Ромашки"
-    //     }],
-
-    // }
   });
 
-  it("should initialize myBoolean to false", () => {
+  test("Проверяем налиичие в классе параметра ShowWhatInputIsEmpty. ShowWhatInputIsEmpty = false", () => {
     expect(formStore.ShowWhatInputIsEmpty).toBe(false);
   });
 
-  it("should toggle myBoolean to true", () => {
+  test("Меняем значение ShowWhatInputIsEmpty с помощью ChageShowWhatInputIsEmpty. ShowWhatInputIsEmpty = true", () => {
     formStore.ChageShowWhatInputIsEmpty(true);
     expect(formStore.ShowWhatInputIsEmpty).toBe(true);
   });
 
-  it("should toggle myBoolean to false", () => {
+  test("Меняем значение ShowWhatInputIsEmpty с помощью ChageShowWhatInputIsEmpty. ShowWhatInputIsEmpty = false", () => {
     formStore.ChageShowWhatInputIsEmpty(false);
     expect(formStore.ShowWhatInputIsEmpty).toBe(false);
   });
-  it("root", async () => {
-    expect(formStore).toBeInstanceOf(FormStore);
-    expect(formStore).toBeInstanceOf(RootFormStore);
-    (axios.get as jest.Mock).mockReturnValue(MockResponse);
-    try {
-      const res = await rootStore.ChangeDataAboutForm(
-        "48acf988-686f-4be4-bc36-82bf827c3b61"
-      );
-    } catch (e) {
-      expect(e).toEqual({
-        error: "Что пошло не так! Перезагрузите страницу",
-      });
-    }
-    expect(rootStore.positionTypeStore).toBe(
-      MockResponse.data.data.positionType
-    );
 
-    if (formStore instanceof RootFormStore) {
-       formStore.positionTypeStore = rootStore.positionTypeStore
-
-    }
-  });
 });

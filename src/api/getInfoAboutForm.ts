@@ -9,10 +9,10 @@ const getInfoAboutForm = async (key_gen: string) => {
         key_gen: key_gen,
       },
     });
+
     if (response.status !== 200) {
       throw Error("Что пошло не так! Перезагрузите страницу");
     }
-
     const {
       employeeName,
       employee,

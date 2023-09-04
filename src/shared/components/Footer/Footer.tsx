@@ -48,8 +48,6 @@ const Footer = observer(() => {
   IsGeneralButtonDisabledRef.current = IsGeneralButtonDisabled;
   isValidMaildRef.current = isValidMail;
 
-  console.log(IsGeneralButtonDisabledRef.current);
-
   const InputProps = {
     type: type,
     placeholder: placeholder,

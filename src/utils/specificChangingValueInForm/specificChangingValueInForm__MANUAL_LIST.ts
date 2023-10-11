@@ -23,6 +23,9 @@ export const specificChangingValueInForm__MANUAL_LIST = (
     const ObjectWithChosedItem = arrayWithItems.find(
       (elem: any) => elem.name === value
     );
+    if (!ObjectWithChosedItem) {
+      return array;
+    }
     const { discount } = ObjectWithChosedItem;
 
     const ObjectAmountDiscount = array.find(

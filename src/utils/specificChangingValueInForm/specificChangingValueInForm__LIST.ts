@@ -11,6 +11,7 @@ const InputWithDiccount = {
   IsRequire: true,
   name: "amount_discount",
 };
+
 export const specificChangingValueInForm__LIST = (
   array: any,
   arrayWithItems: any,
@@ -27,7 +28,11 @@ export const specificChangingValueInForm__LIST = (
     const ObjectWithChosedItem = arrayWithItems.find(
       (elem: any) => elem.name === value
     );
-    const { description, discount } = ObjectWithChosedItem;
+    if (!ObjectWithChosedItem) {
+      return array;
+    }
+
+    const { description, discount }: any = ObjectWithChosedItem;
 
     const ObjectAmountDiscount = array.find(
       (elem: any) => elem.name === "amount_discount"

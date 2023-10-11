@@ -4,7 +4,7 @@ import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader";
 import CopyButton from "@shared/components/CopyButton";
 import Header from "@shared/components/Header";
-import { formStore, rootQrLinkStore } from "@store/index";
+import { rootStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
@@ -15,108 +15,103 @@ import { ObjectInputProps } from "../../types/formTypes";
 import "./ResultPage.css";
 
 const ResultPage = observer(() => {
-  const { postQr_Link, qrLinkStore, urlFormPayStore } = rootQrLinkStore;
-  const [fetching, isLoading, error]: any = useFetching(postQr_Link);
+  //   const { postQr_Link, qrLinkStore, urlFormPayStore } = rootQrLinkStore;
+  //   const [fetching, isLoading, error]: any = useFetching(postQr_Link);
   const blockRef = useRef<any>(null);
   const [currentWidth, setCurrentWidth] = useState<number>(
     blockRef.current?.offsetWidth
   );
 
   const {
-    ObjectWithInfoEmailInputStore,
-    clientIdStore,
-    keyGenStore,
+    ChangeArrayWithAllInputs,
+    ChangeDataAboutForm,
     ArrayWithAllInputsStore,
-    employeeNameStoreForPOST,
-    ChageShowWhatInputIsEmpty,
-    positionTypeStore,
-    itemListStore,
-  } = formStore;
+  } = rootStore;
 
-  const [nameInput, descriptionInput, amountInput, discountInput] =
-    ArrayWithAllInputsStore.map(
-      (inputObject: ObjectInputProps) => inputObject.value
-    );
+  //   const [nameInput, descriptionInput, amountInput, discountInput] =
+  //     ArrayWithAllInputsStore.map(
+  //       (inputObject: ObjectInputProps) => inputObject.value
+  //     );
 
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!positionTypeStore) {
-      navigate(-1);
-    }
-    fetching(
-      employeeNameStoreForPOST,
-      clientIdStore,
-      keyGenStore,
-      ObjectWithInfoEmailInputStore.value?.toLowerCase() || "",
-      amountInput,
-      nameInput,
-      descriptionInput,
-      positionTypeStore,
-      itemListStore,
-      discountInput
-    );
+  //   useEffect(() => {
+  //     if (!positionTypeStore) {
+  //       navigate(-1);
+  //     }
+  //     fetching(
+  //       employeeNameStoreForPOST,
+  //       clientIdStore,
+  //       keyGenStore,
+  //       ObjectWithInfoEmailInputStore.value?.toLowerCase() || "",
+  //       amountInput,
+  //       nameInput,
+  //       descriptionInput,
+  //       positionTypeStore,
+  //       itemListStore,
+  //       discountInput
+  //     );
 
-    const handleResize = () => {
-      if (blockRef.current) {
-        const width = blockRef.current.offsetWidth;
-        setCurrentWidth(width);
-      }
-    };
+  //     const handleResize = () => {
+  //       if (blockRef.current) {
+  //         const width = blockRef.current.offsetWidth;
+  //         setCurrentWidth(width);
+  //       }
+  //     };
 
-    // Добавляем слушатель события resize при монтировании компонента
-    window.addEventListener("resize", handleResize);
+  //     // Добавляем слушатель события resize при монтировании компонента
+  //     window.addEventListener("resize", handleResize);
 
-    // Выполняем обработчик события resize сразу после монтирования компонента
-    handleResize();
+  //     // Выполняем обработчик события resize сразу после монтирования компонента
+  //     handleResize();
 
-    // Удаляем слушатель события resize при размонтировании компонента
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [
-    employeeNameStoreForPOST,
-    clientIdStore,
-    ArrayWithAllInputsStore,
-    itemListStore,
-    ObjectWithInfoEmailInputStore,
-    keyGenStore,
-    positionTypeStore,
-    postQr_Link,
-    ChageShowWhatInputIsEmpty,
-  ]);
+  //     // Удаляем слушатель события resize при размонтировании компонента
+  //     return () => {
+  //       window.removeEventListener("resize", handleResize);
+  //     };
+  //   }, [
+  //     employeeNameStoreForPOST,
+  //     clientIdStore,
+  //     ArrayWithAllInputsStore,
+  //     itemListStore,
+  //     ObjectWithInfoEmailInputStore,
+  //     keyGenStore,
+  //     positionTypeStore,
+  //     postQr_Link,
+  //     ChageShowWhatInputIsEmpty,
+  //   ]);
 
-  if (isLoading) {
-    return <PageLoader description={"Ожидайте, скоро появится Ваш заказ!"} />;
-  }
-  if (error) {
-    return <PageError error={error} />;
-  }
+  //   if (isLoading) {
+  //     return <PageLoader description={"Ожидайте, скоро появится Ваш заказ!"} />;
+  //   }
+  //   if (error) {
+  //     return <PageError error={error} />;
+  //   }
 
-  const curData: any = {
-    client_id: "",
-    key_form: "",
-  };
-  urlFormPayStore?.split("&")?.forEach((line: any, i: any) => {
-    curData[line?.split("=")[0]?.split("?").reverse()?.[0]] =
-      line?.split("=")?.[1];
-  });
-  const UrlToPay =
-    "https://dev.qr.giberno.ru/test/formpay?client_id=" +
-    curData.client_id +
-    "&key_form=" +
-    curData.key_form;
+  //   const curData: any = {
+  //     client_id: "",
+  //     key_form: "",
+  //   };
+  //   urlFormPayStore?.split("&")?.forEach((line: any, i: any) => {
+  //     curData[line?.split("=")[0]?.split("?").reverse()?.[0]] =
+  //       line?.split("=")?.[1];
+  //   });
+  //   const UrlToPay =
+  //     "https://dev.qr.giberno.ru/test/formpay?client_id=" +
+  //     curData.client_id +
+  //     "&key_form=" +
+  //     curData.key_form;
 
-  const qrCodePay = "https://stage.giberno.ru:20000/" + qrLinkStore;
-  if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
-    return (
-      <ResultPage__Mobile
-        blockRef={blockRef}
-        UrlToPay={UrlToPay}
-        qrCodePay={qrCodePay}
-      />
-    );
-  }
+  //   const qrCodePay = "https://stage.giberno.ru:20000/" + qrLinkStore;
+  //   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
+  //     return (
+  //       <ResultPage__Mobile
+  //         blockRef={blockRef}
+  //         UrlToPay={UrlToPay}
+  //         qrCodePay={qrCodePay}
+  //       />
+  //     );
+  //   }
 
   return (
     <div ref={blockRef} className="ResultPageLayout">
@@ -124,7 +119,7 @@ const ResultPage = observer(() => {
       <header className="ResultPageLayout__header">
         Счет успешно сформирован!
       </header>
-      <section className="ResultPageLayout__block">
+      {/*  <section className="ResultPageLayout__block">
         <img
           className="ResultPageLayout__block_imgQr"
           alt="qr_code"
@@ -164,7 +159,7 @@ const ResultPage = observer(() => {
             text={UrlToPay}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 });

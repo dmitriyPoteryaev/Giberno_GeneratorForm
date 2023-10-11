@@ -67,20 +67,20 @@ const Input = memo(
           }
           placeholder={!onFocus ? placeholder : ""}
           onChange={(event: any) => {
-            onChange(event.type, event.target.value, name, isopen);
+            onChange(event.target.value, name);
           }}
           onClick={(event) => {
             if (uniqKey?.split("_")[0] === "select") {
               event.stopPropagation();
-              ShowList(name);
+              ShowList(true);
             } else {
               return;
             }
           }}
           onFocus={() => {
-            ChageFocus(currentNumber, name, true);
+            ChageFocus(true);
           }}
-          onBlur={() => ChageFocus(currentNumber, name, false)}
+          onBlur={() => ChageFocus(false)}
           {...rest}
           type="text"
           value={value}

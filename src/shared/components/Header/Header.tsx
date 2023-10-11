@@ -2,12 +2,12 @@ import React from "react";
 
 import "./Header.css";
 
-import { formStore } from "@store/index";
+import { rootStore } from "@store/index";
 import { observer } from "mobx-react-lite";
 
 const Logo = require("@assets/Logo.svg").default as string;
 const Header = observer(() => {
-  const { employeeNameStore } = formStore;
+  const { employeeNameStore } = rootStore;
 
   return (
     <header className="HeaderLayout">

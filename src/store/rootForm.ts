@@ -1,16 +1,17 @@
 import { formAPI } from "@api/getInfoAboutForm";
-import { makeObservable, observable, action, runInAction } from "mobx";
+import { makeObservable, observable, action } from "mobx";
 const { getInfoAboutForm } = formAPI;
 
 class RootFormStore {
-  ArrayWithAllInputsStore: any = [];
+  isLoading: boolean;
+  ArrayWithAllInputsStore: any;
   ObjectWithInfoEmailInputStore: any = {};
   clientTitleStore: any;
   employeeNameStore: any;
-  clientIdStore: string = "";
   employeeNameStoreForPOST: any;
   keyGenStore: any;
   actualPositionsStore: any;
+  clientIdStore: any;
   positionTypeStore: any;
   itemListStore: any;
 
@@ -21,52 +22,37 @@ class RootFormStore {
         throw Error(response);
       }
 
-      runInAction(() => {
-        const {
-          ArrayWithFormInputs,
-          ObjectWithInfoEmailInput,
-          employeeName,
-          employee,
-          clientId,
-          clientTitle,
-          keyGen,
-          actualPositions,
-          positionType,
-          itemList,
-        } = response;
-        this.employeeNameStore = employeeName;
-        this.employeeNameStoreForPOST = employee;
-        this.clientTitleStore = clientTitle;
-        this.clientIdStore = clientId;
-        this.keyGenStore = keyGen;
+      const { ArrayWithFormInputs, employeeName } = response;
 
-        this.ArrayWithAllInputsStore = ArrayWithFormInputs;
-        this.ObjectWithInfoEmailInputStore = ObjectWithInfoEmailInput;
-
-        this.actualPositionsStore = actualPositions;
-
-        this.positionTypeStore = positionType;
-        this.itemListStore = itemList;
-      });
+      this.employeeNameStore = employeeName;
+      return response;
     } catch (err: any) {
       return err.message;
+    } finally {
+      this.isLoading = false;
     }
+  };
+
+  ShowWhatInputIsEmpty: boolean = false;
+
+  // изменить значение в инпутах
+  ChangeArrayWithAllInputs = (arr: any) => {
+    this.ArrayWithAllInputsStore = arr;
+  };
+  ChangeObjEmail = (obj: any) => {
+    this.ObjectWithInfoEmailInputStore = { ...obj };
   };
 
   constructor() {
     makeObservable(this, {
-      ChangeDataAboutForm: action,
       ArrayWithAllInputsStore: observable,
-      ObjectWithInfoEmailInputStore: observable,
       clientTitleStore: observable,
-      employeeNameStore: observable,
-      clientIdStore: observable,
-      employeeNameStoreForPOST: observable,
-      keyGenStore: observable,
-      actualPositionsStore: observable,
-      positionTypeStore: observable,
-      itemListStore: observable,
+      isLoading: observable,
+      ChangeDataAboutForm: action,
     });
+    this.ArrayWithAllInputsStore = [];
+    this.clientTitleStore = "";
+    this.isLoading = true;
   }
 }
 

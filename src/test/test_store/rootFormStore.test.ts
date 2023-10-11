@@ -1,6 +1,5 @@
-import { FormStore } from "@store/form";
-import { RootFormStore } from "@store/rootForm";
 import { formAPI } from "@api/getInfoAboutForm";
+import { RootFormStore } from "@store/rootForm";
 import axios from "axios";
 const { getInfoAboutForm } = formAPI;
 
@@ -49,13 +48,12 @@ describe("Тестирование formStore", () => {
   beforeEach(() => {
     // jest.clearAllMocks();
     rootStore = new RootFormStore();
-    formStore = new FormStore();
   });
 
-  test("FormStore наследует все свойства и методы RootFormStore", async () => {
-    expect(formStore).toBeInstanceOf(FormStore);
-    expect(formStore).toBeInstanceOf(RootFormStore);
-  });
+  // test("FormStore наследует все свойства и методы RootFormStore", async () => {
+  //   expect(formStore).toBeInstanceOf(FormStore);
+  //   expect(formStore).toBeInstanceOf(RootFormStore);
+  // });
 
   test("rootFormStore возвращает моковые данные по ключу - 8fe86f19-9477-4e73-b198-d08d4e33be6c", async () => {
     (axios.get as jest.Mock).mockReturnValue(MockResponseOK);

@@ -1,151 +1,170 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo, useState } from "react";
 
-import CustomSelect from "@shared/components/CustomSelect/CustomSelect";
-import Input from "@shared/components/Input/Input";
-import { formStore } from "@store/index";
-import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
-import { observer } from "mobx-react-lite";
+import { changeValue } from "@utils/FormManagement/changeValue";
+import { changeVisualValue } from "@utils/FormManagement/changeVisualValue";
 
 import "./Form.css";
-import { ObjectInputProps } from "../../../types/formTypes";
+import { ObjectInputProps, itemFromList } from "../../../types/formTypes";
+import SelectOrInput from "../SelectOrInput";
 
-const Form = observer(() => {
-  const {
-    getClientTitleStore,
-    ArrayWithAllInputsStore,
-    ChangeArrayWithAllInputs,
-    ShowWhatInputIsEmpty,
-    ChageIsShowInfoHelp,
-    ChageFocus,
-    ShowList,
-    itemListStore,
-    DeleteAllPopUpWindow,
-  } = formStore;
+export type FormProps = {
+  /** */
+  itemListStore?: itemFromList[];
+  /**  */
+  FormInputsStore: ObjectInputProps[];
+  /**  */
+  changeGlobalStateInputsForm: (value: ObjectInputProps[]) => void;
+  /**b */
+  positionTypeStore: string;
+  /**  */
+  isRedBorder: boolean;
+  /**  */
+  clientTitleStore: string;
+};
 
-  useEffect(() => {
-    document.addEventListener("click", DeleteAllPopUpWindow);
+const Form: React.FC<FormProps> = memo(
+  (props) => {
+    const {
+      itemListStore,
+      FormInputsStore,
+      changeGlobalStateInputsForm,
+      positionTypeStore,
+      isRedBorder,
+      clientTitleStore,
+    } = props;
+    const [FormInputsState, setFormInputsState] = useState(FormInputsStore);
 
-    return () => {
-      document.removeEventListener("click", DeleteAllPopUpWindow);
+    const DeleteAllPopUpWindowStore = () => {
+      setFormInputsState((prevState: ObjectInputProps[]) => {
+        return prevState.map((input: ObjectInputProps) => {
+          if (typeof input.isopen === "boolean") {
+            return { ...input, isopen: false };
+          } else {
+            return input;
+          }
+        });
+      });
     };
-  }, [DeleteAllPopUpWindow]);
 
-  const additionalBorder =
-    itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
+    useEffect(() => {
+      if (
+        FormInputsState.some(
+          (elem: any) =>
+            elem.isopen === true ||
+            FormInputsState.some(
+              (elem: ObjectInputProps) => elem.IsShowInfoHelp === true
+            )
+        )
+      )
+        document.addEventListener("click", DeleteAllPopUpWindowStore);
 
-  return (
-    <form
-      key={"form"}
-      className="FormPageLayout__form"
-      style={{
-        marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
-      }}
-    >
-      <div className="FormPageLayout__title">{getClientTitleStore}</div>
-      <>
-        {ArrayWithAllInputsStore.filter(
-          (CurrentInput: ObjectInputProps, i: number) => CurrentInput.IsEnabled
-        ).map(
-          (
-            CurrentInput: ObjectInputProps,
-            i: number,
-            arr: ObjectInputProps[]
-          ) => {
-            const { isopen } = CurrentInput;
-            const uniqKey =
-              typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
-            const InputOrSelectProps = {
-              key: `${uniqKey}_Object`,
-              type: CurrentInput.type,
-              name: CurrentInput.name,
-              placeholder: CurrentInput.placeholder,
-              value: CurrentInput.value,
-              help: CurrentInput.help,
-              currentNumber: i,
-              IsEmpty: ShowWhatInputIsEmpty,
-              IsShowInfoHelp: CurrentInput.IsShowInfoHelp,
-              IsRequire: CurrentInput.IsRequire,
-              onFocus: CurrentInput.onFocus,
-              ChageFocus: ChageFocus,
-              ChageIsShowInfoHelp: ChageIsShowInfoHelp,
-              onChange: (
-                type: string,
-                value: string,
-                name: string,
-                isopen: boolean
-              ) => {
-                if (type === "click" || typeof isopen !== "boolean") {
-                  ChangeArrayWithAllInputs(value, name);
-                }
-              },
-            };
-            const LAST_NUMBER: number = arr.length - 1;
+      return () => {
+        document.removeEventListener("click", DeleteAllPopUpWindowStore);
+      };
+    }, [FormInputsState]);
 
-            if (typeof isopen === "boolean") {
-              const SelectProps = {
+    changeGlobalStateInputsForm(FormInputsState);
+
+    return (
+      <form
+        className="FormPageLayout__form"
+        // style={{
+        //   marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
+        // }}
+      >
+        <div className="FormPageLayout__title">{clientTitleStore}</div>
+        <>
+          {FormInputsState.map(
+            (
+              CurrentInput: ObjectInputProps,
+              i: number,
+              arr: ObjectInputProps[]
+            ) => {
+              const { isopen } = CurrentInput;
+              const uniqKey =
+                typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
+              const InputOrSelectProps = {
+                key: `${uniqKey}_Object`,
+                type: CurrentInput.type,
+                name: CurrentInput.name,
+                placeholder: CurrentInput.placeholder,
+                value: CurrentInput.value,
+                help: CurrentInput.help,
+                currentNumber: i,
+                IsEmpty: isRedBorder,
+                IsShowInfoHelp: CurrentInput.IsShowInfoHelp,
+                IsRequire: CurrentInput.IsRequire,
+                onFocus: CurrentInput.onFocus,
+                ChageFocus: (isFocus: boolean) => {
+                  setFormInputsState((prevState: ObjectInputProps[]) => {
+                    return changeVisualValue(prevState, i, isFocus, "onFocus");
+                  });
+                },
+                ChageIsShowInfoHelp: () => {
+                  setFormInputsState((prevState: ObjectInputProps[]) => {
+                    return changeVisualValue(
+                      prevState,
+                      i,
+                      true,
+                      "IsShowInfoHelp"
+                    );
+                  });
+                },
+                onChange: (value: string, name: string) => {
+                  setFormInputsState((prevState: ObjectInputProps[]) => {
+                    return changeValue(
+                      prevState,
+                      name,
+                      value,
+                      positionTypeStore,
+                      itemListStore
+                    );
+                  });
+                },
+              };
+              const LAST_NUMBER: number = arr.length - 1;
+
+              const InputProps = {
                 uniqKey: uniqKey,
-                ShowList: ShowList,
-                isopen: isopen,
                 ...InputOrSelectProps,
               };
-              switch (i) {
-                case 0:
-                  const SelectProps_First = {
-                    className: "Formpagelayout__select_first",
-                    actualPositionsStore: MapArrayItemsBySpecificKey(
-                      itemListStore,
-                      "name"
-                    ),
-                    ...SelectProps,
-                  };
-                  return <CustomSelect {...SelectProps_First} />;
-                case LAST_NUMBER:
-                  const SelectProps_Last = {
-                    className: "Formpagelayout__select_last",
-                    ...InputOrSelectProps,
-                  };
-                  return <CustomSelect {...SelectProps_Last} />;
-                default:
-                  const SelectProps_Nested = {
-                    actualPositionsStore: MapArrayItemsBySpecificKey(
-                      itemListStore,
-                      "description"
-                    ),
-                    ...SelectProps,
-                  };
-                  return <CustomSelect {...SelectProps_Nested} />;
-              }
-            }
 
-            const InputProps = {
-              uniqKey: uniqKey,
-              ...InputOrSelectProps,
-            };
+              const SelectProps = {
+                uniqKey: uniqKey,
+                ...InputOrSelectProps,
+                isopen: isopen,
+                ShowList: (isOpen: boolean) => {
+                  setFormInputsState((prevState: any) => {
+                    return changeVisualValue(prevState, i, isOpen, "isopen");
+                  });
+                },
+              };
 
-            switch (i) {
-              case 0:
-                const InputProps_First = {
-                  className: "Formpagelayout__input_first",
-                  ...InputProps,
-                };
-                return <Input {...InputProps_First} />;
-              case LAST_NUMBER:
-                const InputProps_Last = {
-                  className: "Formpagelayout__input_last",
-                  ...InputProps,
-                };
-                return <Input {...InputProps_Last} />;
-              default:
-                const InputProps_Nested = {
-                  ...InputProps,
-                };
-                return <Input {...InputProps_Nested} />;
+              return (
+                <SelectOrInput
+                  key={uniqKey}
+                  isopen={isopen}
+                  itemListStore={itemListStore}
+                  InputOrSelectProps={InputOrSelectProps}
+                  SelectProps={SelectProps}
+                  InputProps={InputProps}
+                  LAST_NUMBER={LAST_NUMBER}
+                  i={i}
+                />
+              );
             }
-          }
-        )}
-      </>
-    </form>
-  );
-});
+          )}
+        </>
+      </form>
+    );
+  },
+  (prevProps: any, nextProps: any) => {
+    if (prevProps.isRedBorder === nextProps.isRedBorder) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+);
 
 export default Form;

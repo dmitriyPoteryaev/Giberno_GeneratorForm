@@ -4,10 +4,12 @@ import { ObjectInputProps, responseForm } from "../types/formTypes";
 
 const getInfoAboutForm = async (key_gen: string) => {
   try {
+    const controller = new AbortController();
     const response = await axios.get(`https://api.giberno.ru/test/formgen/`, {
       params: {
         key_gen: key_gen,
       },
+      signal: controller.signal,
     });
 
     if (response.status !== 200) {

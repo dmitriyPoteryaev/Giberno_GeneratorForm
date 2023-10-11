@@ -19,17 +19,17 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "jest",
+    "e2e": "cypress open",
     "eject": "react-scripts eject",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
-    "wdio": "wdio run ./wdio.conf.js"
+    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -53,13 +53,11 @@
     "@babel/plugin-transform-modules-commonjs": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@jest/globals": "^29.6.2",
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/testing-library__jest-dom": "^6.0.0",
-    "@wdio/cli": "^8.16.3",
-    "@wdio/local-runner": "^8.16.3",
-    "@wdio/mocha-framework": "^8.16.3",
-    "@wdio/spec-reporter": "^8.16.3",
-    "chromedriver": "^116.0.0",
+    "chromedriver": "^113.0.5672.0",
+    "cypress": "^13.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^29.6.2",
@@ -75,7 +73,6 @@
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "ts-node-dev": "^2.0.0",
-    "wdio-chromedriver-service": "^8.1.1"
+    "ts-node-dev": "^2.0.0"
   }
 }

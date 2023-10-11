@@ -1,6 +1,5 @@
-import { FormStore } from "@store/form";
-import { RootFormStore } from "@store/rootForm";
 import { formAPI } from "@api/getInfoAboutForm";
+import { RootFormStore } from "@store/rootForm";
 import axios from "axios";
 const { getInfoAboutForm } = formAPI;
 
@@ -9,7 +8,7 @@ const { getInfoAboutForm } = formAPI;
 jest.mock("axios");
 
 describe("Тестирование formStore", () => {
-  let formStore: any;
+  let rootStore: any;
 
   const Mock = {
     data: {
@@ -122,21 +121,20 @@ describe("Тестирование formStore", () => {
 
   beforeEach(() => {
     // jest.clearAllMocks();
-    formStore = new FormStore();
+    rootStore = new RootFormStore();
   });
 
   test("Проверяем налиичие в классе параметра ShowWhatInputIsEmpty. ShowWhatInputIsEmpty = false", () => {
-    expect(formStore.ShowWhatInputIsEmpty).toBe(false);
+    expect(rootStore.ShowWhatInputIsEmpty).toBe(false);
   });
 
   test("Меняем значение ShowWhatInputIsEmpty с помощью ChageShowWhatInputIsEmpty. ShowWhatInputIsEmpty = true", () => {
-    formStore.ChageShowWhatInputIsEmpty(true);
-    expect(formStore.ShowWhatInputIsEmpty).toBe(true);
+    rootStore.ChageShowWhatInputIsEmpty(true);
+    expect(rootStore.ShowWhatInputIsEmpty).toBe(true);
   });
 
   test("Меняем значение ShowWhatInputIsEmpty с помощью ChageShowWhatInputIsEmpty. ShowWhatInputIsEmpty = false", () => {
-    formStore.ChageShowWhatInputIsEmpty(false);
-    expect(formStore.ShowWhatInputIsEmpty).toBe(false);
+    rootStore.ChageShowWhatInputIsEmpty(false);
+    expect(rootStore.ShowWhatInputIsEmpty).toBe(false);
   });
-
 });

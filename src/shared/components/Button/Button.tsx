@@ -10,22 +10,14 @@ export type ButtonProps = React.PropsWithChildren<{
 }> &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: React.FC<ButtonProps> = memo(
-  (props) => {
-    const { children, disabled, onClick, ButtonClass, ...rest } = props;
+export const Button: React.FC<ButtonProps> = (props) => {
+  const { children, disabled, onClick, ButtonClass, ...rest } = props;
 
-    return (
-      <button className={ButtonClass} onClick={onClick} {...rest}>
-        {children}
-      </button>
-    );
-  },
-  (prevProps: any, nextProps: any) => {
-    if (prevProps.disabled === nextProps.disabled) {
-      return true;
-    }
-    return false;
-  }
-);
+  return (
+    <button className={ButtonClass} onClick={onClick} {...rest}>
+      {children}
+    </button>
+  );
+};
 
 export default Button;

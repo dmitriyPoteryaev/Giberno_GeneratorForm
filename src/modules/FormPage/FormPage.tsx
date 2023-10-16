@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import "./FormPage.css";
 
 import useFetching from "@hooks/useFetching";
+import Form from "@modules/FormPage/Form";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
-import Form from "@shared/components/Form";
 import Header from "@shared/components/Header";
 import { rootStore } from "@store/index";
 import { checkValidMail } from "@utils/checkValidMail";
@@ -70,14 +70,19 @@ const FormPage: React.FC = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const changeGlobalStateInputsForm = useCallback((value: any) => {
-    FormInputsStore = value;
-    ChangeArrayWithAllInputs(value);
-  }, []);
+  const changeGlobalStateInputsForm = useCallback(
+    (value: ObjectInputProps[]) => {
+      FormInputsStore = value;
+      ChangeArrayWithAllInputs(value);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
-  const changeGlobalStateEmailInput = useCallback((value: any) => {
+  const changeGlobalStateEmailInput = useCallback((value: ObjectInputProps) => {
     EmailInputStore = value;
     ChangeObjEmail(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const navigate = useNavigate();
@@ -90,6 +95,7 @@ const FormPage: React.FC = observer(() => {
       navigate("/test/result?key_gen=" + keyGenStore);
     }
     setIsRed(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (isLoading) {
     return <PageLoader description="Ожидайте, скоро появится Ваш заказ!" />;

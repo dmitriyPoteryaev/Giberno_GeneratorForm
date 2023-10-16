@@ -3,7 +3,7 @@ import React from "react";
 
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Input from "@shared/components/Input";
+import Input from "@shared/components/CustomInput";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 

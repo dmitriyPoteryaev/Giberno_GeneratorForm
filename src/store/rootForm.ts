@@ -3,7 +3,6 @@ import { makeObservable, observable, action } from "mobx";
 const { getInfoAboutForm } = formAPI;
 
 class RootFormStore {
-  isLoading: boolean;
   ArrayWithAllInputsStore: any;
   ObjectWithInfoEmailInputStore: any = {};
   clientTitleStore: any;
@@ -22,14 +21,24 @@ class RootFormStore {
         throw Error(response);
       }
 
-      const { ArrayWithFormInputs, employeeName } = response;
+      const {
+        employeeName,
+        positionType,
+        itemList,
+        clientId,
+        keyGen,
+        employee,
+      } = response;
 
       this.employeeNameStore = employeeName;
+      this.positionTypeStore = positionType;
+      this.itemListStore = itemList;
+      this.clientIdStore = clientId;
+      this.keyGenStore = keyGen;
+      this.employeeNameStoreForPOST = employee;
       return response;
     } catch (err: any) {
       return err.message;
-    } finally {
-      this.isLoading = false;
     }
   };
 
@@ -47,12 +56,11 @@ class RootFormStore {
     makeObservable(this, {
       ArrayWithAllInputsStore: observable,
       clientTitleStore: observable,
-      isLoading: observable,
+      positionTypeStore: observable,
       ChangeDataAboutForm: action,
     });
     this.ArrayWithAllInputsStore = [];
     this.clientTitleStore = "";
-    this.isLoading = true;
   }
 }
 

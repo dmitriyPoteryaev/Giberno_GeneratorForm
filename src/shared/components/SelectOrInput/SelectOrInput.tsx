@@ -1,70 +1,47 @@
 import React from "react";
 
-import Input from "@shared/components/Input/Input";
+import CustomInput from "@shared/components/CustomInput/CustomInput";
 import { MapArrayItemsBySpecificKey } from "@utils/MapArrayItemsBySpecificKey";
 
 import CustomSelect from "../CustomSelect/CustomSelect";
 
+const Select: any = {
+  first: [CustomSelect, "first", "name"],
+  nested: [CustomSelect, "nested", "description"],
+};
+
+const Input: any = {
+  first: [CustomInput, "first"],
+  nested: [CustomInput, "nested"],
+  last: [CustomInput, "last"],
+};
+
 const SelectOrInput = (props: any) => {
-  const {
-    isopen,
-    InputOrSelectProps,
-    SelectProps,
-    InputProps,
-    LAST_NUMBER,
-    itemListStore,
-    i,
-  } = props;
+  const { isopen, SelectProps, InputProps, LAST_NUMBER, itemListStore, i } =
+    props;
+
+  const positionInForm =
+    i === 0 ? "first" : i === LAST_NUMBER ? "last" : "nested";
 
   if (typeof isopen === "boolean") {
-    switch (i) {
-      case 0:
-        const SelectProps_First = {
-          className: "Formpagelayout__select_first",
-          actualPositionsStore: MapArrayItemsBySpecificKey(
-            itemListStore,
-            "name"
-          ),
-          ...SelectProps,
-        };
-        return <CustomSelect {...SelectProps_First} />;
-      case LAST_NUMBER:
-        const SelectProps_Last = {
-          className: "Formpagelayout__select_last",
-          ...InputOrSelectProps,
-        };
-        return <CustomSelect {...SelectProps_Last} />;
-      default:
-        const SelectProps_Nested = {
-          actualPositionsStore: MapArrayItemsBySpecificKey(
-            itemListStore,
-            "description"
-          ),
-          ...SelectProps,
-        };
-        return <CustomSelect {...SelectProps_Nested} />;
-    }
+    const [Component, position, title] = Select[positionInForm];
+    const SelectProps_arg = {
+      className: "Formpagelayout__select_" + position,
+      actualPositionsStore: MapArrayItemsBySpecificKey(itemListStore, title),
+      ...SelectProps,
+    };
+
+    return <Component {...SelectProps_arg} />;
   }
 
-  switch (i) {
-    case 0:
-      const InputProps_First = {
-        className: "Formpagelayout__input_first",
-        ...InputProps,
-      };
-      return <Input {...InputProps_First} />;
-    case LAST_NUMBER:
-      const InputProps_Last = {
-        className: "Formpagelayout__input_last",
-        ...InputProps,
-      };
-      return <Input {...InputProps_Last} />;
-    default:
-      const InputProps_Nested = {
-        ...InputProps,
-      };
-      return <Input {...InputProps_Nested} />;
-  }
+  const [Component, position] = Input[positionInForm];
+
+  const InputProps_arg = {
+    className: "Formpagelayout__input_" + position,
+    ...InputProps,
+  };
+
+  return <Component {...InputProps_arg} />;
 };
 
 export default SelectOrInput;

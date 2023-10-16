@@ -14,7 +14,7 @@ export type InputProps = Omit<
   onChange: (value: any) => any;
 };
 
-const Input = memo(
+const CustomInput = memo(
   (props: any) => {
     const {
       value,
@@ -146,4 +146,4 @@ const Input = memo(
   }
 );
 
-export default Input;
+export default CustomInput;

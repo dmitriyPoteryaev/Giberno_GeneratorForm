@@ -1,16 +1,27 @@
-import React, { useCallback, useRef, useEffect, useState, memo } from "react";
+import React, { useState, memo } from "react";
 
 import "./Footer.css";
-import { rootStore } from "@store/index";
-import { checkValidMail } from "@utils/checkValidMail";
-import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
 
+import { checkValidMail } from "@utils/checkValidMail";
+
+import useDeleteAllPopUpWindowEmail from "../../../hooks/useDeleteAllPopUpWindowEmail";
 import { ObjectInputProps } from "../../../types/formTypes";
 import Button from "../Button";
-import Input from "../Input";
-const Footer = memo(
-  (props: any) => {
+import CustomInput from "../CustomInput";
+
+export type FooterProps = {
+  /**  */
+  EmailInputStore: ObjectInputProps;
+  /**  */
+  changeGlobalStateEmailInput: (value: ObjectInputProps) => void;
+  /**b */
+  handlerPostQuery: () => void;
+  /**  */
+  isRedBorder: boolean;
+};
+
+const Footer: React.FC<FooterProps> = memo(
+  (props) => {
     const {
       EmailInputStore,
       isRedBorder,
@@ -18,14 +29,8 @@ const Footer = memo(
       handlerPostQuery,
     } = props;
     const [EmailInpitState, setEmailInpitState] = useState(EmailInputStore);
-    // useEffect(() => {
-    //   document.addEventListener("click", DeleteAllPopUpWindow);
 
-    //   return () => {
-    //     document.removeEventListener("click", DeleteAllPopUpWindow);
-    //   };
-    // }, []);
-
+    useDeleteAllPopUpWindowEmail(setEmailInpitState, EmailInpitState);
     const {
       type,
       placeholder,
@@ -38,7 +43,11 @@ const Footer = memo(
       name,
     }: any = EmailInpitState;
 
-    const changePosition = (obj: any, value: any, position: any) => {
+    const changePosition = (
+      obj: ObjectInputProps,
+      value: any,
+      position: string
+    ) => {
       return { ...obj, [position]: value };
     };
 
@@ -80,7 +89,7 @@ const Footer = memo(
     return (
       <footer className="FooterLayout">
         <div className="FooterLayout__block">
-          {IsEnabled && <Input {...InputProps} />}
+          {IsEnabled && <CustomInput {...InputProps} />}
           <Button
             ButtonClass={
               IsEnabled

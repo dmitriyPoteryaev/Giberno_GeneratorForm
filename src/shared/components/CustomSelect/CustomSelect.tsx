@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 import "./CustomSelect.css";
 
-import Input from "../Input/Input";
+import CustomInput from "../CustomInput/CustomInput";
 
 const CustomSelect = memo(
   ({ actualPositionsStore, ShowList, isopen, ...InputProps_First }: any) => {
@@ -11,7 +11,7 @@ const CustomSelect = memo(
     const handler = (elem: any, name: any) => {
       onChange(elem, name);
     };
-    const InputProps_First_inner = {
+    const InputProps_inner = {
       ShowList: ShowList,
       isopen: isopen,
       ...InputProps_First,
@@ -21,7 +21,7 @@ const CustomSelect = memo(
 
     return (
       <div data-testid={testid} key={uniqKey} className="CustomSelect">
-        <Input {...InputProps_First_inner} />
+        <CustomInput {...InputProps_inner} />
         {isopen && (
           <div className="CustomLIstForSelect">
             {actualPositionsStore.map((elem: any) => (

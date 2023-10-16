@@ -1,15 +1,16 @@
-import React, { useEffect, memo, useState } from "react";
+import React, { memo, useState } from "react";
 
 import { changeValue } from "@utils/FormManagement/changeValue";
 import { changeVisualValue } from "@utils/FormManagement/changeVisualValue";
 
 import "./Form.css";
+import useDeleteAllPopUpWindowFORM from "../../../hooks/useDeleteAllPopUpWindowFORM";
+import SelectOrInput from "../../../shared/components/SelectOrInput";
 import { ObjectInputProps, itemFromList } from "../../../types/formTypes";
-import SelectOrInput from "../SelectOrInput";
 
 export type FormProps = {
   /** */
-  itemListStore?: itemFromList[];
+  itemListStore: itemFromList[];
   /**  */
   FormInputsStore: ObjectInputProps[];
   /**  */
@@ -34,43 +35,19 @@ const Form: React.FC<FormProps> = memo(
     } = props;
     const [FormInputsState, setFormInputsState] = useState(FormInputsStore);
 
-    const DeleteAllPopUpWindowStore = () => {
-      setFormInputsState((prevState: ObjectInputProps[]) => {
-        return prevState.map((input: ObjectInputProps) => {
-          if (typeof input.isopen === "boolean") {
-            return { ...input, isopen: false };
-          } else {
-            return input;
-          }
-        });
-      });
-    };
+    const additionalBorder =
+      itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
 
-    useEffect(() => {
-      if (
-        FormInputsState.some(
-          (elem: any) =>
-            elem.isopen === true ||
-            FormInputsState.some(
-              (elem: ObjectInputProps) => elem.IsShowInfoHelp === true
-            )
-        )
-      )
-        document.addEventListener("click", DeleteAllPopUpWindowStore);
-
-      return () => {
-        document.removeEventListener("click", DeleteAllPopUpWindowStore);
-      };
-    }, [FormInputsState]);
+    useDeleteAllPopUpWindowFORM(setFormInputsState, FormInputsState);
 
     changeGlobalStateInputsForm(FormInputsState);
 
     return (
       <form
         className="FormPageLayout__form"
-        // style={{
-        //   marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
-        // }}
+        style={{
+          marginBottom: itemListStore ? `${450 + additionalBorder}px` : "450px",
+        }}
       >
         <div className="FormPageLayout__title">{clientTitleStore}</div>
         <>
@@ -134,7 +111,7 @@ const Form: React.FC<FormProps> = memo(
                 ...InputOrSelectProps,
                 isopen: isopen,
                 ShowList: (isOpen: boolean) => {
-                  setFormInputsState((prevState: any) => {
+                  setFormInputsState((prevState: ObjectInputProps[]) => {
                     return changeVisualValue(prevState, i, isOpen, "isopen");
                   });
                 },

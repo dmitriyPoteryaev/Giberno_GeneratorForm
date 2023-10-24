@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./FormPage.css";
 
-import useFetching from "@hooks/useFetching";
-import Form from "@modules/FormPage/Form";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader/PageLoader";
 import Footer from "@shared/components/Footer";
@@ -15,7 +13,9 @@ import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import useFetching from "../../hooks/useFetching";
 import { ObjectInputProps, itemFromList } from "../../types/formTypes";
+import Form from "../FormPage/components/Form";
 
 let FormInputsStore: ObjectInputProps[] = [];
 let itemListStore: itemFromList[] = [];
@@ -70,24 +70,20 @@ const FormPage: React.FC = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const changeGlobalStateInputsForm = useCallback(
-    (value: ObjectInputProps[]) => {
-      FormInputsStore = value;
-      ChangeArrayWithAllInputs(value);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  const changeGlobalStateInputsForm = (value: ObjectInputProps[]) => {
+    FormInputsStore = value;
+    ChangeArrayWithAllInputs(value);
+  };
 
-  const changeGlobalStateEmailInput = useCallback((value: ObjectInputProps) => {
+  const changeGlobalStateEmailInput = (value: ObjectInputProps) => {
     EmailInputStore = value;
     ChangeObjEmail(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const navigate = useNavigate();
 
-  const handlerPostQuery = useCallback(() => {
+  const handlerPostQuery = () => {
     if (
       !ResultIsGeneralButtonDisabled(FormInputsStore, EmailInputStore) &&
       checkValidMail(EmailInputStore.IsRequire, EmailInputStore.value)
@@ -96,7 +92,7 @@ const FormPage: React.FC = observer(() => {
     }
     setIsRed(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
   if (isLoading) {
     return <PageLoader description="Ожидайте, скоро появится Ваш заказ!" />;
   }

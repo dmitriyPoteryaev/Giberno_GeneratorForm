@@ -1,5 +1,4 @@
 import { formAPI } from "@api/getInfoAboutForm";
-import axios from "axios";
 
 const { getInfoAboutForm } = formAPI;
 

@@ -1,15 +1,21 @@
-import React from "react";
+import React, { memo } from "react";
 
 import Button from "@shared/components/Button/Button";
 import CopyButton from "@shared/components/CopyButton";
 import Header from "@shared/components/Header";
-import { observer } from "mobx-react-lite";
 
-const ResultPage__Mobile = observer((props: any) => {
+import { ResultPage_DescProps } from "../ResultPage_Desctop/ResultPageDesktop";
+
+import "./ResultPage__Mobile.css";
+
+type ResultPage_MobProps = ResultPage_DescProps;
+
+const ResultPageMobile: React.FC<ResultPage_MobProps> = memo((props) => {
   const { blockRef, UrlToPay, qrCodePay } = props;
   const handlerGoToFormPay = () => {
     window.open(UrlToPay);
   };
+
   return (
     <div ref={blockRef} className="ResultPageLayout">
       <Header />
@@ -56,4 +62,4 @@ const ResultPage__Mobile = observer((props: any) => {
   );
 });
 
-export default ResultPage__Mobile;
+export default ResultPageMobile;

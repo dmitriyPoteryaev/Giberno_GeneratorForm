@@ -1,0 +1,23 @@
+/* для модального окна  */
+.Block-Modal {
+    position: absolute;
+    color: white;
+    background: rgba(101, 94, 94, 0.5);
+    right: 0;
+    top: -35px;
+    z-index: 2;
+    max-width: 200px;
+    max-height: 40px;
+    border-radius: 5px;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+  }
+
+  .FormPageLayout__newPlaceHolder {
+    position: absolute;
+    left: 2.5%;
+    top: 4;
+    font-size: 14px;
+    color: #2c555b;
+  }

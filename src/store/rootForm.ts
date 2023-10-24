@@ -1,17 +1,29 @@
 import { formAPI } from "@api/getInfoAboutForm";
 import { makeObservable, observable, action } from "mobx";
-const { getInfoAboutForm } = formAPI;
 
+import { ObjectInputProps } from "../types/formTypes";
+const { getInfoAboutForm } = formAPI;
 class RootFormStore {
   ArrayWithAllInputsStore: any;
-  ObjectWithInfoEmailInputStore: any = {};
-  clientTitleStore: any;
-  employeeNameStore: any;
-  employeeNameStoreForPOST: any;
-  keyGenStore: any;
-  actualPositionsStore: any;
-  clientIdStore: any;
-  positionTypeStore: any;
+  ObjectWithInfoEmailInputStore: ObjectInputProps = {
+    value: "",
+    type: "text",
+    placeholder: "",
+    help: "",
+    IsShowInfoHelp: false,
+    onFocus: false,
+    IsRequire: false,
+    IsEnabled: false,
+    name: "email",
+    isopen: null,
+  };
+  clientTitleStore: string = "";
+  employeeNameStore: string = "";
+  employeeNameStoreForPOST: string = "";
+  keyGenStore: string = "";
+  actualPositionsStore: string = "";
+  clientIdStore: string = "";
+  positionTypeStore: string = "";
   itemListStore: any;
 
   ChangeDataAboutForm = async (key_gen: string) => {
@@ -57,7 +69,10 @@ class RootFormStore {
       ArrayWithAllInputsStore: observable,
       clientTitleStore: observable,
       positionTypeStore: observable,
+      ChangeArrayWithAllInputs: action,
+      ChangeObjEmail: action,
       ChangeDataAboutForm: action,
+      ObjectWithInfoEmailInputStore: observable,
     });
     this.ArrayWithAllInputsStore = [];
     this.clientTitleStore = "";

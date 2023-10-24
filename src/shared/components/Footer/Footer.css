@@ -81,9 +81,6 @@
   font-size: 14px;
   color: #2C555B;
 }
-.FooterLayout__label {
-  position: relative;
-}
 /* mobile */
 @media (max-width: 800px) {
   .FooterLayout {
@@ -108,7 +105,7 @@
     margin-left: 0;
   }
 
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
     position: absolute;
     left: 3.2%;
     top: 8%;
@@ -117,56 +114,56 @@
   }
 }
 @media (max-width: 800px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 2.5%;
    
   }
 }
 @media (max-width: 750px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 2.7%;
    
   }
 }
 @media (max-width: 700px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 3.2%;
    
   }
 }
 @media (max-width: 600px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 3.8%;
    
   }
 }
 @media (max-width: 500px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 4.3%;
    
   }
 }
 @media (max-width: 450px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 5%;
    
   }
 }
 
 @media (max-width: 400px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 5.3%;
    
   }
 }
 @media (max-width: 350px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 6.3%;
    
   }
 }
 @media (max-width: 300px) {
-  .FooterLayout__newPLaceHolderBlock {
+  .FooterLayout__pLaceHolderBlock {
    left: 7%;
    
   }

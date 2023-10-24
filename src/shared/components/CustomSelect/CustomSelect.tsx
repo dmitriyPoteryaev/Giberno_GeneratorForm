@@ -2,34 +2,62 @@ import React, { memo } from "react";
 
 import "./CustomSelect.css";
 
+import AdditionalBlocks from "@shared/components/SelectOrInput/AdditionalBlocks";
+
+import { SelectElement } from "../../../types/formTypes";
 import CustomInput from "../CustomInput/CustomInput";
 
-const CustomSelect = memo(
-  ({ actualPositionsStore, ShowList, isopen, ...InputProps_First }: any) => {
-    const { name, onChange, uniqKey } = InputProps_First;
+type clickEvent = React.MouseEvent<HTMLDivElement>;
 
-    const handler = (elem: any, name: any) => {
+const CustomSelect = memo(
+  ({
+    actualPositionsStore,
+    showlist,
+    isopen,
+    ...restInputProps
+  }: SelectElement) => {
+    const { name, onChange, key } = restInputProps;
+
+    const handler = (elem: string, name: string) => {
       onChange(elem, name);
     };
-    const InputProps_inner = {
-      ShowList: ShowList,
-      isopen: isopen,
-      ...InputProps_First,
+
+    const ShowDefiniteList = (event: clickEvent, isOpen: boolean) => {
+      showlist(isOpen);
     };
 
     const testid: string = `select_${name}`;
 
     return (
-      <div data-testid={testid} key={uniqKey} className="CustomSelect">
-        <CustomInput {...InputProps_inner} />
+      <div
+        onClick={(event: clickEvent) => {
+          ShowDefiniteList(event, !isopen);
+        }}
+        data-testid={testid}
+        key={key}
+        className="CustomSelect"
+      >
+        <CustomInput {...restInputProps}>
+          <AdditionalBlocks
+            classNameHelper="FormPageLayout__helpblock"
+            help={restInputProps.help}
+            ChageIsShowInfoHelp={restInputProps.ChageIsShowInfoHelp}
+            classNamePlaceHolder="FormPageLayout__newPlaceHolder"
+            onFocus={restInputProps.onFocus}
+            value={restInputProps.value}
+            placeholder={restInputProps.placeholder}
+            IsShowInfoHelp={restInputProps.IsShowInfoHelp}
+          />
+        </CustomInput>
         {isopen && (
           <div className="CustomLIstForSelect">
-            {actualPositionsStore.map((elem: any) => (
+            {actualPositionsStore.map((elem: string) => (
               <div
                 data-testid="select-item"
                 key={elem}
                 className="CustomLIstForSelect_position"
-                onClick={(event) => {
+                onClick={(event: any) => {
+                  event.stopPropagation();
                   handler(elem, name);
                 }}
               >

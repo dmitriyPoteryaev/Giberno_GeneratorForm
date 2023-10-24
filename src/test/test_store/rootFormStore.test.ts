@@ -1,13 +1,10 @@
-import { formAPI } from "@api/getInfoAboutForm";
 import { RootFormStore } from "@store/rootForm";
 import axios from "axios";
-const { getInfoAboutForm } = formAPI;
 
 jest.mock("axios");
 
 describe("Тестирование formStore", () => {
   let rootStore: any;
-  let formStore: any;
 
   const MockResponseOK = {
     data: {

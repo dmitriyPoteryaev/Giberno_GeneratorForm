@@ -1,12 +1,18 @@
 import React, { memo, useState } from "react";
 
+import SelectOrInput from "@shared/components/SelectOrInput";
 import { changeValue } from "@utils/FormManagement/changeValue";
 import { changeVisualValue } from "@utils/FormManagement/changeVisualValue";
 
 import "./Form.css";
-import useDeleteAllPopUpWindowFORM from "../../../hooks/useDeleteAllPopUpWindowFORM";
-import SelectOrInput from "../../../shared/components/SelectOrInput";
-import { ObjectInputProps, itemFromList } from "../../../types/formTypes";
+
+import useDeleteAllPopUpWindowFORM from "../../../../hooks/useDeleteAllPopUpWindowFORM";
+import {
+  ObjectInputProps,
+  itemFromList,
+  InputElement,
+  ObjectSelectProps,
+} from "../../../../types/formTypes";
 
 export type FormProps = {
   /** */
@@ -33,7 +39,8 @@ const Form: React.FC<FormProps> = memo(
       isRedBorder,
       clientTitleStore,
     } = props;
-    const [FormInputsState, setFormInputsState] = useState(FormInputsStore);
+    const [FormInputsState, setFormInputsState] =
+      useState<ObjectInputProps[]>(FormInputsStore);
 
     const additionalBorder =
       itemListStore?.length - 7 > 0 ? (itemListStore?.length - 7) * 50 : 0;
@@ -50,7 +57,11 @@ const Form: React.FC<FormProps> = memo(
         }}
       >
         <div className="FormPageLayout__title">{clientTitleStore}</div>
-        <>
+        <div
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
           {FormInputsState.map(
             (
               CurrentInput: ObjectInputProps,
@@ -58,9 +69,10 @@ const Form: React.FC<FormProps> = memo(
               arr: ObjectInputProps[]
             ) => {
               const { isopen } = CurrentInput;
+
               const uniqKey =
                 typeof isopen === "boolean" ? `select_${i}` : `input_${i}`;
-              const InputOrSelectProps = {
+              const InputProps: InputElement = {
                 key: `${uniqKey}_Object`,
                 type: CurrentInput.type,
                 name: CurrentInput.name,
@@ -68,6 +80,7 @@ const Form: React.FC<FormProps> = memo(
                 value: CurrentInput.value,
                 help: CurrentInput.help,
                 currentNumber: i,
+                isopen: CurrentInput.isopen,
                 IsEmpty: isRedBorder,
                 IsShowInfoHelp: CurrentInput.IsShowInfoHelp,
                 IsRequire: CurrentInput.IsRequire,
@@ -77,12 +90,12 @@ const Form: React.FC<FormProps> = memo(
                     return changeVisualValue(prevState, i, isFocus, "onFocus");
                   });
                 },
-                ChageIsShowInfoHelp: () => {
+                ChageIsShowInfoHelp: (value: boolean) => {
                   setFormInputsState((prevState: ObjectInputProps[]) => {
                     return changeVisualValue(
                       prevState,
                       i,
-                      true,
+                      value,
                       "IsShowInfoHelp"
                     );
                   });
@@ -101,16 +114,11 @@ const Form: React.FC<FormProps> = memo(
               };
               const LAST_NUMBER: number = arr.length - 1;
 
-              const InputProps = {
-                uniqKey: uniqKey,
-                ...InputOrSelectProps,
-              };
-
-              const SelectProps = {
-                uniqKey: uniqKey,
-                ...InputOrSelectProps,
-                isopen: isopen,
-                ShowList: (isOpen: boolean) => {
+              const SelectProps: ObjectSelectProps = {
+                ...InputProps,
+                key: uniqKey,
+                itemliststore: itemListStore,
+                showlist: (isOpen: boolean) => {
                   setFormInputsState((prevState: ObjectInputProps[]) => {
                     return changeVisualValue(prevState, i, isOpen, "isopen");
                   });
@@ -120,9 +128,6 @@ const Form: React.FC<FormProps> = memo(
               return (
                 <SelectOrInput
                   key={uniqKey}
-                  isopen={isopen}
-                  itemListStore={itemListStore}
-                  InputOrSelectProps={InputOrSelectProps}
                   SelectProps={SelectProps}
                   InputProps={InputProps}
                   LAST_NUMBER={LAST_NUMBER}
@@ -131,7 +136,7 @@ const Form: React.FC<FormProps> = memo(
               );
             }
           )}
-        </>
+        </div>
       </form>
     );
   },

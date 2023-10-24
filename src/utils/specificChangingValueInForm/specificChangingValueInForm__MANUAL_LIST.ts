@@ -49,7 +49,7 @@ export const specificChangingValueInForm__MANUAL_LIST = (
 
     return array.map((elem: any, k: any) => {
       if (elem.name === "namePos") {
-        return { ...elem, value: value };
+        return { ...elem, value: value, isopen: false };
       }
       return elem;
     });

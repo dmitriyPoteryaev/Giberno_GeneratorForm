@@ -5,9 +5,10 @@ import "./Footer.css";
 import { checkValidMail } from "@utils/checkValidMail";
 
 import useDeleteAllPopUpWindowEmail from "../../../hooks/useDeleteAllPopUpWindowEmail";
-import { ObjectInputProps } from "../../../types/formTypes";
+import { ObjectInputProps, InputElement } from "../../../types/formTypes";
 import Button from "../Button";
 import CustomInput from "../CustomInput";
+import AdditionalBlocks from "../SelectOrInput/AdditionalBlocks";
 
 export type FooterProps = {
   /**  */
@@ -32,7 +33,6 @@ const Footer: React.FC<FooterProps> = memo(
 
     useDeleteAllPopUpWindowEmail(setEmailInpitState, EmailInpitState);
     const {
-      type,
       placeholder,
       value,
       help,
@@ -40,7 +40,6 @@ const Footer: React.FC<FooterProps> = memo(
       onFocus,
       IsRequire,
       IsEnabled,
-      name,
     }: any = EmailInpitState;
 
     const changePosition = (
@@ -51,32 +50,23 @@ const Footer: React.FC<FooterProps> = memo(
       return { ...obj, [position]: value };
     };
 
-    const InputProps = {
-      type: type,
-      placeholder: placeholder,
-      value: value,
-      help: help,
-      name: name,
-      uniqKey: "input_email",
+    const InputProps: InputElement = {
+      ...EmailInpitState,
+      key: "input_email",
       IsEmpty: isRedBorder,
-      onFocus: onFocus,
-      IsShowInfoHelp: IsShowInfoHelp,
-      classNameLabel: "FooterLayout__label",
-      classNameHelper: "FooterLayout__helpblock",
-      classNamePlaceHolder: "FooterLayout__newPLaceHolderBlock",
-      classNameInput: "FooterLayout__input",
-      IsRequire: IsRequire,
+      className: "FooterLayout__input",
+
       ChageFocus: (isFocus: boolean) => {
         setEmailInpitState((prevState: ObjectInputProps) => {
           return changePosition(prevState, isFocus, "onFocus");
         });
       },
-      ChageIsShowInfoHelp: () => {
+      ChageIsShowInfoHelp: (value: boolean) => {
         setEmailInpitState((prevState: ObjectInputProps) => {
-          return changePosition(prevState, true, "IsShowInfoHelp");
+          return changePosition(prevState, value, "IsShowInfoHelp");
         });
       },
-      resultValidMail: checkValidMail(IsRequire, value),
+      isValidMail: checkValidMail(IsRequire, value),
       onChange: (value: string) => {
         setEmailInpitState((prevState: ObjectInputProps) => {
           return changePosition(prevState, value, "value");
@@ -89,7 +79,20 @@ const Footer: React.FC<FooterProps> = memo(
     return (
       <footer className="FooterLayout">
         <div className="FooterLayout__block">
-          {IsEnabled && <CustomInput {...InputProps} />}
+          {IsEnabled && (
+            <CustomInput {...InputProps}>
+              <AdditionalBlocks
+                classNameHelper="FooterLayout__helpblock"
+                help={help}
+                ChageIsShowInfoHelp={InputProps.ChageIsShowInfoHelp}
+                classNamePlaceHolder="FooterLayout__newPLaceHolderBlock"
+                onFocus={onFocus}
+                value={value}
+                placeholder={placeholder}
+                IsShowInfoHelp={IsShowInfoHelp}
+              />
+            </CustomInput>
+          )}
           <Button
             ButtonClass={
               IsEnabled

@@ -1,27 +1,28 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import useFetching from "@hooks/useFetching";
 import PageError from "@modules/PageError/PageError";
 import PageLoader from "@modules/PageLoader";
-import CopyButton from "@shared/components/CopyButton";
-import Header from "@shared/components/Header";
 import { rootQrLinkStore, rootStore } from "@store/index";
 import { observer } from "mobx-react-lite";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import ResultPage__Mobile from "./ResultPage__Mobile";
+import ResultPageDesktop from "./ResultPage_Desctop";
+import ResultPageMobile from "./ResultPageMobile";
+import useFetching from "../../hooks/useFetching";
 import { ObjectInputProps } from "../../types/formTypes";
 
 import "./ResultPage.css";
 
-const ResultPage = observer(() => {
-  const { postQr_Link, qrLinkStore, urlFormPayStore } = rootQrLinkStore;
+let qrLinkStore: string;
 
-  const [fetching, isLoading, error]: [Function, boolean, string] =
-    useFetching(postQr_Link);
-  const blockRef = useRef<any>(null);
+let urlPayStore: string;
+
+const ResultPage = observer(() => {
+  const { postQr_Link } = rootQrLinkStore;
+
+  const blockRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [currentWidth, setCurrentWidth] = useState<number>(
-    blockRef.current?.offsetWidth
+    blockRef?.current?.offsetWidth
   );
 
   const {
@@ -39,17 +40,36 @@ const ResultPage = observer(() => {
       (inputObject: ObjectInputProps) => inputObject.value
     );
 
-  const navigate = useNavigate();
+  const POST_ARG = [
+    employeeNameStoreForPOST,
+    clientIdStore,
+    keyGenStore,
+    ObjectWithInfoEmailInputStore.value?.toLowerCase() || "",
+    amountInput,
+    nameInput,
+    descriptionInput,
+    positionTypeStore,
+    itemListStore,
+    discountInput,
+  ];
 
-  useEffect(() => {
-    if (!positionTypeStore) {
-      navigate("test/formgen");
-    }
-    fetching(
+  const fetch = async (
+    employeeNameStoreForPOST: string,
+    clientIdStore: string,
+    keyGenStore: string,
+    ObjectWithInfoEmailInputStoreValue: string,
+    amountInput: string,
+    nameInput: string,
+    descriptionInput: string,
+    positionTypeStore: string,
+    itemListStore: any,
+    discountInput: string
+  ) => {
+    const res = await postQr_Link(
       employeeNameStoreForPOST,
       clientIdStore,
       keyGenStore,
-      ObjectWithInfoEmailInputStore.value?.toLowerCase() || "",
+      ObjectWithInfoEmailInputStoreValue,
       amountInput,
       nameInput,
       descriptionInput,
@@ -57,6 +77,27 @@ const ResultPage = observer(() => {
       itemListStore,
       discountInput
     );
+
+    if (typeof res !== "object") {
+      throw Error(res);
+    }
+
+    const { urlFormPay, urlQR } = res;
+
+    qrLinkStore = urlQR;
+    urlPayStore = urlFormPay;
+  };
+
+  const [fetching, isLoading, error]: [Function, boolean, string] =
+    useFetching(fetch);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!positionTypeStore) {
+      navigate("test/formgen");
+    }
+    fetching(...POST_ARG);
 
     const handleResize = () => {
       if (blockRef.current) {
@@ -75,6 +116,7 @@ const ResultPage = observer(() => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     employeeNameStoreForPOST,
     clientIdStore,
@@ -87,7 +129,7 @@ const ResultPage = observer(() => {
   ]);
 
   if (isLoading) {
-    return <PageLoader description={"Ожидайте, скоро появится Ваш заказ!"} />;
+    return <PageLoader description="Ожидайте, скоро появится Ваш заказ!" />;
   }
   if (error) {
     return <PageError error={error} />;
@@ -97,7 +139,7 @@ const ResultPage = observer(() => {
     client_id: "",
     key_form: "",
   };
-  urlFormPayStore?.split("&")?.forEach((line: any, i: any) => {
+  urlPayStore?.split("&")?.forEach((line: any) => {
     curData[line?.split("=")[0]?.split("?").reverse()?.[0]] =
       line?.split("=")?.[1];
   });
@@ -110,7 +152,7 @@ const ResultPage = observer(() => {
   const qrCodePay = "https://stage.giberno.ru:20000/" + qrLinkStore;
   if (currentWidth <= 450 && typeof currentWidth !== "undefined") {
     return (
-      <ResultPage__Mobile
+      <ResultPageMobile
         blockRef={blockRef}
         UrlToPay={UrlToPay}
         qrCodePay={qrCodePay}
@@ -119,53 +161,11 @@ const ResultPage = observer(() => {
   }
 
   return (
-    <div ref={blockRef} className="ResultPageLayout">
-      <Header />
-      <header className="ResultPageLayout__header">
-        Счет успешно сформирован!
-      </header>
-      <section className="ResultPageLayout__block">
-        <img
-          className="ResultPageLayout__block_imgQr"
-          alt="qr_code"
-          src={qrCodePay}
-        />
-        <div className="ResultPageLayout__block_desc">
-          1. Откройте на смартфоне приложение для сканирования QR-кода. <br />
-          2. Наведите камеру на QR-код. <br />
-          3. Должна появиться ссылка для перехода. Перейдите по ней.
-          <br />
-          4. Проверьте сумму оплаты и ID договора.
-          <br />
-          5. Нажмите на кнопку “Оплатить”.
-          <br />
-          6. Выберите банковское приложение для оплаты.
-          <br />
-          7. Вас “перебросит” выбранный банк. <br />
-          Подтвердите оплату.
-        </div>
-      </section>
-      <span className="Sepated_block">или</span>
-      <div className="low_block">
-        <div className="low_block_desctoLinr">
-          Скопируйте ссылку ниже, перешлите её клиенту или себе на смартфон.
-          Далее перейдите по ссылке в любом из браузеров.
-        </div>
-        <div className="low_block__URL">
-          <input
-            className="low_block__URL_inputUrl"
-            value={UrlToPay}
-            onChange={() => {
-              return;
-            }}
-          />
-          <CopyButton
-            className={"low_block__URL_coppyButton"}
-            text={UrlToPay}
-          />
-        </div>
-      </div>
-    </div>
+    <ResultPageDesktop
+      blockRef={blockRef}
+      UrlToPay={UrlToPay}
+      qrCodePay={qrCodePay}
+    />
   );
 });
 

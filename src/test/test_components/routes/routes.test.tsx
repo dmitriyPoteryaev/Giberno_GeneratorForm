@@ -1,12 +1,10 @@
 /** @jest-environment jsdom */
-import React from "react";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 import RenderWithRoter from "../helpers/RenderWithRoter";
 
 import "@testing-library/jest-dom";
-import userEvent from "@testing-library/user-event";
 
 describe("test Routing", () => {
   test("По ключу - da55122e-413b-4810-a565-93de82471ebc. Заполняем все поля в форме и нажимем кнопку - Сформировать оплату. После переходим на другую страницу", async () => {
@@ -35,28 +33,28 @@ describe("test Routing", () => {
 
     inputs.forEach((input: HTMLInputElement) => {
       if (input.name === "email") {
-        userEvent.type(input, "rom@yandex.ru");
+        fireEvent.change(input, { target: { value: "rom@yandex.ru" } });
       }
       if (input.name === "amount") {
-        userEvent.type(input, "123.10");
+        fireEvent.change(input, { target: { value: "123.10" } });
       }
       if (input.name === "namePos") {
-        userEvent.click(input);
+        fireEvent.click(input);
 
         const select_namePos = screen.getAllByTestId("select-item");
 
-        userEvent.click(select_namePos[0]);
+        fireEvent.click(select_namePos[0]);
       }
 
       if (input.name === "description") {
-        userEvent.type(input, "description");
+        fireEvent.change(input, { target: { value: "description" } });
       }
     });
 
     const generalButton: HTMLButtonElement =
       screen.getByText(/Сформировать оплату/i);
 
-    userEvent.click(generalButton);
+    fireEvent.click(generalButton);
 
     const loadingElementUpdate = await screen.findByText(
       "Ожидайте, скоро появится Ваш заказ!"
@@ -95,27 +93,25 @@ describe("test Routing", () => {
 
     inputs.forEach((input: HTMLInputElement) => {
       if (input.name === "amount") {
-        userEvent.type(input, "123.10");
+        fireEvent.change(input, { target: { value: "123.10" } });
       }
       if (input.name === "namePos") {
-        userEvent.click(input);
+        fireEvent.click(input);
 
         const select_namePos = screen.getAllByTestId("select-item");
 
-        userEvent.click(select_namePos[0]);
+        fireEvent.click(select_namePos[0]);
       }
 
       if (input.name === "description") {
-        userEvent.type(input, "description");
+        fireEvent.change(input, { target: { value: "description" } });
       }
     });
 
     const generalButton: HTMLButtonElement =
       screen.getByText(/Сформировать оплату/i);
 
-    userEvent.click(generalButton);
-
-    screen.debug();
+    fireEvent.click(generalButton);
 
     const loadingElementUpdate = screen.queryByText(
       "Ожидайте, скоро появится Ваш заказ!"
@@ -126,6 +122,5 @@ describe("test Routing", () => {
     const result = screen.queryByText(/Счет успешно сформирован!/i);
 
     expect(result).toBeNull();
-    screen.debug();
   });
 });

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { positionType, itemFromList } from "../types/formTypes";
 
-const postLink = (
+const postLink = async (
   ...dataPostQuery: [
     string,
     string,
@@ -93,21 +93,23 @@ const postLink = (
 
   let POST_BODY = ChoosePOST_BODY();
 
-  return axios
-    .post(`https://stage.giberno.ru:20000/test/api/webhook/orders/`, POST_BODY)
-    .then((response) => {
-      if (Array.isArray(response.data.result)) {
-        throw Error(response.data.result[0]);
-      }
-      if (response.status !== 200) {
-        throw Error("Что пошло не так! Перезагрузите страницу");
-      }
+  try {
+    const response = await axios.post(
+      `https://stage.giberno.ru:20000/test/api/webhook/orders/`,
+      POST_BODY
+    );
+    if (Array.isArray(response.data.result)) {
+      throw Error(response.data.result[0]);
+    }
 
-      return response.data.result;
-    })
-    .catch((err) => {
-      return err.message;
-    });
+    if (response.status !== 200) {
+      throw Error("Что пошло не так! Перезагрузите страницу");
+    }
+
+    return response.data.result;
+  } catch (error: any) {
+    return error.message;
+  }
 };
 
 export const qrLinkAPI = {

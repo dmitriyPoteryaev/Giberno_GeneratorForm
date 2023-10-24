@@ -1,9 +1,9 @@
 /** @jest-environment jsdom */
 import React from "react";
 
+import CopyButton from "@shared/components/CopyButton";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CopyButton from "@shared/components/CopyButton";
 
 describe("test CopyButton", () => {
   test("Отображается ли нужный children в кнопке", () => {

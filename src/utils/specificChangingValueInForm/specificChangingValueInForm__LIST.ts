@@ -19,7 +19,13 @@ export const specificChangingValueInForm__LIST = (
   value: string
 ) => {
   if (nameInput === "description") {
-    return array;
+    return array.map((elem: any, k: any) => {
+      if (elem.name === "description") {
+        return { ...elem, isopen: false };
+      } else {
+        return { ...elem };
+      }
+    });
   }
 
   if (nameInput === "namePos") {
@@ -55,10 +61,10 @@ export const specificChangingValueInForm__LIST = (
 
     return array.map((elem: any, k: any) => {
       if (elem.name === "namePos") {
-        return { ...elem, value: value };
+        return { ...elem, value: value, isopen: false };
       }
       if (elem.name === "description") {
-        return { ...elem, value: description };
+        return { ...elem, value: description, isopen: false };
       } else {
         return elem;
       }

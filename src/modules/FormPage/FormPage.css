@@ -14,53 +14,6 @@
   width: 800px;
 }
 
-.Formpagelayout__input_nested {
-  font-family: "DM Sans", sans-serif;
-  margin-top: 0;
-  color: black;
-  font-size: 20px;
-  padding-left: 20px;
-  padding-top: 11px;
-  padding-bottom: 0;
-  vertical-align: text-bottom;
-  border: 1px solid #b2bdc7;
-  width: 100%;
-  height: 50px;
-  color: #2c555b;
-}
-
-.Formpagelayout__input_nested::placeholder {
-  /* смещение плейсхолдера влево на 10 пикселей */
-  position: absolute;
-  top: 11px;
-  left: 20px;
-  font-size: 20px;
-  color: #B2BDC7;
-  font-family: 'DM Sans', sans-serif;
-}
-.Formpagelayout__input_nested:focus {
-  outline: none; /* Удалить контур при фокусе */
-  border: 1px solid #7B7E80
-}
-
-.Formpagelayout__input_first {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
-.Formpagelayout__select_first {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  caret-color: transparent;
-}
-.Formpagelayout__select_nested {
-  caret-color: transparent;
-}
-
-.Formpagelayout__input_last {
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
 
 .FormPageLayout__title {
   font-family: "Nunito Sans", sans-serif;

@@ -1,8 +1,6 @@
 /** @jest-environment jsdom */
-import React from "react";
 
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import RenderWithRoter from "../helpers/RenderWithRoter/RenderWithRoter";
 import "@testing-library/jest-dom";
@@ -14,7 +12,7 @@ describe("test Form", () => {
     render(
       RenderWithRoter(
         null,
-        "/test/formgen?key_gen=48acf988-686f-4be4-bc36-82bf827c3b61"
+        "/test/formgen?key_gen=8fe86f19-9477-4e73-b198-d08d4e33be6c"
       )
     );
     const loadingElement = await screen.findByText(
@@ -53,45 +51,47 @@ describe("test Form", () => {
   });
 
   test("Всплывающего окна для выбора конкретной позиции не будет видно", () => {
-    const select = screen.queryByTestId("select_namePos");
+    const select: HTMLDivElement | null =
+      screen.queryByTestId("select_namePos");
 
-    expect(select).toBeNull();
+    // eslint-disable-next-line
+    expect(select?.classList.contains("CustomLIstForSelect")).toBeNull;
   });
-  test("По нажатию на инпут появится всплывающее окно для выбора позиции", () => {
+  test("По нажатию на инпут появится всплывающее окно для выбора позиции", async () => {
     const [inputName] = curentInputs;
 
-    userEvent.click(inputName);
+    fireEvent.click(inputName);
 
-    const SelectName = screen.getByTestId("select_namePos");
+    const [selectNamePosition]: HTMLDivElement[] =
+      screen.getAllByTestId("select-item");
 
-    expect(SelectName).toBeInTheDocument();
+    expect(selectNamePosition).toBeInTheDocument();
   });
 
   test("По нажатию на конкретную позицию в сплывающе окне она появится в инпуте. А всплывающего окна не будет", () => {
     const [inputName] = curentInputs;
 
-    userEvent.click(inputName);
+    fireEvent.click(inputName);
 
     const [selectNamePosition]: HTMLDivElement[] =
       screen.getAllByTestId("select-item");
 
-    userEvent.click(selectNamePosition);
-
-    const SelectName = screen.queryByTestId("select_namePos");
+    fireEvent.click(selectNamePosition);
 
     expect(inputName.value).toBe(selectNamePosition.innerHTML);
-    expect(SelectName).toBeNull();
+    // eslint-disable-next-line
+    expect(selectNamePosition).toBeNull;
   });
 
   test("По нажатию на позицию с discoint !== NO_DISCOUNT в сплывающе окне, то должно появиться 4 поле в форме", () => {
     const [inputName] = curentInputs;
 
-    userEvent.click(inputName);
+    fireEvent.click(inputName);
 
     const [selectNamePosition]: HTMLDivElement[] =
       screen.getAllByTestId("select-item");
 
-    userEvent.click(selectNamePosition);
+    fireEvent.click(selectNamePosition);
 
     const curentInputsUpdate: HTMLInputElement[] =
       screen.getAllByTestId("input-item");

@@ -1,0 +1,9 @@
+.FormPageLayout__label {
+  display: flex;
+  height: 50px;
+  position: relative;
+  width: 100%;
+}
+.FooterLayout__label {
+  position: relative;
+}

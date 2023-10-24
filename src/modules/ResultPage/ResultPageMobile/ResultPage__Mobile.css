@@ -1,0 +1,70 @@
+.ResultPageLayout__block_mobileLOWBLOCK{
+    display: flex;
+    width: 100%;
+    padding: 0 16px 0 16px;
+  }
+  
+  .low_block__URL_coppyButtonMobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    /* Убираем фоновый цвет */
+    background-color: transparent;
+  
+    color: #b2bdc7;
+    font-size: 20px;
+  }
+  .low_block__URL_inputUrlMobile {
+    font-size: 20px;
+    color: #2c555b;
+    width: 90%;
+    padding-left: 10px;
+    height: 30px;
+    border: 1px solid #B0ACAC;
+    border-radius: 6px;
+    margin: 10px 0 10px 0;
+    text-overflow: ellipsis;
+  }
+  .ResultPageLayout__headerMobile {
+    text-align: center;
+    color: #2c555b;
+    font-size: 28px;
+    margin: 20px 0 10px 0;
+    min-width: 100%;
+    text-align: center;
+  }
+  
+  .ResultPageLayout__UrlMobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 100%;
+    padding: 20px 16px 20px 16px;
+    border-bottom: 1px solid gray;
+  }
+  
+  .ResultPageLayout__buttonMobile {
+    min-width: 100%;
+  
+    font-size: 24px;
+    background: #0a7272;
+    color: white;
+    border: none;
+    height: 60px;
+    border-radius: 10px;
+  }
+  
+  .ResultPageLayout__UrlMobile_low {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 100%;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px dashed gray;
+  }
+  .ResultPageLayout__block_imgQrMobile {
+    height: 100%;
+    width: 100%;
+    padding-left: 50px;
+  }

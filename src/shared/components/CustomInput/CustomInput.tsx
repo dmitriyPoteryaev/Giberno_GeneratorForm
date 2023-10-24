@@ -1,44 +1,27 @@
-import React, { memo } from "react";
+import React, { memo, PropsWithChildren } from "react";
 
-import "./Input.css";
+import "./CustomInput.css";
 
-const HELP_QUESTION: any = require("@assets/help_outline_24px.png");
+import { InputElement } from "../../../types/formTypes";
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "value"
-> & {
-  /** Значение поля */
-  value: string;
-  /** Callback, вызываемый при вводе данных в поле */
-  onChange: (value: any) => any;
-};
+type InputElenentPropsWithChildren = PropsWithChildren & InputElement;
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-const CustomInput = memo(
-  (props: any) => {
+const CustomInput: React.FC<InputElenentPropsWithChildren> = memo(
+  (props) => {
     const {
       value,
       placeholder,
       onChange,
-      help,
-      classNameInput,
-      classNameLabel,
-      classNameHelper,
-      classNamePlaceHolder,
       currentNumber,
       IsEmpty,
-      IsShowInfoHelp,
-      ChageIsShowInfoHelp,
-      resultValidMail,
+      isValidMail,
       onFocus,
       ChageFocus,
       className,
       name,
       IsRequire,
-      uniqKey,
-      ShowList,
-      isopen,
-      ...rest
+      children,
     } = props;
 
     let isRedBorder;
@@ -46,87 +29,35 @@ const CustomInput = memo(
       isRedBorder = IsEmpty && !value.trim() && IsRequire;
     } else {
       isRedBorder =
-        (IsEmpty && !value.trim() && IsRequire) ||
-        (!resultValidMail && IsEmpty);
+        (IsEmpty && !value.trim() && IsRequire) || (!isValidMail && IsEmpty);
     }
-
     return (
       <label
-        key={uniqKey}
-        className={classNameLabel ? classNameLabel : "FormPageLayout__label"}
+        className={
+          typeof isValidMail === "boolean"
+            ? "FooterLayout__label"
+            : "FormPageLayout__label"
+        }
       >
         <input
           name={name}
           data-testid="input-item"
-          className={
-            classNameInput
-              ? classNameInput
-              : className
-              ? `Formpagelayout__input_nested ${className}`
-              : "Formpagelayout__input_nested"
-          }
+          className={className}
           placeholder={!onFocus ? placeholder : ""}
-          onChange={(event: any) => {
+          onChange={(event: InputEvent) => {
             onChange(event.target.value, name);
-          }}
-          onClick={(event) => {
-            if (uniqKey?.split("_")[0] === "select") {
-              event.stopPropagation();
-              ShowList(true);
-            } else {
-              return;
-            }
           }}
           onFocus={() => {
             ChageFocus(true);
           }}
           onBlur={() => ChageFocus(false)}
-          {...rest}
           type="text"
           value={value}
           style={{
             border: isRedBorder ? "1px solid red" : "",
           }}
         />
-        {help && (
-          <div
-            className={
-              classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
-            }
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-            }}
-          >
-            <img
-              className={
-                classNameHelper ? classNameHelper : "FormPageLayout__helpblock"
-              }
-              alt="help_icon"
-              src={HELP_QUESTION}
-              onClick={() => {
-                ChageIsShowInfoHelp(name, currentNumber);
-              }}
-            />
-          </div>
-        )}
-        <span
-          className={
-            classNamePlaceHolder
-              ? classNamePlaceHolder
-              : "FormPageLayout__newPlaceHolder"
-          }
-        >
-          {onFocus || value ? placeholder : ""}
-        </span>
-        {IsShowInfoHelp && (
-          <div
-            onClick={() => ChageIsShowInfoHelp(name, currentNumber)}
-            className="Block-Modal"
-          >
-            {help}
-          </div>
-        )}
+        {children}
       </label>
     );
   },

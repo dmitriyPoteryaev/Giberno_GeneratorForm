@@ -1,7 +1,7 @@
 export type ObjectInputProps = {
   value: string;
   type: string;
-  placeholder: string | null;
+  placeholder: any;
   help?: string | null;
   IsShowInfoHelp: boolean;
   onFocus: boolean;
@@ -10,6 +10,34 @@ export type ObjectInputProps = {
   name: string;
   isopen?: boolean | null;
 };
+
+export type itemFromList = {
+  ItemID: string;
+  description: string;
+  discount: string;
+  name: string;
+};
+
+export type InputElement = {
+  key: string;
+  currentNumber?: number;
+  IsEmpty: boolean;
+  ChageFocus: (isFocus: boolean) => void;
+  ChageIsShowInfoHelp: (value: boolean) => void;
+  onChange: (value: string, name: string) => void;
+  isValidMail?: boolean;
+  className?: string;
+} & ObjectInputProps;
+
+export type ObjectSelectProps = {
+  itemliststore: itemFromList[];
+  showlist: (isFocus: boolean) => void;
+} & InputElement;
+
+export type SelectElement = {
+  className: string;
+  actualPositionsStore: string[];
+} & ObjectSelectProps;
 
 export type InfoAboutEmailInput = {
   enabled?: boolean;
@@ -29,12 +57,6 @@ export type InfoAboutNameInput = {
   descriptionRequire?: boolean;
   itemNameHelp: string | null;
   itemNamePlaceholder: string | null;
-};
-export type itemFromList = {
-  ItemID: string;
-  description: string;
-  discount: string;
-  name: string;
 };
 
 export enum positionType {

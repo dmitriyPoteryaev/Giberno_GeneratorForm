@@ -4,6 +4,11 @@ import "./AdditionalBlocks.css";
 
 const HELP_QUESTION: string = require("@assets/help_outline_24px.png");
 
+/**
+ * Отдельный функциональный компонет, отвечающий за отдельные блоки на конкретным полем формы.
+ * Данные блоки имеют в стилях position: absolute, а само поле имеет position: relative
+ *
+ */
 const AdditionalBlocks = (props: any) => {
   const {
     classNameHelper,

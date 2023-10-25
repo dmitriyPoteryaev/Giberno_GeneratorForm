@@ -2,6 +2,10 @@ import { useEffect } from "react";
 
 import { ObjectInputProps } from "../types/formTypes";
 
+/** 
+ * Данный хук удаляет все всплывающие окна в footer по нажатию на страницу
+ 
+*/
 const useDeleteAllPopUpWindowEmail = (
   changeState: Function,
   state: ObjectInputProps

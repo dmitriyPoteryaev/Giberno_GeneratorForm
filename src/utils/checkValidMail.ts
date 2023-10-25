@@ -1,3 +1,9 @@
+/** 
+ * Проверяем валидность email.
+ * Если поле необязательно и в поле ничего не введено, то пройдёт валидность
+ 
+*/
+
 export const checkValidMail = (IsRequire: boolean, Valuemail: string) => {
   if (!IsRequire && Valuemail === "") {
     return true;

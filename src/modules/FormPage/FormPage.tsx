@@ -70,15 +70,21 @@ const FormPage: React.FC = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** 
+ * На каждый рендер функционального компонента  Form в глобальный стейт перезаписывается значение с информацией по форме
+ 
+*/
   const changeGlobalStateInputsForm = (value: ObjectInputProps[]) => {
     FormInputsStore = value;
     ChangeArrayWithAllInputs(value);
   };
-
+  /** 
+ * На каждый рендер функционального компонента Footer в глобальный стейт перезаписывается значение  с информацией по email
+ 
+*/
   const changeGlobalStateEmailInput = (value: ObjectInputProps) => {
     EmailInputStore = value;
     ChangeObjEmail(value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const navigate = useNavigate();
@@ -91,7 +97,6 @@ const FormPage: React.FC = observer(() => {
       navigate("/test/result?key_gen=" + keyGenStore);
     }
     setIsRed(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
   if (isLoading) {
     return <PageLoader description="Ожидайте, скоро появится Ваш заказ!" />;

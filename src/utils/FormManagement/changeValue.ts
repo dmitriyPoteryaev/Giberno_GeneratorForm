@@ -2,12 +2,23 @@ import { specificChangingValueInForm__LIST } from "@utils/specificChangingValueI
 import { specificChangingValueInForm__MANUAL } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL";
 import { specificChangingValueInForm__MANUAL_LIST } from "@utils/specificChangingValueInForm/specificChangingValueInForm__MANUAL_LIST";
 
+import { itemFromList, ObjectInputProps } from "../../types/formTypes";
+
+/**
+ * Функция предназначена для изменения значений в полях формы. Вносить измения нужно по специальному алгориту.
+ * То как будут изменяться значения зависит от параметра positionType.
+ * @param  {ObjectInputProps[]} arr массив со всей информацией по форме
+ * @param  {string} name атрибут name, который отномится к конкретному полю в форме
+ * @param  {itemFromList[]} itemList специальный массив, для изменения значений в форме
+ *  @param  {string} event значение, которое хочет внести в поле клиент
+ *  @return {ObjectInputProps[]}
+ */
 export const changeValue = (
-  arr: any,
-  name: any,
-  event: any,
+  arr: ObjectInputProps[],
+  name: string,
+  event: string,
   positionType: string,
-  itemList: any
+  itemList: itemFromList[]
 ) => {
   switch (positionType) {
     case "MANUAL":
